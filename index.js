@@ -1,8 +1,9 @@
+require("dotenv").config()
 const Discord = require("discord.js");
 const Avalon = require("./avalon.js");
 const bot = new Discord.Client();
 
-const token = "";
+const token = process.env.DISCORD_API_TOKEN;
 const PREFIX = "!";
 
 var current_game = null;
