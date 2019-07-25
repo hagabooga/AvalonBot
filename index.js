@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const Avalon = require("avalon.js");
+const Avalon = require("./avalon.js");
 const bot = new Discord.Client();
 
 const token = "NjAzODczOTM3NTY2MzM0OTg2.XTl4Og.yMMpcscM1kgrqQFaZixwgxB3684";
