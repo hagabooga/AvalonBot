@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const Avalon = require("./avalon.js");
 const bot = new Discord.Client();
 
-const token = "NjAzODczOTM3NTY2MzM0OTg2.XToekw.Mq6c-lFWsfVzCO0ExJUNr844TBs";
+const token = "";
 const PREFIX = "!";
 
 var current_game = null;
