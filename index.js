@@ -2,11 +2,18 @@ require("dotenv").config()
 const Discord = require("discord.js");
 const Avalon = require("./avalon.js");
 const bot = new Discord.Client();
-
 const token = process.env.DISCORD_API_TOKEN;
 const PREFIX = "!";
 
+
+
+var current_joined_players = {};
+var made_lobby = false;
 var current_game = null;
+const special_roles = {
+  "pm" : 0
+}
+
 
 bot.on("ready", () => {
   console.log("AvalonBot is running...");
@@ -31,30 +38,52 @@ bot.on("message", msg => {
       msg.channel.send(embed);
     } else if (cmd === "avalon") {
       // Game Commands
-      if (current_game === null) {
+      if (made_lobby === false) {
         msg.reply("has created a new Avalon game.");
-        current_game = new Avalon.Game(msg.author.username);
+        made_lobby = true;
       } else {
         msg.reply("a game still in progress.");
       }
     } else if (cmd === "join") {
-      if (current_game !== null) {
+      if (made_lobby === true) {
         let player_id = msg.author.id;
-        if (!current_game.players.includes(player_id)) {
-          current_game.players.push(msg.author.id);
+        if (!current_joined_players.hasOwnProperty(player_id)) {
+          current_joined_players[player_id] = msg.author.username;
           msg.reply("has joined the game!");
-          //console.log(player_id);
+          console.log(current_joined_players);
         } else msg.reply("you're already in the current game.");
       }
     } else if (cmd === "stop") {
-      if (current_game !== null) {
+      if (made_lobby === true) {
         msg.reply("stopped the game.");
         delete current_game;
-        current_game = null;
+        made_lobby = false;
       }
     } else if (cmd === "gameinfo") {
-      if (current_game !== null) {
-        msg.channel.send("Game creator: " + current_game.creator);
+      if (made_lobby === true) {
+        let joined_players_string = "Currently Joined Players: " ;
+        for (let player in current_joined_players){
+          if (current_joined_players.hasOwnProperty(player))
+          joined_players_string += (current_joined_players[player] + ", ")
+        }
+        
+        msg.channel.send(joined_players_string.slice(0,-2));
+      }
+    } else if (cmd === "start") {
+      if (made_lobby === true) {
+        let special_roles = args.slice(1,args.length);
+        for (let role of special_roles){
+          if (!Avalon.special_role_cmd_names.includes(role)) {
+            msg.reply(role + ": Special role not found! Cannot start game.");
+            return;
+          }
+        }
+        // use this for number of joined players console.log(Object.keys(current_joined_players).length);
+        // if (Object.keys(current_joined_players).length === 5) ...
+        if (5 === 5){
+          current_game = new Avalon.FivePlayers();
+        }
+        console.log(current_game.give_roles(special_roles));
       }
     }
   }
