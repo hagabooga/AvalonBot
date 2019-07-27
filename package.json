@@ -1,7 +1,7 @@
 {
-  "name": "avalon_discord-bot",
+  "name": "avalon-discord-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Avalon Discord bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,12 +10,12 @@
     "type": "git",
     "url": "git+https://github.com/hagabooga/Avalon_Discord-Bot.git"
   },
-  "author": "Hagabooga",
-  "license": "ISC",
+  "author": "Cameron Hu",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/hagabooga/Avalon_Discord-Bot/issues"
   },
-  "homepage": "https://github.com/hagabooga/Avalon_Discord-Bot#readme",
+  "homepage": "https://github.com/hagabooga/Avalon_Discord-Bot",
   "dependencies": {
     "discord.js": "^11.5.1",
     "dotenv": "^8.0.0"
