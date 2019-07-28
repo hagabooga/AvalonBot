@@ -1,4 +1,4 @@
-const special_role_cmd_names = ["pm", "merlin"]
+const special_role_cmd_names = ["pm", "merlin", "standard"]
 
 function getRandomInt(max){
   return Math.floor(Math.random() * Math.floor(max));
@@ -36,6 +36,8 @@ class Game {
     ];
     //
   }
+
+
   give_roles(special_roles) {
     this.final_role_list = [];
     let resist = 0;
@@ -43,15 +45,24 @@ class Game {
     // get special roles 
     for (let i = 0; i < special_roles.length; i++) {
       let current_special_role = special_roles[i];
-      let char;
-      if (current_special_role === "pm")
-        char = new PropertyManager()
+      let to_add_roles = [];
+      if (current_special_role === "standard") {
+        to_add_roles.push(new Merlin());
+        to_add_roles.push(new Assassin());
+        to_add_roles.push(new Morgana());
+        to_add_roles.push(new Percival());
+      }
+      else if (current_special_role === "pm")
+        to_add_roles.push(new PropertyManager());
       else if (current_special_role === "merlin")
-        char = new Merlin();
+        to_add_roles.push(new Merlin());
+      for(let role of to_add_roles){
+        this.final_role_list.push(role);
+        if (role instanceof Resistance) resist += 1;
+        else spy += 1;
+      }
 
-      this.final_role_list.push(char);
-      if (char instanceof Resistance) resist += 1;
-      else spy += 1;
+        
     }
     // then distribute vanilla roles
     while (resist < this.num_resistance) {
@@ -74,6 +85,8 @@ class Game {
       player_ids.splice(random_player_index,1);
       role_list.splice(random_role_index,1);
     }
+
+    // bug test to join random players
     let i = 1;
     while (role_list.length > 0) {
       let random_role_index = getRandomInt(role_list.length)
@@ -142,6 +155,16 @@ class Merlin extends Resistance {
   }
 }
 
+class Percival extends Resistance {
+  constructor() {
+    super("Percival");
+  }
+  starting_knowledge() {
+
+  }
+}
+
+
 class Spy extends Character {
   constructor(name) {
     super(name, "Spy");
@@ -151,9 +174,15 @@ class Spy extends Character {
   }
 }
 
-class Assassin extends Character {
+class Assassin extends Spy {
   constructor() {
     super ("Assassin");
+  }
+}
+
+class Morgana extends Spy {
+  constructor() {
+    super ("Morgana");
   }
 }
 
