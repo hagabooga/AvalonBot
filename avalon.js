@@ -1,8 +1,10 @@
-const special_role_cmd_names = ["pm"]
+const special_role_cmd_names = ["pm", "merlin"]
 
 function getRandomInt(max){
   return Math.floor(Math.random() * Math.floor(max));
 }
+
+
 
 class Game {
   constructor() {

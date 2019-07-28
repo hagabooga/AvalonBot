@@ -18,8 +18,7 @@ bot.on("message", msg => {
   let message = msg.content;
   if (message === "leg") msg.react("🍗");
   if (message === "cloud pussy") {
-    msg.react("☁")
-      .then(() => msg.react("🐈"));
+    msg.react("☁").then(() => msg.react("🐈"));
   }
   if (message[0] !== PREFIX) return;
   else {
@@ -64,7 +63,7 @@ bot.on("message", msg => {
         let joined_players_string = "Currently Joined Players: ";
 
         for (let player in current_joined_players) {
-          if (current_joined_players.hasOwnProperty(player)){
+          if (current_joined_players.hasOwnProperty(player)) {
             joined_players_string += current_joined_players[player] + ", ";
           }
         }
