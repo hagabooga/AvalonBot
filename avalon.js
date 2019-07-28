@@ -44,7 +44,7 @@ class Game {
       let char;
       if (current_special_role === "pm")
         char = new PropertyManager()
-      elif (current_special_role === "merlin")
+      else if (current_special_role === "merlin")
         char = new Merlin();
 
       this.final_role_list.push(char);
