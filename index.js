@@ -17,6 +17,10 @@ bot.on("ready", () => {
 bot.on("message", msg => {
   let message = msg.content;
   if (message === "leg") msg.react("🍗");
+  if (message === "cloud pussy") {
+    msg.react("☁")
+      .then(() => msg.react("🐈"));
+  }
   if (message[0] !== PREFIX) return;
   else {
     let args = message.substring(PREFIX.length).split(" ");
