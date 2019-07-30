@@ -85,19 +85,23 @@ bot.on("message", msg => {
           current_game = new Avalon.FivePlayers();
         }
         current_game.players = current_joined_players;
-        current_game.give_roles(special_roles);
-        for (let user of Object.keys(current_game.player_roles)) {
-          var character = current_game.player_roles[user];
-          msg.channel.send(
-            "<@" +
-              user +
-              ">" +
-              " has role: " +
-              character.name +
-              " (" +
-              character.role_name +
-              ")"
-          );
+        if (current_game.give_roles(special_roles)) {
+          for (let user of Object.keys(current_game.player_roles)) {
+            var character = current_game.player_roles[user];
+            msg.channel.send(
+              "<@" +
+                user +
+                ">" +
+                " has role: " +
+                character.name +
+                " (" +
+                character.role_name +
+                ")"
+            );
+          }
+        }
+        else {
+          msg.channel.send("Cannot start game! Special roles exceeds maximum number of Resistance or Spies!");
         }
       }
     }

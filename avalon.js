@@ -1,10 +1,8 @@
-const special_role_cmd_names = ["pm", "merlin", "standard"]
+const special_role_cmd_names = ["pm", "merlin", "standard"];
 
-function getRandomInt(max){
+function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
-
 
 class Game {
   constructor() {
@@ -34,15 +32,13 @@ class Game {
       new Spy("Long Neck, Minion of Mordred"),
       new Spy("Long Leg, Minion of Mordred")
     ];
-    //
   }
-
 
   give_roles(special_roles) {
     this.final_role_list = [];
     let resist = 0;
     let spy = 0;
-    // get special roles 
+    // get special roles
     for (let i = 0; i < special_roles.length; i++) {
       let current_special_role = special_roles[i];
       let to_add_roles = [];
@@ -51,19 +47,21 @@ class Game {
         to_add_roles.push(new Assassin());
         to_add_roles.push(new Morgana());
         to_add_roles.push(new Percival());
-      }
-      else if (current_special_role === "pm")
+      } else if (current_special_role === "pm")
         to_add_roles.push(new PropertyManager());
       else if (current_special_role === "merlin")
         to_add_roles.push(new Merlin());
-      for(let role of to_add_roles){
+      for (let role of to_add_roles) {
         this.final_role_list.push(role);
         if (role instanceof Resistance) resist += 1;
         else spy += 1;
       }
-
-        
     }
+    // cannot start game if too many roles
+    if (resist > this.num_resistance || spy > this.num_spies) {
+      return false;
+    }
+
     // then distribute vanilla roles
     while (resist < this.num_resistance) {
       this.final_role_list.push(this.vanilla_resist.pop());
@@ -79,23 +77,23 @@ class Game {
     while (player_ids.length > 0) {
       let random_player_index = getRandomInt(player_ids.length);
       let random_player = player_ids[random_player_index];
-      let random_role_index = getRandomInt(role_list.length)
+      let random_role_index = getRandomInt(role_list.length);
       let random_role = role_list[random_role_index];
       this.player_roles[random_player] = random_role;
-      player_ids.splice(random_player_index,1);
-      role_list.splice(random_role_index,1);
+      player_ids.splice(random_player_index, 1);
+      role_list.splice(random_role_index, 1);
     }
 
     // bug test to join random players
     let i = 1;
     while (role_list.length > 0) {
-      let random_role_index = getRandomInt(role_list.length)
+      let random_role_index = getRandomInt(role_list.length);
       let random_role = role_list[random_role_index];
       this.player_roles["random_player" + i.toString()] = random_role;
-      role_list.splice(random_role_index,1);
-      i += 1;  
+      role_list.splice(random_role_index, 1);
+      i += 1;
     }
-    return this.player_roles;
+    return true;
   }
 }
 
@@ -104,7 +102,6 @@ class FivePlayers extends Game {
     super();
     this.num_resistance = 3;
     this.num_spies = 2;
-    
   }
 }
 
@@ -150,20 +147,15 @@ class Merlin extends Resistance {
   constructor() {
     super("Merlin");
   }
-  starting_knowledge() {
-
-  }
+  starting_knowledge() {}
 }
 
 class Percival extends Resistance {
   constructor() {
     super("Percival");
   }
-  starting_knowledge() {
-
-  }
+  starting_knowledge() {}
 }
-
 
 class Spy extends Character {
   constructor(name) {
@@ -176,13 +168,13 @@ class Spy extends Character {
 
 class Assassin extends Spy {
   constructor() {
-    super ("Assassin");
+    super("Assassin");
   }
 }
 
 class Morgana extends Spy {
   constructor() {
-    super ("Morgana");
+    super("Morgana");
   }
 }
 
