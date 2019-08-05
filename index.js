@@ -14,7 +14,7 @@ class ChannelLobby {
     this.game = null;
     this.current_joined_players = {};
   }
-  get gamestate() {
+  gamestate() {
     if (this.game === null) {
       return "Currently awaiting players to join the game. (min 5) Type !join to join the game.";
     }
@@ -80,7 +80,7 @@ bot.on("message", msg => {
         }
         msg.channel.send(
           `**Currently Joined Players**:${joined_players_string}\n**Game State**: ${
-            lobby.gamestate
+            lobby.gamestate()
           }`
         );
       } else if (cmd === "start") {
