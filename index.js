@@ -9,8 +9,9 @@ var current_joined_players = {};
 var channel_lobbies = {};
 
 class ChannelLobby {
-  constructor(name) {
-    this.name = name;
+  constructor(creator, channel_name) {
+    this.creator = creator;
+    this.channel_name = channel_name;
     this.game = null;
     this.current_joined_players = {};
   }
@@ -18,6 +19,13 @@ class ChannelLobby {
     if (this.game === null) {
       return "Currently awaiting players to join the game. (min 5) Type !join to join the game.";
     }
+  }
+  join(id, name) {
+    if (!this.current_joined_players.hasOwnProperty(id)) {
+      this.current_joined_players[id] = name;
+      return true;
+    }
+    return false;
   }
 }
 
@@ -48,24 +56,42 @@ bot.on("message", msg => {
       msg.channel.send(embed);
     } else if (!channel_lobbies.hasOwnProperty(msg.channel.id)) {
       if (cmd === "avalon") {
-        channel_lobbies[msg.channel.id] = new ChannelLobby(msg.channel.name);
+        channel_lobbies[msg.channel.id] = new ChannelLobby(
+          msg.author.id,
+          msg.channel.name
+        );
         msg.reply(
           `has created a new Avalon game in channel: **${
-            channel_lobbies[msg.channel.id].name
+            channel_lobbies[msg.channel.id].channel_name
           }**`
         );
       }
     } else {
       let lobby = channel_lobbies[msg.channel.id];
+      
       if (cmd === "join") {
-        let player_id = msg.author.id;
-        if (!lobby.current_joined_players.hasOwnProperty(player_id)) {
-          lobby.current_joined_players[player_id] = msg.author.username;
-          msg.reply("has joined the game!");
-        } else msg.reply("you're already in the current game.");
+        if (lobby.join(msg.author.id, msg.author.username)) {
+          msg.channel.send(`<@${msg.author.id}> has joined the game!`);
+        } else {
+          msg.channel.send(`<@${msg.author.id}> you're already in the current game.`);
+        }
+      } else if (cmd == "forcejoin") {
+        msg.mentions.users.forEach(function(x) {
+          if (lobby.join(x.id, x.username)) {
+            msg.channel.send(`<@${x.id}> has joined the game!`);
+          } else {
+            msg.channel.send(`<@${x.id}> you're already in the current game.`);
+          }
+        });
       } else if (cmd === "stop") {
-        msg.reply("stopped the game.");
-        delete channel_lobbies[msg.channel.id];
+        if (msg.author.id === lobby.creator) {
+          msg.reply("stopped the game.");
+          delete channel_lobbies[msg.channel.id];
+        }
+        else{
+          msg.reply("only the creator of the game can stop the game!");
+        }
+        
       } else if (cmd === "gameinfo") {
         let joined_players_string = " ";
         for (let player in channel_lobbies[msg.channel.id]
@@ -79,15 +105,15 @@ bot.on("message", msg => {
           joined_players_string = joined_players_string.slice(0, -2);
         }
         msg.channel.send(
-          `**Currently Joined Players**:${joined_players_string}\n**Game State**: ${
-            lobby.gamestate()
-          }`
+          `**Currently Joined Players**:${joined_players_string}\n**Game State**: ${lobby.gamestate()}`
         );
       } else if (cmd === "start") {
         let special_roles = args.slice(1, args.length);
         for (let role of special_roles) {
           if (!Avalon.special_role_cmd_names.includes(role)) {
-            msg.reply(`**${role}**: Special role not found! Cannot start game.`);
+            msg.reply(
+              `**${role}**: Special role not found! Cannot start game.`
+            );
             return;
           }
         }
@@ -96,12 +122,14 @@ bot.on("message", msg => {
         if (5 === 5) {
           lobby.game = new Avalon.FivePlayers();
         }
-        lobby.game.players = current_joined_players;
-        let roles = ""
+        lobby.game.players = lobby.current_joined_players;
+        let roles = "";
         if (lobby.game.give_roles(special_roles)) {
           for (let user of Object.keys(lobby.game.player_roles)) {
             var character = lobby.game.player_roles[user];
-            roles += `<@${user}> has role: **${character.name}** (${character.role_name})\n`
+            roles += `<@${user}> has role: **${character.name}** (${
+              character.role_name
+            })\n`;
           }
           msg.channel.send(roles);
         } else {

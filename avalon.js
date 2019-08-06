@@ -1,4 +1,5 @@
-const special_role_cmd_names = ["pm", "merlin", "standard"];
+const special_role_cmd_names = ["pm", "merlin", "standard", "morgana", "percival", "assassin"];
+
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
