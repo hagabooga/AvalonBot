@@ -1,6 +1,9 @@
-require("dotenv").config();
-const Discord = require("discord.js");
-const Avalon = require("./avalon.js");
+import dotenv from "dotenv";
+import Discord from "discord.js";
+import Avalon  from "./avalon.js";
+
+dotenv.config();
+
 const bot = new Discord.Client();
 const token = process.env.DISCORD_API_TOKEN;
 const PREFIX = "!";

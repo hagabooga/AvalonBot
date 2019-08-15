@@ -183,4 +183,4 @@ class Morgana extends Spy {
 
 // Spy Characters
 
-module.exports = { FivePlayers, special_role_cmd_names };
+export default { FivePlayers, special_role_cmd_names };
