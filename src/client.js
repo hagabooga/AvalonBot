@@ -29,7 +29,9 @@ client.on("message", message => {
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel();
-    log.debug(`Adding new channel ${message.channel.id}`);
+    log.debug(
+      `adding new channel ${message.channel.id} (${message.channel.name})`
+    );
   }
 });
 
@@ -38,7 +40,7 @@ client
   .login(discordApiToken)
   .then(() =>
     log.info(
-      `Successfully logged in as ${client.user.username}#${
+      `successfully logged in as ${client.user.username}#${
         client.user.discriminator
       }`
     )
