@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 import dotenv from "dotenv";
-import { BOT_PREFIX, BOT_WEBSITE, COMMAND_INIT_BOT } from "./constants";
+import { BOT_WEBSITE, COMMAND_INIT_BOT, COMMAND_PREFIX } from "./constants";
 import Channel from "./Channel";
 
 // Load in env vars from .env file and grab Discord API token
@@ -19,7 +19,7 @@ client.on("message", message => {
   if (message.channel.id in channels) {
     // Send message to channel message handler
     channels[message.channel.id].on_message(message);
-  } else if (message.content === BOT_PREFIX + COMMAND_INIT_BOT) {
+  } else if (message.content === COMMAND_PREFIX + COMMAND_INIT_BOT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel();
   }
