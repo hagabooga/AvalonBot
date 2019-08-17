@@ -1,7 +1,7 @@
 import Discord from "discord.js";
 import dotenv from "dotenv";
 import * as log from "loglevel";
-import { BOT_WEBSITE, COMMAND_INIT_CHANNEL, COMMAND_PREFIX } from "./constants";
+import { BOT_WEBSITE, COMMAND_CHANNEL_INIT, COMMAND_PREFIX } from "./constants";
 import Channel from "./Channel";
 
 // Setup logging
@@ -26,7 +26,7 @@ client.on("message", message => {
   if (message.channel.id in channels) {
     // Send message to channel message handler
     channels[message.channel.id].on_message(message);
-  } else if (message.content === COMMAND_PREFIX + COMMAND_INIT_BOT) {
+  } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel();
     log.debug(`Adding new channel ${message.channel.id}`);
