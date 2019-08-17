@@ -1,5 +1,10 @@
 import * as log from "loglevel";
-import { COMMAND_INIT_BOT, COMMAND_PREFIX, STATE_NO_GAME } from "./constants";
+import {
+  BOT_WEBSITE,
+  COMMAND_PREFIX,
+  COMMAND_WEBSITE,
+  STATE_NO_GAME
+} from "./constants";
 
 class Channel {
   constructor() {

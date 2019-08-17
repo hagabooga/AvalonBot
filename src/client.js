@@ -1,7 +1,7 @@
 import Discord from "discord.js";
 import dotenv from "dotenv";
 import * as log from "loglevel";
-import { BOT_WEBSITE, COMMAND_INIT_BOT, COMMAND_PREFIX } from "./constants";
+import { BOT_WEBSITE, COMMAND_INIT_CHANNEL, COMMAND_PREFIX } from "./constants";
 import Channel from "./Channel";
 
 // Setup logging
