@@ -6,6 +6,7 @@ import Channel from "./Channel";
 
 // Setup logging
 // TODO set the loglevel with a command line arg
+// TODO setup timestamps and loglevel visibility
 log.setLevel(log.levels.TRACE);
 log.getLogger("Channel");
 
