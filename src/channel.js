@@ -1,4 +1,4 @@
-import * as log from "loglevel";
+import * as log from 'loglevel';
 import {
   BOT_WEBSITE,
   COMMAND_GAME_CREATE,
@@ -6,9 +6,9 @@ import {
   COMMAND_PREFIX,
   COMMAND_WEBSITE,
   STATE_CHANNEL_GAME,
-  STATE_CHANNEL_LOBBY
-} from "./constants";
-import GameLobby from "./game-lobby";
+  STATE_CHANNEL_LOBBY,
+} from './constants';
+import GameLobby from './game-lobby';
 
 class Channel {
   constructor(channelId) {
@@ -22,19 +22,19 @@ class Channel {
 
   on_message(message) {
     // Reactions - these are just for fun
-    if (message.content === "leg") {
-      message.react("🍗");
-    } else if (message.content === "trash") {
-      message.react("🗑");
-    } else if (message.content === "cloud pussy") {
-      message.react("☁").then(() => message.react("🐈"));
+    if (message.content === 'leg') {
+      message.react('🍗');
+    } else if (message.content === 'trash') {
+      message.react('🗑');
+    } else if (message.content === 'cloud pussy') {
+      message.react('☁').then(() => message.react('🐈'));
     }
 
     // Parse the command if it's a command; else ignore
     if (message.content.startsWith(COMMAND_PREFIX)) {
       this.on_command(
         message,
-        message.content.substring(COMMAND_PREFIX.length).split(" ")
+        message.content.substring(COMMAND_PREFIX.length).split(' ')
       );
     }
   }
@@ -44,7 +44,7 @@ class Channel {
       message.channel.send(BOT_WEBSITE);
     } else if (command[0] === COMMAND_HELP) {
       // TODO add actual help text
-      message.channel.send("i c it");
+      message.channel.send('i c it');
     } else if (this.channelState === STATE_CHANNEL_LOBBY) {
       // TODO send message to lobby message handler
     } else if (this.channelState === STATE_CHANNEL_GAME) {
