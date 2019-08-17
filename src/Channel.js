@@ -10,7 +10,7 @@ import {
 class Channel {
   constructor() {
     // Channel state
-    this.channel_state = STATE_NO_GAME;
+    this.channelState = STATE_NO_GAME;
   }
 
   on_message(message) {
