@@ -2,7 +2,7 @@ import Discord from "discord.js";
 import dotenv from "dotenv";
 import * as log from "loglevel";
 import { BOT_WEBSITE, COMMAND_CHANNEL_INIT, COMMAND_PREFIX } from "./constants";
-import Channel from "./Channel";
+import Channel from "./channel";
 
 // Load in env vars from .env file and grab Discord API token
 dotenv.config();

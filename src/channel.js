@@ -8,7 +8,7 @@ import {
   STATE_CHANNEL_GAME,
   STATE_CHANNEL_LOBBY
 } from "./constants";
-import GameLobby from "./GameLobby";
+import GameLobby from "./game-lobby";
 
 class Channel {
   constructor(channelId) {
