@@ -1,6 +1,7 @@
 import * as log from "loglevel";
 import {
   BOT_WEBSITE,
+  COMMAND_HELP,
   COMMAND_PREFIX,
   COMMAND_WEBSITE,
   STATE_NO_GAME
@@ -32,7 +33,12 @@ class Channel {
   }
 
   on_command(message, command) {
-    log.debug("TEST");
+    if (command[0] === COMMAND_WEBSITE) {
+      message.channel.send(BOT_WEBSITE);
+    } else if (command[0] === COMMAND_HELP) {
+      // TODO add actual help text
+      message.channel.send("i c it");
+    }
   }
 }
 
