@@ -1,3 +1,4 @@
+import * as log from "loglevel";
 import { COMMAND_INIT_BOT, COMMAND_PREFIX, STATE_NO_GAME } from "./constants";
 
 class Channel {
@@ -25,7 +26,9 @@ class Channel {
     }
   }
 
-  on_command(message, command) {}
+  on_command(message, command) {
+    log.debug("TEST");
+  }
 }
 
 export default Channel;

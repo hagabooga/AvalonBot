@@ -1,7 +1,13 @@
 import Discord from "discord.js";
 import dotenv from "dotenv";
+import * as log from "loglevel";
 import { BOT_WEBSITE, COMMAND_INIT_BOT, COMMAND_PREFIX } from "./constants";
 import Channel from "./Channel";
+
+// Setup logging
+// TODO set the loglevel with a command line arg
+log.setLevel(log.levels.TRACE);
+log.getLogger("Channel");
 
 // Load in env vars from .env file and grab Discord API token
 dotenv.config();
@@ -22,8 +28,17 @@ client.on("message", message => {
   } else if (message.content === COMMAND_PREFIX + COMMAND_INIT_BOT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel();
+    log.debug(`Adding new channel ${message.channel.id}`);
   }
 });
 
 // Start the bot client
-client.login(discordApiToken);
+client
+  .login(discordApiToken)
+  .then(() =>
+    log.info(
+      `Successfully logged in as ${client.user.username}#${
+        client.user.discriminator
+      }`
+    )
+  );
