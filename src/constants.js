@@ -3,12 +3,12 @@ export const BOT_PREFIX = "!";
 export const BOT_WEBSITE = "https://github.com/hagabooga/Avalon_Discord-Bot";
 
 // Channel states
-export const NO_GAME_STATE = "no game";
-export const ACCEPTING_PLAYERS_STATE = "accepting players";
-export const IN_PROGRESS_STATE = "in progress";
+export const STATE_NO_GAME = "no game";
+export const STATE_ACCEPTING_PLAYERS = "accepting players";
+export const STATE_IN_PROGRESS = "in progress";
 
 // Commands. The values here are the actual commands.
-export const INIT_BOT_COMMAND = "init";
+export const COMMAND_INIT_BOT = "init";
 
 // Team names
 export const RESISTANCE_TEAM = "resistance";

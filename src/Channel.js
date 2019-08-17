@@ -1,9 +1,9 @@
-import { NO_GAME_STATE } from "./constants";
+import { COMMAND_INIT_BOT, STATE_NO_GAME } from "./constants";
 
 class Channel {
   constructor() {
     // Channel state
-    this.channel_state = NO_GAME_STATE;
+    this.channel_state = STATE_NO_GAME;
   }
 
   on_message(message) {
