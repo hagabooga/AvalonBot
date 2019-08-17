@@ -1,4 +1,4 @@
-import { COMMAND_INIT_BOT, STATE_NO_GAME } from "./constants";
+import { COMMAND_INIT_BOT, COMMAND_PREFIX, STATE_NO_GAME } from "./constants";
 
 class Channel {
   constructor() {
@@ -7,7 +7,7 @@ class Channel {
   }
 
   on_message(message) {
-    // DEBUG
+    // Reactions - these are just for fun
     if (message.content === "leg") {
       message.react("🍗");
     } else if (message.content === "trash") {
@@ -15,7 +15,17 @@ class Channel {
     } else if (message.content === "cloud pussy") {
       message.react("☁").then(() => message.react("🐈"));
     }
+
+    // Parse the command if it's a command; else ignore
+    if (message.content.startsWith(COMMAND_PREFIX)) {
+      this.on_command(
+        message,
+        message.content.substring(COMMAND_PREFIX.length).split(" ")
+      );
+    }
   }
+
+  on_command(message, command) {}
 }
 
 export default Channel;
