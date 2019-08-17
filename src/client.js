@@ -1,8 +1,8 @@
 import Discord from 'discord.js';
 import dotenv from 'dotenv';
 import * as log from 'loglevel';
-import {BOT_WEBSITE, COMMAND_CHANNEL_INIT, COMMAND_PREFIX} from './constants';
 import Channel from './channel';
+import {BOT_WEBSITE, COMMAND_CHANNEL_INIT, COMMAND_PREFIX} from './constants';
 
 // Load in env vars from .env file and grab Discord API token
 dotenv.config();
@@ -12,10 +12,9 @@ const logLevel = process.env.LOGLEVEL;
 // Setup logging
 // TODO setup timestamps and loglevel visibility
 log.setLevel(logLevel);
-log.getLogger('Channel');
 
-// Initialize hash table with unique channel IDs as keys and Channel
-// instances as values
+// Initialize hash table with unique channel IDs (as strings) as keys
+// and Channel instances as values
 let channels = {};
 
 // Bot setup
@@ -25,12 +24,12 @@ const client = new Discord.Client();
 client.on('message', message => {
   if (message.channel.id in channels) {
     // Send message to channel message handler
-    channels[message.channel.id].on_message(message);
+    channels[message.channel.id].handleMessage(message);
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel();
     log.debug(
-      `adding new channel ${message.channel.id} (${message.channel.name})`
+      `adding new channel ID:${message.channel.id} NAME:${message.channel.name}`
     );
   }
 });
@@ -40,8 +39,6 @@ client
   .login(discordApiToken)
   .then(() =>
     log.info(
-      `successfully logged in as ${client.user.username}#${
-        client.user.discriminator
-      }`
+      `successfully logged in as ${client.user.username}#${client.user.discriminator}`
     )
   );

@@ -20,7 +20,7 @@ class Channel {
     this.gameLobby = null;
   }
 
-  on_message(message) {
+  handleMessage(message) {
     // Reactions - these are just for fun
     if (message.content === 'leg') {
       message.react('🍗');
@@ -39,7 +39,7 @@ class Channel {
     }
   }
 
-  on_command(message, command) {
+  handleCommand(message, command) {
     if (command[0] === COMMAND_WEBSITE) {
       message.channel.send(BOT_WEBSITE);
     } else if (command[0] === COMMAND_HELP) {
@@ -55,9 +55,7 @@ class Channel {
       this.gameLobby = new GameLobby();
 
       log.debug(
-        `created game lobby for channel ${message.channel.id} (${
-          message.channel.name
-        })`
+        `created game lobby for channel ${message.channel.id} (${message.channel.name})`
       );
 
       // TODO add actual lobby creation message
