@@ -3,7 +3,6 @@ import {
   COMMAND_GAME_LOBBY_JOIN,
   COMMAND_GAME_LOBBY_LEAVE,
   COMMAND_GAME_LOBBY_STATUS,
-  STATE_GAME_LOBBY_READY,
 } from './constants';
 import moderator from './moderator';
 import {logReprChannel, logReprUser} from './util';
