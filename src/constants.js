@@ -5,6 +5,9 @@ export const BOT_WEBSITE = 'https://github.com/hagabooga/Avalon_Discord-Bot';
 export const STATE_CHANNEL_LOBBY = 'lobby';
 export const STATE_CHANNEL_GAME = 'game';
 
+// Game lobby states
+export const STATE_GAME_LOBBY_READY = 'ready';
+
 // Commands. The values here are the actual commands, but they need to
 // be preceeded by COMMAND_PREFIX.
 export const COMMAND_PREFIX = '!';

@@ -24,3 +24,5 @@ export const logFormatCritical = {
 // Log representation of common objects
 export const logReprChannel = channel =>
   `[Channel id=${channel.id} name='${channel.name}']`;
+export const logReprUser = user =>
+  `[User id=${user.id} username='${user.username}']`;

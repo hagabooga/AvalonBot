@@ -47,7 +47,8 @@ class Channel {
       // TODO add actual help text
       message.channel.send('i c it');
     } else if (this.channelState === STATE_CHANNEL_LOBBY) {
-      // TODO send message to lobby message handler
+      // Send to game lobby message handler
+      this.gameLobby.handleCommand(message, command);
     } else if (this.channelState === STATE_CHANNEL_GAME) {
       // TODO send message to game message handler
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
