@@ -14,11 +14,11 @@ class GameLobby {
 
   handleCommand(message, command) {
     if (command[0] === COMMAND_GAME_LOBBY_JOIN) {
+      // Player wants to join the game. Check if player is already in
+      // the game; if not, add them to the lobby
       if (this.players.includes(message.author.id)) {
-        // User has already joined
         moderator.lobbyAlreadyJoined(message);
       } else {
-        // Add the user to the game lobby
         this.players.push(message.author.id);
 
         log.debug(
