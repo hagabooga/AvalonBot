@@ -1,5 +1,9 @@
 import * as log from 'loglevel';
-import {COMMAND_GAME_LOBBY_JOIN, STATE_GAME_LOBBY_READY} from './constants';
+import {
+  COMMAND_GAME_LOBBY_JOIN,
+  COMMAND_GAME_LOBBY_STATUS,
+  STATE_GAME_LOBBY_READY,
+} from './constants';
 import moderator from './moderator';
 import {logReprChannel, logReprUser} from './util';
 
@@ -29,6 +33,9 @@ class GameLobby {
 
         moderator.lobbyJoin(message);
       }
+    } else if (command[0] === COMMAND_GAME_LOBBY_STATUS) {
+      // Inform the player about the status of the lobby
+      moderator.lobbyStatus(message, this);
     }
   }
 }

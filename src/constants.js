@@ -14,6 +14,7 @@ export const COMMAND_PREFIX = '!';
 export const COMMAND_CHANNEL_INIT = 'init';
 export const COMMAND_GAME_LOBBY_CREATE = 'avalon';
 export const COMMAND_GAME_LOBBY_JOIN = 'join';
+export const COMMAND_GAME_LOBBY_STATUS = 'status';
 export const COMMAND_HELP = 'help';
 export const COMMAND_WEBSITE = 'website';
 
