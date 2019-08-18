@@ -32,7 +32,11 @@ client.on('message', message => {
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel();
+
     log.debug(`initializing ${logReprChannel(message.channel)}`);
+
+    // TODO add better message
+    message.channel.send('show me');
   }
 });
 
