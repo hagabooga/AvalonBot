@@ -1,5 +1,6 @@
 import * as log from 'loglevel';
 import {
+  COMMAND_CHANNEL_STATUS,
   COMMAND_GAME_LOBBY_CREATE,
   COMMAND_HELP,
   COMMAND_PREFIX,
@@ -57,6 +58,10 @@ class Channel {
       log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
 
       moderator.lobbyCreate(message);
+    } else if (command[0] === COMMAND_CHANNEL_STATUS) {
+      // Note that this channel status command only works when *neither*
+      // a game lobby nor game are active
+      moderator.channelStatus(message);
     }
   }
 

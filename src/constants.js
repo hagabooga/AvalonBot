@@ -12,6 +12,7 @@ export const STATE_GAME_LOBBY_READY = 'ready';
 // be preceeded by COMMAND_PREFIX.
 export const COMMAND_PREFIX = '!';
 export const COMMAND_CHANNEL_INIT = 'init';
+export const COMMAND_CHANNEL_STATUS = 'status';
 export const COMMAND_GAME_LOBBY_CREATE = 'avalon';
 export const COMMAND_GAME_LOBBY_JOIN = 'join';
 export const COMMAND_GAME_LOBBY_LEAVE = 'leave';

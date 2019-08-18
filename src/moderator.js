@@ -9,6 +9,9 @@ const website = message => message.channel.send(BOT_WEBSITE);
 // Channel initialization
 const channelInit = message => message.channel.send('show me');
 
+// Channel status (when neither game lobby nor game are active)
+const channelStatus = message => message.channel.send('nothing happening');
+
 // Lobby creation
 const lobbyCreate = message =>
   message.channel.send(`new lobby created in ${message.channel.name}`);
@@ -33,6 +36,7 @@ export default {
   help,
   website,
   channelInit,
+  channelStatus,
   lobbyCreate,
   lobbyJoin,
   lobbyAlreadyJoined,
