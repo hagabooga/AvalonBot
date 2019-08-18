@@ -3,6 +3,7 @@ import {
   COMMAND_GAME_LOBBY_CLAIM_ADMIN,
   COMMAND_GAME_LOBBY_FORCE_JOIN,
   COMMAND_GAME_LOBBY_JOIN,
+  COMMAND_GAME_LOBBY_KICK,
   COMMAND_GAME_LOBBY_LEAVE,
   COMMAND_GAME_LOBBY_STATUS,
 } from './constants';
@@ -50,12 +51,18 @@ class GameLobby {
 
   handleJoinedPlayerCommand(message, command) {
     if (command[0] === COMMAND_GAME_LOBBY_FORCE_JOIN) {
-      // Force players to join the game. Filter players which aren't in
-      // the game and add them in.
+      // Force players to join the game
       let newPlayers = message.mentions.users.filter(
         user => !this.playerIsInGame(user)
       );
 
+      // If all of the mentioned players are in the game, ignore the
+      // command
+      if (newPlayers.size === 0) {
+        return;
+      }
+
+      // Add the players
       this.addPlayers(newPlayers, message.channel);
 
       moderator.lobbyForceJoin(message, newPlayers);
@@ -74,13 +81,38 @@ class GameLobby {
       } else {
         moderator.lobbyFailedClaimAdmin(message);
       }
+    } else if (this.playerIsAdmin(message.author)) {
+      // Send to method handling commands for the lobby admin
+      this.handleAdminCommand(message, command);
     }
   }
 
-  handleAdminCommand(message, command) {}
+  handleAdminCommand(message, command) {
+    if (command[0] === COMMAND_GAME_LOBBY_KICK) {
+      // Kick players from the game
+      let joinedPlayersToKick = message.mentions.users.filter(user =>
+        this.playerIsInGame(user)
+      );
+
+      // If none of the mentioned players are in the game, ignore the
+      // command
+      if (joinedPlayersToKick.size === 0) {
+        return;
+      }
+
+      // Remove the players
+      this.removePlayers(joinedPlayersToKick, message.channel);
+
+      moderator.lobbyKick(message, joinedPlayersToKick);
+    }
+  }
 
   playerIsInGame(user) {
     return this.players.includes(user.id);
+  }
+
+  playerIsAdmin(user) {
+    return this.lobbyAdminId === user.id;
   }
 
   addPlayer(user, channel) {
@@ -96,16 +128,16 @@ class GameLobby {
   }
 
   removePlayer(user, channel) {
+    // Remove adminship if admin is removed
+    if (this.lobbyAdminId === user.id) {
+      this.unsetAdmin(user, channel);
+    }
+
     log.debug(
       `removing ${logReprUser(user)} from game lobby in ${logReprChannel(
         channel
       )}`
     );
-
-    // Remove adminship if admin is removed
-    if (this.lobbyAdminId === user.id) {
-      this.unsetAdmin(user, channel);
-    }
 
     // Remove the player
     this.players = this.players.filter(id => id !== user.id);

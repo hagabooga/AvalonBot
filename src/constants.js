@@ -18,6 +18,7 @@ export const COMMAND_GAME_LOBBY_JOIN = 'join';
 export const COMMAND_GAME_LOBBY_FORCE_JOIN = 'forcejoin';
 export const COMMAND_GAME_LOBBY_CLAIM_ADMIN = 'admin';
 export const COMMAND_GAME_LOBBY_LEAVE = 'leave';
+export const COMMAND_GAME_LOBBY_KICK = 'kick';
 export const COMMAND_GAME_LOBBY_STATUS = 'status';
 export const COMMAND_HELP = 'help';
 export const COMMAND_WEBSITE = 'website';

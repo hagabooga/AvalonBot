@@ -1,4 +1,5 @@
 import {BOT_WEBSITE} from './constants';
+import {mapUsersToMentions} from './util';
 
 // Help
 const help = message => message.channel.send('i c it');
@@ -26,9 +27,7 @@ const lobbyAlreadyJoined = message =>
 
 // Lobby force join
 const lobbyForceJoin = (message, users) =>
-  message.channel.send(
-    `forcejoined ${users.map(user => `<@${user.id}>`).join(' ')}`
-  );
+  message.channel.send(`forcejoined ${mapUsersToMentions(users)}`);
 
 // Lobby claim admin
 const lobbyClaimAdmin = message =>
@@ -41,6 +40,10 @@ const lobbyFailedClaimAdmin = message =>
 // Lobby leave
 const lobbyLeave = message =>
   message.channel.send(`<@${message.author.id}> cya nerd`);
+
+// Lobby kick
+const lobbyKick = (message, users) =>
+  message.channel.send(`get the fuck out of here ${mapUsersToMentions(users)}`);
 
 // Lobby status
 const lobbyStatus = (message, gameLobby) =>
@@ -58,5 +61,6 @@ export default {
   lobbyClaimAdmin,
   lobbyFailedClaimAdmin,
   lobbyLeave,
+  lobbyKick,
   lobbyStatus,
 };

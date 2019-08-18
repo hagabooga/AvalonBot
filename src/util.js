@@ -29,3 +29,7 @@ export const logReprChannel = channel =>
 
 export const logReprUser = user =>
   `[User id=${user.id} username='${user.username}']`;
+
+// Moderator helper functions
+export const mapUsersToMentions = (users, sep = ' ') =>
+  users.map(user => `<@${user.id}>`).join(sep);
