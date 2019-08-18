@@ -13,9 +13,13 @@ import moderator from './moderator';
 import {logReprChannel} from './util';
 
 class Channel {
-  constructor() {
+  constructor(forceJoinEnabled) {
     // Channel state
     this.channelState = null;
+
+    // Setting for whether the force join command is enabled for game
+    // lobbies
+    this.forceJoinEnabled = forceJoinEnabled;
 
     // Current game xor lobby
     this.game = null;
@@ -65,7 +69,7 @@ class Channel {
 
   createLobby(message) {
     this.channelState = STATE_CHANNEL_LOBBY;
-    this.gameLobby = new GameLobby(message);
+    this.gameLobby = new GameLobby(message, this.forceJoinEnabled);
 
     log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
   }

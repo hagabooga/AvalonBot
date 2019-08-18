@@ -11,6 +11,8 @@ import {logFormat, logFormatCritical, logReprChannel} from './util';
 dotenv.config();
 const discordApiToken = process.env.DISCORD_API_TOKEN;
 const logLevel = process.env.LOGLEVEL;
+const forceJoinEnabled =
+  process.env.ENABLE_FORCE_JOIN === 'TRUE' ? true : false;
 
 // Setup logging
 prefix.reg(log);
@@ -32,7 +34,7 @@ client.on('message', message => {
     channels[message.channel.id].handleMessage(message);
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
-    channels[message.channel.id] = new Channel();
+    channels[message.channel.id] = new Channel(forceJoinEnabled);
 
     log.debug(`initializing ${logReprChannel(message.channel)}`);
 

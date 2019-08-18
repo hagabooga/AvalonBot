@@ -1,5 +1,6 @@
 import * as log from 'loglevel';
 import {
+  COMMAND_GAME_LOBBY_FORCE_JOIN,
   COMMAND_GAME_LOBBY_JOIN,
   COMMAND_GAME_LOBBY_LEAVE,
   COMMAND_GAME_LOBBY_STATUS,
@@ -8,9 +9,12 @@ import moderator from './moderator';
 import {logReprChannel, logReprUser} from './util';
 
 class GameLobby {
-  constructor(message) {
+  constructor(message, forceJoinEnabled) {
     // Game lobby state
     this.gameLobbyState = null;
+
+    // Setting for whether to allow the force join command
+    this.forceJoinEnabled = forceJoinEnabled;
 
     // Lobby admin's unique ID (as string)
     this.lobbyAdmin = message.author.id;
@@ -31,6 +35,16 @@ class GameLobby {
 
         moderator.lobbyJoin(message);
       }
+    } else if (command[0] === COMMAND_GAME_LOBBY_FORCE_JOIN) {
+      // Force players to join the game. Filter players which aren't in
+      // the game and add them in.
+      let newPlayers = message.mentions.users.filter(user =>
+        !this.players.includes(user.id)
+      );
+
+      this.addPlayers(newPlayers, message.channel);
+
+      moderator.lobbyForceJoin(message, newPlayers);
     } else if (command[0] === COMMAND_GAME_LOBBY_LEAVE) {
       // Player wants to leave the game. Check if player is already in
       // the game and remove them if so; otherwise ignore.
@@ -53,6 +67,10 @@ class GameLobby {
     );
   }
 
+  addPlayers(users, channel) {
+    users.forEach(user => this.addPlayer(user, channel));
+  }
+
   removePlayer(user, channel) {
     this.players = this.players.filter(id => id !== user.id);
 
@@ -61,6 +79,10 @@ class GameLobby {
         channel
       )}`
     );
+  }
+
+  removePlayers(users, channel) {
+    users.forEach(user => this.removePlayer(user, channel));
   }
 }
 

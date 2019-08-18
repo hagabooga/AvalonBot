@@ -24,6 +24,12 @@ const lobbyJoin = message =>
 const lobbyAlreadyJoined = message =>
   message.channel.send(`<@${message.author.id}> u already in game`);
 
+// Lobby force join
+const lobbyForceJoin = (message, users) =>
+  message.channel.send(
+    `forcejoined ${users.map(user => `<@${user.id}>`).join(' ')}`
+  );
+
 // Lobby leave
 const lobbyLeave = message =>
   message.channel.send(`<@${message.author.id}> cya nerd`);
@@ -40,6 +46,7 @@ export default {
   lobbyCreate,
   lobbyJoin,
   lobbyAlreadyJoined,
+  lobbyForceJoin,
   lobbyLeave,
   lobbyStatus,
 };
