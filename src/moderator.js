@@ -41,6 +41,9 @@ const lobbyFailedClaimAdmin = message =>
 const lobbyLeave = message =>
   message.channel.send(`<@${message.author.id}> cya nerd`);
 
+// Lobby stop
+const lobbyStop = message => message.channel.send('dead game i c it');
+
 // Lobby kick
 const lobbyKick = (message, users) =>
   message.channel.send(`get the fuck out of here ${mapUsersToMentions(users)}`);
@@ -61,6 +64,7 @@ export default {
   lobbyClaimAdmin,
   lobbyFailedClaimAdmin,
   lobbyLeave,
+  lobbyStop,
   lobbyKick,
   lobbyStatus,
 };

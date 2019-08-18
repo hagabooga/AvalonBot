@@ -7,6 +7,7 @@ import {
   COMMAND_WEBSITE,
   STATE_CHANNEL_GAME,
   STATE_CHANNEL_LOBBY,
+  STATE_GAME_LOBBY_STOPPED,
 } from './constants';
 import GameLobby from './game-lobby';
 import moderator from './moderator';
@@ -53,6 +54,11 @@ class Channel {
     } else if (this.channelState === STATE_CHANNEL_LOBBY) {
       // Send to game lobby message handler
       this.gameLobby.handleCommand(message, command);
+
+      // Check lobby state and take appropriate actions
+      if (this.gameLobby.gameLobbyState === STATE_GAME_LOBBY_STOPPED) {
+        this.removeLobby(message);
+      }
     } else if (this.channelState === STATE_CHANNEL_GAME) {
       // TODO send message to game message handler
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
@@ -72,6 +78,13 @@ class Channel {
 
     this.channelState = STATE_CHANNEL_LOBBY;
     this.gameLobby = new GameLobby(message, this.forceJoinEnabled);
+  }
+
+  removeLobby(message) {
+    log.debug(`removing game lobby in ${logReprChannel(message.channel)}`);
+
+    this.channelState = null;
+    this.gameLobby = null;
   }
 }
 

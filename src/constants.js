@@ -6,7 +6,7 @@ export const STATE_CHANNEL_LOBBY = 'lobby';
 export const STATE_CHANNEL_GAME = 'game';
 
 // Game lobby states
-export const STATE_GAME_LOBBY_READY = 'ready';
+export const STATE_GAME_LOBBY_STOPPED = 'stopped';
 
 // Commands. The values here are the actual commands, but they need to
 // be proceeded by COMMAND_PREFIX.
@@ -18,6 +18,7 @@ export const COMMAND_GAME_LOBBY_JOIN = 'join';
 export const COMMAND_GAME_LOBBY_FORCE_JOIN = 'forcejoin';
 export const COMMAND_GAME_LOBBY_CLAIM_ADMIN = 'admin';
 export const COMMAND_GAME_LOBBY_LEAVE = 'leave';
+export const COMMAND_GAME_LOBBY_STOP = 'stop';
 export const COMMAND_GAME_LOBBY_KICK = 'kick';
 export const COMMAND_GAME_LOBBY_STATUS = 'status';
 export const COMMAND_HELP = 'help';

@@ -6,6 +6,8 @@ import {
   COMMAND_GAME_LOBBY_KICK,
   COMMAND_GAME_LOBBY_LEAVE,
   COMMAND_GAME_LOBBY_STATUS,
+  COMMAND_GAME_LOBBY_STOP,
+  STATE_GAME_LOBBY_STOPPED,
 } from './constants';
 import moderator from './moderator';
 import {logReprChannel, logReprUser} from './util';
@@ -71,6 +73,11 @@ class GameLobby {
       this.removePlayer(message.author, message.channel);
 
       moderator.lobbyLeave(message);
+    } else if (command[0] === COMMAND_GAME_LOBBY_STOP) {
+      // Set the game lobby state to stopped
+      this.stopLobby(message.channel);
+
+      moderator.lobbyStop(message);
     } else if (command[0] === COMMAND_GAME_LOBBY_CLAIM_ADMIN) {
       // User wants to claim admin. Let them if there's no admin,
       // otherwise send them a message saying there's already an admin.
@@ -165,6 +172,14 @@ class GameLobby {
     );
 
     this.lobbyAdminId = null;
+  }
+
+  stopLobby(channel) {
+    log.debug(
+      `setting game lobby state to 'stopped' in ${logReprChannel(channel)}`
+    );
+
+    this.gameLobbyState = STATE_GAME_LOBBY_STOPPED;
   }
 }
 
