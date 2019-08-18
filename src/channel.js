@@ -14,7 +14,10 @@ import moderator from './moderator';
 import {logReprChannel} from './util';
 
 class Channel {
-  constructor(forceJoinEnabled) {
+  constructor(client, forceJoinEnabled) {
+    // The bot client
+    this.client = client;
+
     // Channel state
     this.channelState = null;
 
@@ -77,7 +80,7 @@ class Channel {
     log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
 
     this.channelState = STATE_CHANNEL_LOBBY;
-    this.gameLobby = new GameLobby(message, this.forceJoinEnabled);
+    this.gameLobby = new GameLobby(message, this.client, this.forceJoinEnabled);
   }
 
   removeLobby(message) {

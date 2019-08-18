@@ -13,7 +13,10 @@ import moderator from './moderator';
 import {logReprChannel, logReprUser} from './util';
 
 class GameLobby {
-  constructor(message, forceJoinEnabled) {
+  constructor(message, client, forceJoinEnabled) {
+    // The bot client
+    this.client = client;
+
     // Game lobby state
     this.gameLobbyState = null;
 

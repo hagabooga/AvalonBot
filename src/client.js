@@ -34,7 +34,7 @@ client.on('message', message => {
     channels[message.channel.id].handleMessage(message);
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
-    channels[message.channel.id] = new Channel(forceJoinEnabled);
+    channels[message.channel.id] = new Channel(client, forceJoinEnabled);
 
     log.debug(`initializing ${logReprChannel(message.channel)}`);
 
