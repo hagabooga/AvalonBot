@@ -1,8 +1,10 @@
 import Discord from 'discord.js';
 import dotenv from 'dotenv';
 import * as log from 'loglevel';
+import prefix from 'loglevel-plugin-prefix';
 import Channel from './channel';
 import {BOT_WEBSITE, COMMAND_CHANNEL_INIT, COMMAND_PREFIX} from './constants';
+import {logFormat, logFormatCritical} from './util';
 
 // Load in env vars from .env file and grab Discord API token
 dotenv.config();
@@ -10,7 +12,9 @@ const discordApiToken = process.env.DISCORD_API_TOKEN;
 const logLevel = process.env.LOGLEVEL;
 
 // Setup logging
-// TODO setup timestamps and loglevel visibility
+prefix.reg(log);
+prefix.apply(log, logFormat);
+prefix.apply(log.getLogger('critical'), logFormatCritical);
 log.setLevel(logLevel);
 
 // Initialize hash table with unique channel IDs (as strings) as keys

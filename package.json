@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/hagabooga/Avalon_Discord-Bot",
   "dependencies": {
+    "chalk": "^2.4.2",
     "discord.js": "^11.5.1",
     "dotenv": "^8.0.0",
     "esm": "^3.2.25",
-    "loglevel": "^1.6.3"
+    "loglevel": "^1.6.3",
+    "loglevel-plugin-prefix": "^0.8.4"
   }
 }
