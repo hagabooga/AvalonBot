@@ -23,7 +23,7 @@ class GameLobby {
     // Lobby admin's unique ID (as string). Note that we set it to null
     // initially so that the setAdmin function isn't modifying a
     // variable that doesn't exist.
-    this.lobbyAdmin = null;
+    this.lobbyAdminId = null;
     this.setAdmin(message.author, message.channel);
   }
 
@@ -96,7 +96,7 @@ class GameLobby {
       )}`
     );
 
-    this.lobbyAdmin = user.id;
+    this.lobbyAdminId = user.id;
   }
 }
 
