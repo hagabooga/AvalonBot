@@ -1,7 +1,7 @@
 import * as log from 'loglevel';
 import {
   BOT_WEBSITE,
-  COMMAND_GAME_CREATE,
+  COMMAND_GAME_LOBBY_CREATE,
   COMMAND_HELP,
   COMMAND_PREFIX,
   COMMAND_WEBSITE,
@@ -50,7 +50,7 @@ class Channel {
       // TODO send message to lobby message handler
     } else if (this.channelState === STATE_CHANNEL_GAME) {
       // TODO send message to game message handler
-    } else if (command[0] === COMMAND_GAME_CREATE) {
+    } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
       // Create a game lobby
       this.channelState = STATE_CHANNEL_LOBBY;
       this.gameLobby = new GameLobby();
