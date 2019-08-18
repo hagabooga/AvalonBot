@@ -23,7 +23,7 @@ class GameLobby {
       if (this.players.includes(message.author.id)) {
         moderator.lobbyAlreadyJoined(message);
       } else {
-        this.players.push(message.author.id);
+        this.addPlayer(message.author.id);
 
         log.debug(
           `adding ${logReprUser(
@@ -37,6 +37,10 @@ class GameLobby {
       // Inform the player about the status of the lobby
       moderator.lobbyStatus(message, this);
     }
+  }
+
+  addPlayer(playerId) {
+    this.players.push(playerId);
   }
 }
 

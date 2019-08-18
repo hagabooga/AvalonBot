@@ -52,13 +52,17 @@ class Channel {
       // TODO send message to game message handler
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
       // Create a game lobby
-      this.channelState = STATE_CHANNEL_LOBBY;
-      this.gameLobby = new GameLobby();
+      this.createLobby();
 
       log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
 
       moderator.lobbyCreate(message);
     }
+  }
+
+  createLobby() {
+    this.channelState = STATE_CHANNEL_LOBBY;
+    this.gameLobby = new GameLobby();
   }
 }
 
