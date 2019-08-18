@@ -41,8 +41,8 @@ class GameLobby {
     } else if (command[0] === COMMAND_GAME_LOBBY_FORCE_JOIN) {
       // Force players to join the game. Filter players which aren't in
       // the game and add them in.
-      let newPlayers = message.mentions.users.filter(user =>
-        !this.players.includes(user.id)
+      let newPlayers = message.mentions.users.filter(
+        user => !this.players.includes(user.id)
       );
 
       this.addPlayers(newPlayers, message.channel);
