@@ -60,11 +60,12 @@ class GameLobby {
   }
 
   addPlayer(user, channel) {
-    this.players.push(user.id);
 
     log.debug(
       `adding ${logReprUser(user)} to game lobby in ${logReprChannel(channel)}`
     );
+
+    this.players.push(user.id);
   }
 
   addPlayers(users, channel) {
@@ -72,13 +73,13 @@ class GameLobby {
   }
 
   removePlayer(user, channel) {
-    this.players = this.players.filter(id => id !== user.id);
-
     log.debug(
       `removing ${logReprUser(user)} from game lobby in ${logReprChannel(
         channel
       )}`
     );
+
+    this.players = this.players.filter(id => id !== user.id);
   }
 
   removePlayers(users, channel) {

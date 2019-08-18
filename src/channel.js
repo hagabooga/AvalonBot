@@ -68,10 +68,10 @@ class Channel {
   }
 
   createLobby(message) {
+    log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
+
     this.channelState = STATE_CHANNEL_LOBBY;
     this.gameLobby = new GameLobby(message, this.forceJoinEnabled);
-
-    log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
   }
 }
 
