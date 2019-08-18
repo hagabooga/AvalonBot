@@ -30,6 +30,14 @@ const lobbyForceJoin = (message, users) =>
     `forcejoined ${users.map(user => `<@${user.id}>`).join(' ')}`
   );
 
+// Lobby claim admin
+const lobbyClaimAdmin = message =>
+  message.channel.send(`<@${message.author.id}> is lobby admin now`);
+
+// Attempted admin claim but there's already an admin
+const lobbyFailedClaimAdmin = message =>
+  message.channel.send(`<@${message.author.id}> there's already an admin >_>`);
+
 // Lobby leave
 const lobbyLeave = message =>
   message.channel.send(`<@${message.author.id}> cya nerd`);
@@ -47,6 +55,8 @@ export default {
   lobbyJoin,
   lobbyAlreadyJoined,
   lobbyForceJoin,
+  lobbyClaimAdmin,
+  lobbyFailedClaimAdmin,
   lobbyLeave,
   lobbyStatus,
 };
