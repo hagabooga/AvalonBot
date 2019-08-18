@@ -9,7 +9,7 @@ export const STATE_CHANNEL_GAME = 'game';
 export const STATE_GAME_LOBBY_READY = 'ready';
 
 // Commands. The values here are the actual commands, but they need to
-// be preceeded by COMMAND_PREFIX.
+// be proceeded by COMMAND_PREFIX.
 export const COMMAND_PREFIX = '!';
 export const COMMAND_CHANNEL_INIT = 'init';
 export const COMMAND_CHANNEL_STATUS = 'status';
