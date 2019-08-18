@@ -24,13 +24,7 @@ class GameLobby {
       if (this.players.includes(message.author.id)) {
         moderator.lobbyAlreadyJoined(message);
       } else {
-        this.addPlayer(message.author.id);
-
-        log.debug(
-          `adding ${logReprUser(
-            message.author
-          )} to game lobby in ${logReprChannel(message.channel)}`
-        );
+        this.addPlayer(message.author, message.channel);
 
         moderator.lobbyJoin(message);
       }
@@ -38,13 +32,7 @@ class GameLobby {
       // Player wants to leave the game. Check if player is already in
       // the game and remove them if so; otherwise ignore.
       if (this.players.includes(message.author.id)) {
-        this.removePlayer(message.author.id);
-
-        log.debug(
-          `removing ${logReprUser(
-            message.author
-          )} from game lobby in ${logReprChannel(message.channel)}`
-        );
+        this.removePlayer(message.author, message.channel);
 
         moderator.lobbyLeave(message);
       }
@@ -54,12 +42,22 @@ class GameLobby {
     }
   }
 
-  addPlayer(playerId) {
-    this.players.push(playerId);
+  addPlayer(user, channel) {
+    this.players.push(user.id);
+
+    log.debug(
+      `adding ${logReprUser(user)} to game lobby in ${logReprChannel(channel)}`
+    );
   }
 
-  removePlayer(playerId) {
-    this.players = this.players.filter(id => id !== playerId);
+  removePlayer(user, channel) {
+    this.players = this.players.filter(id => id !== user.id);
+
+    log.debug(
+      `removing ${logReprUser(user)} from game lobby in ${logReprChannel(
+        channel
+      )}`
+    );
   }
 }
 
