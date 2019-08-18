@@ -20,3 +20,7 @@ export const logFormatCritical = {
     return chalk.red.bold(`[${timestamp}] ${level}:`);
   },
 };
+
+// Log representation of common objects
+export const logReprChannel = channel =>
+  `[Channel id=${channel.id} name='${channel.name}']`;

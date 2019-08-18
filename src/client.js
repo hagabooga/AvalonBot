@@ -4,7 +4,7 @@ import * as log from 'loglevel';
 import prefix from 'loglevel-plugin-prefix';
 import Channel from './channel';
 import {BOT_WEBSITE, COMMAND_CHANNEL_INIT, COMMAND_PREFIX} from './constants';
-import {logFormat, logFormatCritical} from './util';
+import {logFormat, logFormatCritical, logReprChannel} from './util';
 
 // Load in env vars from .env file and grab Discord API token
 dotenv.config();
@@ -32,9 +32,7 @@ client.on('message', message => {
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel();
-    log.debug(
-      `adding new channel ID:${message.channel.id} NAME:${message.channel.name}`
-    );
+    log.debug(`initializing ${logReprChannel(message.channel)}`);
   }
 });
 

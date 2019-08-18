@@ -9,6 +9,7 @@ import {
   STATE_CHANNEL_LOBBY,
 } from './constants';
 import GameLobby from './game-lobby';
+import {logReprChannel} from './util';
 
 class Channel {
   constructor(channelId) {
@@ -54,9 +55,7 @@ class Channel {
       this.channelState = STATE_CHANNEL_LOBBY;
       this.gameLobby = new GameLobby();
 
-      log.debug(
-        `created game lobby for channel ${message.channel.id} (${message.channel.name})`
-      );
+      log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
 
       // TODO add actual lobby creation message
       message.channel.send(`new lobby created in ${message.channel.name}`);
