@@ -32,7 +32,7 @@ class Channel {
 
     // Parse the command if it's a command; else ignore
     if (message.content.startsWith(COMMAND_PREFIX)) {
-      this.on_command(
+      this.handleCommand(
         message,
         message.content.substring(COMMAND_PREFIX.length).split(' ')
       );
