@@ -9,12 +9,16 @@ import moderator from './moderator';
 import {logReprChannel, logReprUser} from './util';
 
 class GameLobby {
-  constructor() {
+  constructor(message) {
     // Game lobby state
     this.gameLobbyState = null;
 
+    // Lobby admin's unique ID (as string)
+    this.lobbyAdmin = message.author.id;
+
     // Array of joined player's unique IDs (as strings)
     this.players = [];
+    this.addPlayer(message.author, message.channel);
   }
 
   handleCommand(message, command) {
