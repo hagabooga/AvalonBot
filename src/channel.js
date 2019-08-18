@@ -13,7 +13,7 @@ import moderator from './moderator';
 import {logReprChannel} from './util';
 
 class Channel {
-  constructor(channelId) {
+  constructor() {
     // Channel state
     this.channelState = null;
 
