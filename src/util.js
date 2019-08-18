@@ -8,6 +8,7 @@ const logColors = {
   WARN: chalk.yellow,
   ERROR: chalk.red,
 };
+
 export const logFormat = {
   format(level, name, timestamp) {
     return `${chalk.bold(`[${timestamp}]`)} ${logColors[level.toUpperCase()](
@@ -15,6 +16,7 @@ export const logFormat = {
     )}:`;
   },
 };
+
 export const logFormatCritical = {
   format(level, name, timestamp) {
     return chalk.red.bold(`[${timestamp}] ${level}:`);
@@ -24,5 +26,6 @@ export const logFormatCritical = {
 // Log representation of common objects
 export const logReprChannel = channel =>
   `[Channel id=${channel.id} name='${channel.name}']`;
+
 export const logReprUser = user =>
   `[User id=${user.id} username='${user.username}']`;
