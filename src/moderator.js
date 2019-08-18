@@ -17,13 +17,17 @@ const lobbyCreate = message =>
 const lobbyJoin = message =>
   message.channel.send(`<@${message.author.id}> u show`);
 
+// Attempted lobby join but already joined
+const lobbyAlreadyJoined = message =>
+  message.channel.send(`<@${message.author.id}> u already in game`);
+
+// Lobby leave
+const lobbyLeave = message =>
+  message.channel.send(`<@${message.author.id}> cya nerd`);
+
 // Lobby status
 const lobbyStatus = (message, gameLobby) =>
   message.channel.send('this is lobby status');
-
-// Lobby but already joined
-const lobbyAlreadyJoined = message =>
-  message.channel.send(`<@${message.author.id}> u already in game`);
 
 export default {
   help,
@@ -32,5 +36,6 @@ export default {
   lobbyCreate,
   lobbyJoin,
   lobbyAlreadyJoined,
+  lobbyLeave,
   lobbyStatus,
 };
