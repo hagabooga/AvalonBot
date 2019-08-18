@@ -16,12 +16,15 @@ class GameLobby {
     // Setting for whether to allow the force join command
     this.forceJoinEnabled = forceJoinEnabled;
 
-    // Lobby admin's unique ID (as string)
-    this.lobbyAdmin = message.author.id;
-
     // Array of joined player's unique IDs (as strings)
     this.players = [];
     this.addPlayer(message.author, message.channel);
+
+    // Lobby admin's unique ID (as string). Note that we set it to null
+    // initially so that the setAdmin function isn't modifying a
+    // variable that doesn't exist.
+    this.lobbyAdmin = null;
+    this.setAdmin(message.author, message.channel);
   }
 
   handleCommand(message, command) {
@@ -84,6 +87,16 @@ class GameLobby {
 
   removePlayers(users, channel) {
     users.forEach(user => this.removePlayer(user, channel));
+  }
+
+  setAdmin(user, channel) {
+    log.debug(
+      `setting ${logReprUser(user)} as game lobby admin in ${logReprChannel(
+        channel
+      )}`
+    );
+
+    this.lobbyAdmin = user.id;
   }
 }
 
