@@ -1,6 +1,5 @@
 import * as log from 'loglevel';
 import {
-  BOT_WEBSITE,
   COMMAND_GAME_LOBBY_CREATE,
   COMMAND_HELP,
   COMMAND_PREFIX,
@@ -9,6 +8,7 @@ import {
   STATE_CHANNEL_LOBBY,
 } from './constants';
 import GameLobby from './game-lobby';
+import moderator from './moderator';
 import {logReprChannel} from './util';
 
 class Channel {
@@ -42,10 +42,9 @@ class Channel {
 
   handleCommand(message, command) {
     if (command[0] === COMMAND_WEBSITE) {
-      message.channel.send(BOT_WEBSITE);
+      moderator.website(message);
     } else if (command[0] === COMMAND_HELP) {
-      // TODO add actual help text
-      message.channel.send('i c it');
+      moderator.help(message);
     } else if (this.channelState === STATE_CHANNEL_LOBBY) {
       // Send to game lobby message handler
       this.gameLobby.handleCommand(message, command);
@@ -58,8 +57,7 @@ class Channel {
 
       log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
 
-      // TODO add actual lobby creation message
-      message.channel.send(`new lobby created in ${message.channel.name}`);
+      moderator.lobbyCreate(message);
     }
   }
 }

@@ -4,6 +4,7 @@ import * as log from 'loglevel';
 import prefix from 'loglevel-plugin-prefix';
 import Channel from './channel';
 import {BOT_WEBSITE, COMMAND_CHANNEL_INIT, COMMAND_PREFIX} from './constants';
+import moderator from './moderator';
 import {logFormat, logFormatCritical, logReprChannel} from './util';
 
 // Load in env vars from .env file and grab Discord API token
@@ -35,8 +36,7 @@ client.on('message', message => {
 
     log.debug(`initializing ${logReprChannel(message.channel)}`);
 
-    // TODO add better message
-    message.channel.send('show me');
+    moderator.channelInit(message);
   }
 });
 
