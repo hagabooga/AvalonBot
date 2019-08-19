@@ -1,5 +1,5 @@
 // Bot variables
-export const BOT_WEBSITE = 'https://github.com/hagabooga/Avalon_Discord-Bot';
+export const BOT_WEBSITE = 'https://github.com/hagabooga/AvalonBot';
 
 // Channel states
 export const STATE_CHANNEL_LOBBY = 'lobby';

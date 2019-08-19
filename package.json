@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hagabooga/Avalon_Discord-Bot.git"
+    "url": "git+https://github.com/hagabooga/AvalonBot.git"
   },
   "author": "Cameron Hu",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/hagabooga/Avalon_Discord-Bot/issues"
+    "url": "https://github.com/hagabooga/AvalonBot/issues"
   },
-  "homepage": "https://github.com/hagabooga/Avalon_Discord-Bot",
+  "homepage": "https://github.com/hagabooga/AvalonBot",
   "dependencies": {
     "chalk": "^2.4.2",
     "discord.js": "^11.5.1",
