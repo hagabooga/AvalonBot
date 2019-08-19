@@ -164,9 +164,8 @@ class GameLobby {
         return;
       }
 
-      // Good amount of players
-      // TODO
-      moderator.lobbyStart(message);
+      // Good amount of players. Go to setup phase!
+      this.readyLobby(message.channel);
     }
   }
 
@@ -197,9 +196,8 @@ class GameLobby {
     }
 
     log.debug(
-      `removing ${logReprUser(user)} from game lobby in ${logReprChannel(
-        channel
-      )}`
+      `removing ${logReprUser(user)} from game lobby ` +
+        `in ${logReprChannel(channel)}`
     );
 
     // Remove the player
@@ -212,9 +210,8 @@ class GameLobby {
 
   setAdmin(user, channel) {
     log.debug(
-      `setting ${logReprUser(user)} as game lobby admin in ${logReprChannel(
-        channel
-      )}`
+      `setting ${logReprUser(user)} as game lobby admin ` +
+        `in ${logReprChannel(channel)}`
     );
 
     this.lobbyAdminId = user.id;
@@ -222,9 +219,8 @@ class GameLobby {
 
   unsetAdmin(user, channel) {
     log.debug(
-      `removing ${logReprUser(user)} as game lobby admin in ${logReprChannel(
-        channel
-      )}`
+      `removing ${logReprUser(user)} as game lobby admin ` +
+        `in ${logReprChannel(channel)}`
     );
 
     this.lobbyAdminId = null;
@@ -232,7 +228,8 @@ class GameLobby {
 
   stopLobby(channel) {
     log.debug(
-      `setting game lobby state to 'stopped' in ${logReprChannel(channel)}`
+      `setting game lobby state to '${STATE_GAME_LOBBY_STOPPED}'` +
+        ` in ${logReprChannel(channel)}`
     );
 
     this.gameLobbyState = STATE_GAME_LOBBY_STOPPED;

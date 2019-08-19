@@ -198,11 +198,9 @@ const lobbyStatus = async (message, gameLobby) => {
   let messageToSend = '';
 
   // The first bit of the message shows the channel state
-  if (gameLobby.gameLobbyState === STATE_GAME_LOBBY_ACCEPTING_PLAYERS) {
-    messageToSend +=
-      'A game lobby is currently accepting players. Type ' +
-      `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_JOIN}\` to join!`;
-  }
+  messageToSend +=
+    'A game lobby is currently accepting players. Type ' +
+    `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_JOIN}\` to join!`;
 
   // Add some whitespace
   messageToSend += '\n\n';
