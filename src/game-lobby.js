@@ -5,8 +5,8 @@ import {
   COMMAND_GAME_LOBBY_JOIN,
   COMMAND_GAME_LOBBY_KICK,
   COMMAND_GAME_LOBBY_LEAVE,
-  COMMAND_GAME_LOBBY_STATUS,
   COMMAND_GAME_LOBBY_STOP,
+  COMMAND_STATUS,
   STATE_GAME_LOBBY_STOPPED,
 } from './constants';
 import moderator from './moderator';
@@ -26,6 +26,7 @@ class GameLobby {
     // Array of joined player's unique IDs (as strings)
     this.players = [];
     this.addPlayer(message.author, message.channel);
+    moderator.lobbyJoin(message);
 
     // Lobby admin's unique ID (as string). Note that we set it to null
     // initially so that the setAdmin function isn't modifying a
@@ -45,7 +46,7 @@ class GameLobby {
 
         moderator.lobbyJoin(message);
       }
-    } else if (command[0] === COMMAND_GAME_LOBBY_STATUS) {
+    } else if (command[0] === COMMAND_STATUS) {
       // Inform the player about the status of the lobby
       moderator.lobbyStatus(message, this);
     } else if (this.playerIsInGame(message.author)) {
@@ -89,7 +90,10 @@ class GameLobby {
 
         moderator.lobbyClaimAdmin(message);
       } else {
-        moderator.lobbyFailedClaimAdmin(message);
+        moderator.lobbyFailedClaimAdmin(
+          message,
+          this.getAdminGuildMember(message.guild)
+        );
       }
     } else if (this.playerIsAdmin(message.author)) {
       // Send to method handling commands for the lobby admin
@@ -155,6 +159,14 @@ class GameLobby {
 
   removePlayers(users, channel) {
     users.forEach(user => this.removePlayer(user, channel));
+  }
+
+  async getAdminUser() {
+    return this.client.fetchUser(this.lobbyAdminId);
+  }
+
+  async getAdminGuildMember(guild) {
+    return guild.fetchMember(await this.getAdminUser());
   }
 
   setAdmin(user, channel) {
