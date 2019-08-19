@@ -7,6 +7,7 @@ import {
   COMMAND_GAME_LOBBY_KICK,
   COMMAND_GAME_LOBBY_LEAVE,
   COMMAND_GAME_LOBBY_STOP,
+  COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_HELP,
   COMMAND_PREFIX,
   COMMAND_STATUS,
@@ -37,7 +38,9 @@ const help = message =>
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CLAIM_ADMIN}\`` +
       ' - claim lobby admin (if available)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_KICK} @user1 @user2 ...\`` +
-      ' - kick users from lobby (if admin)\n'
+      ' - kick users from lobby (if admin)\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_TRANSFER_ADMIN} @user\`` +
+      ' - transfer admin to another user (if admin)\n'
   );
 
 // Website
@@ -99,6 +102,19 @@ const lobbyFailedClaimAdmin = async (message, adminGuildMemberPromise) => {
   );
 };
 
+// Lobby admin transfer
+const lobbyTransferAdmin = async (message, newAdminGuildMemberPromise) => {
+  let newAdminGuildMember = await newAdminGuildMemberPromise;
+
+  message.channel.send(
+    `**${newAdminGuildMember.displayName}** is now the game lobby admin!`
+  );
+};
+
+// Attempted admin transfer but mentioned too many users
+const lobbyFailedTransferAdmin = message =>
+  message.channel.send(`Must select exactly one player to transfer admin to!`);
+
 // Lobby leave
 const lobbyLeave = message =>
   message.channel.send(`**${message.member.displayName}** has left the game.`);
@@ -136,6 +152,8 @@ export default {
   lobbyForceJoin,
   lobbyClaimAdmin,
   lobbyFailedClaimAdmin,
+  lobbyTransferAdmin,
+  lobbyFailedTransferAdmin,
   lobbyLeave,
   lobbyStop,
   lobbyKick,

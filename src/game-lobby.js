@@ -6,6 +6,7 @@ import {
   COMMAND_GAME_LOBBY_KICK,
   COMMAND_GAME_LOBBY_LEAVE,
   COMMAND_GAME_LOBBY_STOP,
+  COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_STATUS,
   STATE_GAME_LOBBY_STOPPED,
 } from './constants';
@@ -90,10 +91,7 @@ class GameLobby {
 
         moderator.lobbyClaimAdmin(message);
       } else {
-        moderator.lobbyFailedClaimAdmin(
-          message,
-          this.getAdminGuildMember(message.guild)
-        );
+        moderator.lobbyFailedClaimAdmin(message);
       }
     } else if (this.playerIsAdmin(message.author)) {
       // Send to method handling commands for the lobby admin
@@ -118,6 +116,36 @@ class GameLobby {
       this.removePlayers(joinedPlayersToKick, message.channel);
 
       moderator.lobbyKick(message, joinedPlayersToKick);
+    } else if (command[0] === COMMAND_GAME_LOBBY_TRANSFER_ADMIN) {
+      // Transfer adminship to another player
+      let mentionedUsers = message.mentions.users;
+
+      // If there is more than one mentioned user, send a message. If
+      // there are no mentioned users, or one mentioned user who isn't
+      // joined or isn't already the admin, ignore the command.
+      // Otherwise proceed.
+      if (mentionedUsers.size > 1) {
+        moderator.lobbyFailedTransferAdmin(message);
+
+        return;
+      }
+
+      let joinedMentionedUsers = mentionedUsers.filter(user =>
+        this.playerIsInGame(user)
+      );
+
+      if (joinedMentionedUsers.size === 1) {
+        let newAdminUser = joinedMentionedUsers.values().next().value;
+
+        if (newAdminUser.id !== this.lobbyAdminId) {
+          this.setAdmin(newAdminUser, message.channel);
+
+          moderator.lobbyTransferAdmin(
+            message,
+            this.getAdminGuildMember(message.guild)
+          );
+        }
+      }
     }
   }
 
