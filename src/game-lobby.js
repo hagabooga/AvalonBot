@@ -91,7 +91,10 @@ class GameLobby {
 
         moderator.lobbyClaimAdmin(message);
       } else {
-        moderator.lobbyFailedClaimAdmin(message);
+        moderator.lobbyFailedClaimAdmin(
+          message,
+          this.getAdminGuildMember(message.guild)
+        );
       }
     } else if (this.playerIsAdmin(message.author)) {
       // Send to method handling commands for the lobby admin
