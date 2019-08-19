@@ -197,16 +197,13 @@ const lobbyStatus = async (message, gameLobby) => {
   );
   let playerGuildMembers = await Promise.all(playerGuildMemberPromises);
   let playerGuildMemberStrings = playerGuildMembers.map(member => {
-    let str = '';
-
-    // Show a crown if lobby admin
+    // Show a crown and bold name if lobby admin. Else just display
+    // name.
     if (member.id === gameLobby.lobbyAdminId) {
-      str += '👑';
+      return `👑**${member.displayName}**`;
     }
 
-    str += member.displayName;
-
-    return str;
+    return member.displayName;
   });
 
   if (playerGuildMemberStrings.length === 0) {
