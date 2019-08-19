@@ -1,5 +1,6 @@
 import {
-  BOT_WEBSITE,
+  AVALON_RULEBOOK_URL,
+  AVALONBOT_WEBSITE,
   COMMAND_ABOUT,
   COMMAND_CHANNEL_INIT,
   COMMAND_GAME_LOBBY_CLAIM_ADMIN,
@@ -11,6 +12,7 @@ import {
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_HELP,
   COMMAND_PREFIX,
+  COMMAND_RULES,
   COMMAND_STATUS,
   COMMAND_WEBSITE,
 } from './constants';
@@ -21,14 +23,16 @@ const help = message =>
   message.channel.send(
     '**Commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_HELP}\` - display this message\n` +
-      `\`${COMMAND_PREFIX + COMMAND_ABOUT}\`` +
-      ' - learn about AvalonBot\n' +
-      `\`${COMMAND_PREFIX + COMMAND_WEBSITE}\`` +
-      " - link AvalonBot's source code\n" +
+      `\`${COMMAND_PREFIX + COMMAND_RULES}\`` +
+      ' - link the official "The Resistance: Avalon" rulebook\n' +
       `\`${COMMAND_PREFIX + COMMAND_STATUS}\`` +
       " - show AvalonBot's status\n" +
       `\`${COMMAND_PREFIX + COMMAND_CHANNEL_INIT}\`` +
       ' - initialize AvalonBot in a channel\n' +
+      `\`${COMMAND_PREFIX + COMMAND_ABOUT}\`` +
+      ' - learn about AvalonBot\n' +
+      `\`${COMMAND_PREFIX + COMMAND_WEBSITE}\`` +
+      " - link AvalonBot's source code\n" +
       '\n**Game lobby commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CREATE}\`` +
       ' - create a game lobby\n' +
@@ -46,6 +50,12 @@ const help = message =>
       ' - transfer admin to another user (if admin)\n'
   );
 
+// Rules
+const rules = message =>
+  message.channel.send(
+    `Linked is the official "The Resistance: Avalon" rulebook: ${AVALON_RULEBOOK_URL}`
+  );
+
 // About
 const about = message =>
   message.channel.send(
@@ -60,7 +70,7 @@ const about = message =>
   );
 
 // Website
-const website = message => message.channel.send(BOT_WEBSITE);
+const website = message => message.channel.send(AVALONBOT_WEBSITE);
 
 // Channel initialization
 const channelInit = message =>
@@ -159,6 +169,7 @@ const lobbyStatus = (message, gameLobby) =>
 
 export default {
   help,
+  rules,
   about,
   website,
   channelInit,

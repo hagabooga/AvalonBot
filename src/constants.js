@@ -1,5 +1,6 @@
-// Bot variables
-export const BOT_WEBSITE = 'https://github.com/hagabooga/AvalonBot';
+// Links
+export const AVALONBOT_WEBSITE = 'https://github.com/hagabooga/AvalonBot';
+export const AVALON_RULEBOOK_URL = 'https://waa.ai/3VX0';
 
 // Channel states
 export const STATE_CHANNEL_LOBBY = 'lobby';
@@ -13,6 +14,7 @@ export const STATE_GAME_LOBBY_STOPPED = 'stopped';
 export const COMMAND_PREFIX = '!';
 export const COMMAND_ABOUT = 'about';
 export const COMMAND_HELP = 'help';
+export const COMMAND_RULES = 'rules';
 export const COMMAND_WEBSITE = 'website';
 export const COMMAND_STATUS = 'status';
 export const COMMAND_CHANNEL_INIT = 'init';

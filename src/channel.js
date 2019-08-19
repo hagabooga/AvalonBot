@@ -4,6 +4,7 @@ import {
   COMMAND_GAME_LOBBY_CREATE,
   COMMAND_HELP,
   COMMAND_PREFIX,
+  COMMAND_RULES,
   COMMAND_STATUS,
   COMMAND_WEBSITE,
   STATE_CHANNEL_GAME,
@@ -47,12 +48,14 @@ class Channel {
   }
 
   handleCommand(message, command) {
-    if (command[0] === COMMAND_WEBSITE) {
-      moderator.website(message);
-    } else if (command[0] === COMMAND_HELP) {
+    if (command[0] === COMMAND_HELP) {
       moderator.help(message);
+    } else if (command[0] === COMMAND_RULES) {
+      moderator.rules(message);
     } else if (command[0] === COMMAND_ABOUT) {
       moderator.about(message);
+    } else if (command[0] === COMMAND_WEBSITE) {
+      moderator.website(message);
     } else if (this.channelState === STATE_CHANNEL_LOBBY) {
       // Send to game lobby message handler
       this.gameLobby.handleCommand(message, command);
