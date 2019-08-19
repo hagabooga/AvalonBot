@@ -1,5 +1,6 @@
 import * as log from 'loglevel';
 import {
+  COMMAND_ABOUT,
   COMMAND_GAME_LOBBY_CREATE,
   COMMAND_HELP,
   COMMAND_PREFIX,
@@ -50,6 +51,8 @@ class Channel {
       moderator.website(message);
     } else if (command[0] === COMMAND_HELP) {
       moderator.help(message);
+    } else if (command[0] === COMMAND_ABOUT) {
+      moderator.about(message);
     } else if (this.channelState === STATE_CHANNEL_LOBBY) {
       // Send to game lobby message handler
       this.gameLobby.handleCommand(message, command);

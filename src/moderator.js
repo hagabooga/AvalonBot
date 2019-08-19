@@ -1,5 +1,6 @@
 import {
   BOT_WEBSITE,
+  COMMAND_ABOUT,
   COMMAND_CHANNEL_INIT,
   COMMAND_GAME_LOBBY_CLAIM_ADMIN,
   COMMAND_GAME_LOBBY_CREATE,
@@ -20,6 +21,8 @@ const help = message =>
   message.channel.send(
     '**Commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_HELP}\` - display this message\n` +
+      `\`${COMMAND_PREFIX + COMMAND_ABOUT}\`` +
+      ' - learn about AvalonBot\n' +
       `\`${COMMAND_PREFIX + COMMAND_WEBSITE}\`` +
       " - link AvalonBot's source code\n" +
       `\`${COMMAND_PREFIX + COMMAND_STATUS}\`` +
@@ -41,6 +44,19 @@ const help = message =>
       ' - kick users from lobby (if admin)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_TRANSFER_ADMIN} @user\`` +
       ' - transfer admin to another user (if admin)\n'
+  );
+
+// About
+const about = message =>
+  message.channel.send(
+    'AvalonBot is a Discord bot which moderates ' +
+      '"The Resistance" and "The Resistance: Avalon" games. ' +
+      'The base ruleset for both games are supported, as well as ' +
+      'the optional "targeting" rule; home-made roles and ' +
+      'customizable quest boards are also included.\n\n' +
+      'AvalonBot is maintained by ' +
+      'Cameron Hu (@hagabooga) and Matt Wiens (@mwiens91) ' +
+      'and is licensed under the GNU General Public License v3.0.'
   );
 
 // Website
@@ -143,6 +159,7 @@ const lobbyStatus = (message, gameLobby) =>
 
 export default {
   help,
+  about,
   website,
   channelInit,
   channelStatus,
