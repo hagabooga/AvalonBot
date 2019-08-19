@@ -209,7 +209,13 @@ const lobbyStatus = async (message, gameLobby) => {
     return str;
   });
 
-  messageToSend += `**Joined players**: ${playerGuildMemberStrings.join(', ')}`;
+  if (playerGuildMemberStrings.length === 0) {
+    messageToSend += '**Joined players**: no joined players';
+  } else {
+    messageToSend += `**Joined players**: ${playerGuildMemberStrings.join(
+      ', '
+    )}`;
+  }
 
   //Send the message
   message.channel.send(messageToSend);
