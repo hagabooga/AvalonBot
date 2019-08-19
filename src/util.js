@@ -9,7 +9,7 @@ const logColors = {
   ERROR: chalk.red,
 };
 
-export const logFormat = {
+const logFormat = {
   format(level, name, timestamp) {
     return `${chalk.bold(`[${timestamp}]`)} ${logColors[level.toUpperCase()](
       level
@@ -17,19 +17,39 @@ export const logFormat = {
   },
 };
 
-export const logFormatCritical = {
+const logFormatCritical = {
   format(level, name, timestamp) {
     return chalk.red.bold(`[${timestamp}] ${level}:`);
   },
 };
 
 // Log representation of common objects
-export const logReprChannel = channel =>
+const logReprChannel = channel =>
   `[Channel id=${channel.id} name='${channel.name}']`;
 
-export const logReprUser = user =>
-  `[User id=${user.id} username='${user.username}']`;
+const logReprUser = user => `[User id=${user.id} username='${user.username}']`;
+
+// Discord API helper functions
+const getUserFromId = async (discordClient, id) => discordClient.fetchUser(id);
+
+const getGuildMemberFromUser = async (guild, user) => guild.fetchMember(user);
+
+const getGuildMemberFromUserId = async (discordClient, guild, id) =>
+  getUserFromId(discordClient, id).then(user =>
+    getGuildMemberFromUser(guild, user)
+  );
 
 // Moderator helper functions
-export const mapUsersToMentions = (users, sep = ' ') =>
+const mapUsersToMentions = (users, sep = ' ') =>
   users.map(user => `<@${user.id}>`).join(sep);
+
+export {
+  logFormat,
+  logFormatCritical,
+  logReprChannel,
+  logReprUser,
+  getUserFromId,
+  getGuildMemberFromUser,
+  getGuildMemberFromUserId,
+  mapUsersToMentions,
+};

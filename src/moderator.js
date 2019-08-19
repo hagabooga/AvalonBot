@@ -16,7 +16,7 @@ import {
   COMMAND_STATUS,
   COMMAND_WEBSITE,
 } from './constants';
-import {mapUsersToMentions} from './util';
+import {getGuildMemberFromUserId, mapUsersToMentions} from './util';
 
 // Help
 const help = message =>
@@ -120,8 +120,12 @@ const lobbyClaimAdmin = message =>
   );
 
 // Attempted admin claim but there's already an admin
-const lobbyFailedClaimAdmin = async (message, adminGuildMemberPromise) => {
-  let adminGuildMember = await adminGuildMemberPromise;
+const lobbyFailedClaimAdmin = async (message, discordClient, adminId) => {
+  let adminGuildMember = await getGuildMemberFromUserId(
+    discordClient,
+    message.guild,
+    adminId
+  );
 
   message.channel.send(
     `**${adminGuildMember.displayName}** is already the lobby admin!`
@@ -129,8 +133,12 @@ const lobbyFailedClaimAdmin = async (message, adminGuildMemberPromise) => {
 };
 
 // Lobby admin transfer
-const lobbyTransferAdmin = async (message, newAdminGuildMemberPromise) => {
-  let newAdminGuildMember = await newAdminGuildMemberPromise;
+const lobbyTransferAdmin = async (message, discordClient, newAdminId) => {
+  let newAdminGuildMember = await getGuildMemberFromUserId(
+    discordClient,
+    message.guild,
+    newAdminId
+  );
 
   message.channel.send(
     `**${newAdminGuildMember.displayName}** is now the game lobby admin!`

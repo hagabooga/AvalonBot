@@ -93,7 +93,8 @@ class GameLobby {
       } else {
         moderator.lobbyFailedClaimAdmin(
           message,
-          this.getAdminGuildMember(message.guild)
+          this.client,
+          this.lobbyAdminId
         );
       }
     } else if (this.playerIsAdmin(message.author)) {
@@ -143,10 +144,7 @@ class GameLobby {
         if (newAdminUser.id !== this.lobbyAdminId) {
           this.setAdmin(newAdminUser, message.channel);
 
-          moderator.lobbyTransferAdmin(
-            message,
-            this.getAdminGuildMember(message.guild)
-          );
+          moderator.lobbyTransferAdmin(message, this.client, newAdminUser.id);
         }
       }
     }
@@ -190,14 +188,6 @@ class GameLobby {
 
   removePlayers(users, channel) {
     users.forEach(user => this.removePlayer(user, channel));
-  }
-
-  async getAdminUser() {
-    return this.client.fetchUser(this.lobbyAdminId);
-  }
-
-  async getAdminGuildMember(guild) {
-    return guild.fetchMember(await this.getAdminUser());
   }
 
   setAdmin(user, channel) {
