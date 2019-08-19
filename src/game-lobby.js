@@ -155,7 +155,7 @@ class GameLobby {
   }
 
   playerIsAdmin(user) {
-    return this.lobbyAdminId === user.id;
+    return user.id === this.lobbyAdminId;
   }
 
   addPlayer(user, channel) {
@@ -172,7 +172,7 @@ class GameLobby {
 
   removePlayer(user, channel) {
     // Remove adminship if admin is removed
-    if (this.lobbyAdminId === user.id) {
+    if (user.id === this.lobbyAdminId) {
       this.unsetAdmin(user, channel);
     }
 
