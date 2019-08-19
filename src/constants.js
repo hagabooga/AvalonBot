@@ -30,8 +30,8 @@ export const COMMAND_GAME_LOBBY_STOP = 'stop';
 export const COMMAND_GAME_LOBBY_KICK = 'kick';
 
 // Game settings
-export const MIN_AVALON_PLAYERS = 5;
-export const MAX_AVALON_PLAYERS = 10;
+export const GAME_SETTINGS_MIN_AVALON_PLAYERS = 5;
+export const GAME_SETTINGS_MAX_AVALON_PLAYERS = 10;
 
 // Team names
 export const RESISTANCE_TEAM = 'resistance';

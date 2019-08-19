@@ -9,6 +9,8 @@ import {
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_STATUS,
+  GAME_SETTINGS_MAX_AVALON_PLAYERS,
+  GAME_SETTINGS_MIN_AVALON_PLAYERS,
   STATE_GAME_LOBBY_ACCEPTING_PLAYERS,
   STATE_GAME_LOBBY_STOPPED,
 } from './constants';
@@ -150,7 +152,19 @@ class GameLobby {
         }
       }
     } else if (command[0] === COMMAND_GAME_LOBBY_START) {
-      // Go into game setup phase
+      // Attempting to start game. First ensure we have sufficiently
+      // many (and sufficiently few) players
+      if (this.players.length < GAME_SETTINGS_MIN_AVALON_PLAYERS) {
+        moderator.lobbyStartNotEnoughPlayers(message);
+
+        return;
+      } else if (this.players.length > GAME_SETTINGS_MAX_AVALON_PLAYERS) {
+        moderator.lobbyStartTooManyPlayers(message);
+
+        return;
+      }
+
+      // Good amount of players
       // TODO
       moderator.lobbyStart(message);
     }

@@ -16,6 +16,8 @@ import {
   COMMAND_RULES,
   COMMAND_STATUS,
   COMMAND_WEBSITE,
+  GAME_SETTINGS_MAX_AVALON_PLAYERS,
+  GAME_SETTINGS_MIN_AVALON_PLAYERS,
   STATE_GAME_LOBBY_ACCEPTING_PLAYERS,
 } from './constants';
 import {getGuildMemberFromUserId, mapUsersToMentions} from './util';
@@ -169,6 +171,20 @@ const lobbyStop = message =>
 const lobbyStart = message =>
   message.channel.send('NOT IMPLEMENTED (i show soon)');
 
+// Lobby start attempted but not enough players
+const lobbyStartNotEnoughPlayers = message =>
+  message.channel.send(
+    'Cannot start game without at least ' +
+      `**${GAME_SETTINGS_MIN_AVALON_PLAYERS} players**!`
+  );
+
+// Lobby start attempted but too many players
+const lobbyStartTooManyPlayers = message =>
+  message.channel.send(
+    'Cannot start game with more than ' +
+      `**${GAME_SETTINGS_MAX_AVALON_PLAYERS} players**!`
+  );
+
 // Lobby kick
 const lobbyKick = (message, users) =>
   message.channel.send(
@@ -236,6 +252,8 @@ export default {
   lobbyLeave,
   lobbyStop,
   lobbyStart,
+  lobbyStartNotEnoughPlayers,
+  lobbyStartTooManyPlayers,
   lobbyKick,
   lobbyStatus,
 };
