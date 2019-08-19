@@ -25,8 +25,13 @@ export const COMMAND_GAME_LOBBY_FORCE_JOIN = 'forcejoin';
 export const COMMAND_GAME_LOBBY_CLAIM_ADMIN = 'admin';
 export const COMMAND_GAME_LOBBY_TRANSFER_ADMIN = 'transferadmin';
 export const COMMAND_GAME_LOBBY_LEAVE = 'leave';
+export const COMMAND_GAME_LOBBY_START = 'start';
 export const COMMAND_GAME_LOBBY_STOP = 'stop';
 export const COMMAND_GAME_LOBBY_KICK = 'kick';
+
+// Game settings
+export const MIN_AVALON_PLAYERS = 5;
+export const MAX_AVALON_PLAYERS = 10;
 
 // Team names
 export const RESISTANCE_TEAM = 'resistance';

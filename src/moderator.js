@@ -8,6 +8,7 @@ import {
   COMMAND_GAME_LOBBY_JOIN,
   COMMAND_GAME_LOBBY_KICK,
   COMMAND_GAME_LOBBY_LEAVE,
+  COMMAND_GAME_LOBBY_START,
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_HELP,
@@ -45,6 +46,8 @@ const help = message =>
       ' - stop a game lobby\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CLAIM_ADMIN}\`` +
       ' - claim lobby admin (if available)\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_START}\`` +
+      ' - start a game (if admin)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_KICK} @user1 @user2 ...\`` +
       ' - kick users from lobby (if admin)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_TRANSFER_ADMIN} @user\`` +
@@ -161,6 +164,11 @@ const lobbyStop = message =>
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CREATE}\` to start a new one.`
   );
 
+// Lobby start
+// TODO
+const lobbyStart = message =>
+  message.channel.send('NOT IMPLEMENTED (i show soon)');
+
 // Lobby kick
 const lobbyKick = (message, users) =>
   message.channel.send(
@@ -224,6 +232,7 @@ export default {
   lobbyFailedTransferAdmin,
   lobbyLeave,
   lobbyStop,
+  lobbyStart,
   lobbyKick,
   lobbyStatus,
 };

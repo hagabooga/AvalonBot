@@ -5,6 +5,7 @@ import {
   COMMAND_GAME_LOBBY_JOIN,
   COMMAND_GAME_LOBBY_KICK,
   COMMAND_GAME_LOBBY_LEAVE,
+  COMMAND_GAME_LOBBY_START,
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_STATUS,
@@ -148,6 +149,10 @@ class GameLobby {
           moderator.lobbyTransferAdmin(message, this.client, newAdminUser.id);
         }
       }
+    } else if (command[0] === COMMAND_GAME_LOBBY_START) {
+      // Go into game setup phase
+      // TODO
+      moderator.lobbyStart(message);
     }
   }
 
