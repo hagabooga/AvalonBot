@@ -34,10 +34,6 @@ class Channel {
     // Reactions - these are just for fun
     if (message.content === 'leg') {
       message.react('🍗');
-    } else if (message.content === 'trash') {
-      message.react('🗑');
-    } else if (message.content === 'cloud pussy') {
-      message.react('☁').then(() => message.react('🐈'));
     }
 
     // Parse the command if it's a command; else ignore
