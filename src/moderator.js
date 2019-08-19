@@ -15,6 +15,7 @@ import {
   COMMAND_RULES,
   COMMAND_STATUS,
   COMMAND_WEBSITE,
+  STATE_GAME_LOBBY_ACCEPTING_PLAYERS,
 } from './constants';
 import {getGuildMemberFromUserId, mapUsersToMentions} from './util';
 
@@ -168,12 +169,43 @@ const lobbyKick = (message, users) =>
   );
 
 // Lobby status
-// TODO give lots more info here
-const lobbyStatus = (message, gameLobby) =>
-  message.channel.send(
-    'A game lobby is currently accepting players. Type ' +
-      `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_JOIN}\` to join!`
+const lobbyStatus = async (message, gameLobby) => {
+  // Build up a message to send and then send it
+  let messageToSend = '';
+
+  // The first bit of the message shows the channel state
+  if (gameLobby.gameLobbyState === STATE_GAME_LOBBY_ACCEPTING_PLAYERS) {
+    messageToSend +=
+      'A game lobby is currently accepting players. Type ' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_JOIN}\` to join!`;
+  }
+
+  // Add some whitespace
+  messageToSend += '\n\n';
+
+  // List the players that have joined
+  let playerGuildMemberPromises = gameLobby.players.map(playerId =>
+    getGuildMemberFromUserId(gameLobby.client, message.guild, playerId)
   );
+  let playerGuildMembers = await Promise.all(playerGuildMemberPromises);
+  let playerGuildMemberStrings = playerGuildMembers.map(member => {
+    let str = '';
+
+    // Show a crown if lobby admin
+    if (member.id === gameLobby.lobbyAdminId) {
+      str += '👑';
+    }
+
+    str += member.displayName;
+
+    return str;
+  });
+
+  messageToSend += `**Joined players**: ${playerGuildMemberStrings.join(', ')}`;
+
+  //Send the message
+  message.channel.send(messageToSend);
+};
 
 export default {
   help,

@@ -7,6 +7,7 @@ export const STATE_CHANNEL_LOBBY = 'lobby';
 export const STATE_CHANNEL_GAME = 'game';
 
 // Game lobby states
+export const STATE_GAME_LOBBY_ACCEPTING_PLAYERS = 'accepting players';
 export const STATE_GAME_LOBBY_STOPPED = 'stopped';
 
 // Commands. The values here are the actual commands, but they need to

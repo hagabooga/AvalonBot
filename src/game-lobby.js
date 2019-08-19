@@ -8,6 +8,7 @@ import {
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_STATUS,
+  STATE_GAME_LOBBY_ACCEPTING_PLAYERS,
   STATE_GAME_LOBBY_STOPPED,
 } from './constants';
 import moderator from './moderator';
@@ -19,7 +20,7 @@ class GameLobby {
     this.client = client;
 
     // Game lobby state
-    this.gameLobbyState = null;
+    this.gameLobbyState = STATE_GAME_LOBBY_ACCEPTING_PLAYERS;
 
     // Setting for whether to allow the force join command
     this.forceJoinEnabled = forceJoinEnabled;
