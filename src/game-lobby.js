@@ -12,6 +12,7 @@ import {
   GAME_SETTINGS_MAX_AVALON_PLAYERS,
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
   STATE_GAME_LOBBY_ACCEPTING_PLAYERS,
+  STATE_GAME_LOBBY_READY,
   STATE_GAME_LOBBY_STOPPED,
 } from './constants';
 import moderator from './moderator';
@@ -224,6 +225,15 @@ class GameLobby {
     );
 
     this.lobbyAdminId = null;
+  }
+
+  readyLobby(channel) {
+    log.debug(
+      `setting game lobby state to '${STATE_GAME_LOBBY_READY}'` +
+        `in ${logReprChannel(channel)}`
+    );
+
+    this.gameLobbyState = STATE_GAME_LOBBY_READY;
   }
 
   stopLobby(channel) {

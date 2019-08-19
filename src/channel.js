@@ -9,9 +9,12 @@ import {
   COMMAND_WEBSITE,
   STATE_CHANNEL_GAME,
   STATE_CHANNEL_LOBBY,
+  STATE_CHANNEL_SETUP,
+  STATE_GAME_LOBBY_READY,
   STATE_GAME_LOBBY_STOPPED,
 } from './constants';
 import GameLobby from './game-lobby';
+import GameSetup from './game-setup';
 import moderator from './moderator';
 import {logReprChannel} from './util';
 
@@ -27,9 +30,10 @@ class Channel {
     // lobbies
     this.forceJoinEnabled = forceJoinEnabled;
 
-    // Current game xor lobby
-    this.game = null;
+    // Current game lobby, game setup, or game
     this.gameLobby = null;
+    this.gameSetup = null;
+    this.game = null;
   }
 
   handleMessage(message) {
@@ -63,7 +67,13 @@ class Channel {
       // Check lobby state and take appropriate actions
       if (this.gameLobby.gameLobbyState === STATE_GAME_LOBBY_STOPPED) {
         this.removeLobby(message);
+      } else if (this.gameLobby.gameLobbyState === STATE_GAME_LOBBY_READY) {
+        this.removeLobby(message);
+        this.createGameSetup(message);
       }
+    } else if (this.channelState === STATE_CHANNEL_SETUP) {
+      // Send to game setup message handler
+      this.gameSetup.handleCommand(message, command);
     } else if (this.channelState === STATE_CHANNEL_GAME) {
       // TODO send message to game message handler
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
@@ -90,6 +100,20 @@ class Channel {
 
     this.channelState = null;
     this.gameLobby = null;
+  }
+
+  createGameSetup(message) {
+    log.debug(`creating game setup in ${logReprChannel(message.channel)}`);
+
+    this.channelState = STATE_CHANNEL_SETUP;
+    this.gameSetup = new GameSetup(message);
+  }
+
+  removeGameSetup(message) {
+    log.debug(`removing game setup in ${logReprChannel(message.channel)}`);
+
+    this.channelState = null;
+    this.gameSetup = null;
   }
 }
 

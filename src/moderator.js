@@ -18,7 +18,6 @@ import {
   COMMAND_WEBSITE,
   GAME_SETTINGS_MAX_AVALON_PLAYERS,
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
-  STATE_GAME_LOBBY_ACCEPTING_PLAYERS,
 } from './constants';
 import {getGuildMemberFromUserId, mapUsersToMentions} from './util';
 
@@ -166,11 +165,6 @@ const lobbyStop = message =>
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CREATE}\` to start a new one.`
   );
 
-// Lobby start
-// TODO
-const lobbyStart = message =>
-  message.channel.send('NOT IMPLEMENTED (i show soon)');
-
 // Lobby start attempted but not enough players
 const lobbyStartNotEnoughPlayers = message =>
   message.channel.send(
@@ -249,7 +243,6 @@ export default {
   lobbyFailedTransferAdmin,
   lobbyLeave,
   lobbyStop,
-  lobbyStart,
   lobbyStartNotEnoughPlayers,
   lobbyStartTooManyPlayers,
   lobbyKick,
