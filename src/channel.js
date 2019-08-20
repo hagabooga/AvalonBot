@@ -83,6 +83,9 @@ class Channel {
       // Check game setup state and take appropriate actions
       if (this.gameSetup.state === STATE_GAME_SETUP_STOPPED) {
         this.removeGameSetup(message);
+      } else if (this.gameSetup.state === STATE_GAME_SETUP_READY) {
+        // TODO create a game
+        this.removeGameSetup(message);
       }
     } else if (this.state === STATE_CHANNEL_GAME) {
       // TODO send message to game message handler
@@ -121,6 +124,19 @@ class Channel {
 
   removeGameSetup(message) {
     log.debug(`removing game setup in ${logReprChannel(message.channel)}`);
+
+    this.state = null;
+    this.gameSetup = null;
+  }
+
+  createGame(message) {
+    log.debug(`creating game in ${logReprChannel(message.channel)}`);
+
+    this.state = STATE_CHANNEL_GAME;
+  }
+
+  removeGame(message) {
+    log.debug(`removing game in ${logReprChannel(message.channel)}`);
 
     this.state = null;
     this.gameSetup = null;

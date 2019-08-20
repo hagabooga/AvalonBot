@@ -14,6 +14,7 @@ export const STATE_GAME_LOBBY_STOPPED = 'stopped';
 
 // Game setup states
 export const STATE_GAME_SETUP_CHOOSING_RULESET = 'choosing ruleset';
+export const STATE_GAME_SETUP_CHOOSING_ROLES = 'choosing roles';
 export const STATE_GAME_SETUP_READY = 'ready';
 export const STATE_GAME_SETUP_STOPPED = 'stopped';
 

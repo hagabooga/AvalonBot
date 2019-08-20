@@ -11,6 +11,7 @@ import {
   GAME_RULESET_RESISTANCE_OPTION_NUM,
   GAME_RULESET_RESISTANCE_WITH_TARGETING,
   GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM,
+  STATE_GAME_SETUP_CHOOSING_ROLES,
   STATE_GAME_SETUP_CHOOSING_RULESET,
   STATE_GAME_SETUP_READY,
   STATE_GAME_SETUP_STOPPED,
@@ -88,6 +89,17 @@ class GameSetup {
         }
 
         moderator.gameSetupChooseRulesetConfirmation(message, this.ruleset);
+
+        // Go to role picking state
+        // TODO code this
+        message.channel.send(
+          'SHOULD HAVE ROLE PICKING STUFF HERE BUT GOING TO CODE SOME GAME STUFF FIRST'
+        );
+        this.setState(message.channel, STATE_GAME_SETUP_CHOOSING_ROLES);
+
+        // TODO for now skip role picking state, go straight into game
+        // TODO delete me later
+        this.setState(message.channel, STATE_GAME_SETUP_READY);
       }
     }
   }
