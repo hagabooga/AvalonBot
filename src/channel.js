@@ -68,8 +68,11 @@ class Channel {
       if (this.gameLobby.state === STATE_GAME_LOBBY_STOPPED) {
         this.removeLobby(message);
       } else if (this.gameLobby.state === STATE_GAME_LOBBY_READY) {
+        let adminId = this.gameLobby.admin;
+        let playerIds = this.gameLobby.players;
+
         this.removeLobby(message);
-        this.createGameSetup(message);
+        this.createGameSetup(message, adminId, playerIds);
       }
     } else if (this.state === STATE_CHANNEL_SETUP) {
       // Send to game setup message handler
@@ -102,11 +105,11 @@ class Channel {
     this.gameLobby = null;
   }
 
-  createGameSetup(message) {
+  createGameSetup(message, adminId, playerIds) {
     log.debug(`creating game setup in ${logReprChannel(message.channel)}`);
 
     this.state = STATE_CHANNEL_SETUP;
-    this.gameSetup = new GameSetup(message);
+    this.gameSetup = new GameSetup(this.client, adminId, playerIds);
   }
 
   removeGameSetup(message) {
