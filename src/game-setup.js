@@ -11,7 +11,7 @@ import moderator from './moderator';
 import {logReprChannel} from './util';
 
 class GameSetup {
-  constructor(client, adminId, playerIds) {
+  constructor(message, client, adminId, playerIds) {
     // The bot client
     this.client = client;
 
@@ -26,6 +26,9 @@ class GameSetup {
 
     // The game ruleset
     this.ruleset = null;
+
+    // Send welcome message
+    moderator.gameSetupIntroduction(message, this.admin);
   }
 
   handleCommand(message, command) {

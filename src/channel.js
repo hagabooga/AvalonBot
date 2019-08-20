@@ -116,7 +116,7 @@ class Channel {
     log.debug(`creating game setup in ${logReprChannel(message.channel)}`);
 
     this.state = STATE_CHANNEL_SETUP;
-    this.gameSetup = new GameSetup(this.client, adminId, playerIds);
+    this.gameSetup = new GameSetup(message, this.client, adminId, playerIds);
   }
 
   removeGameSetup(message) {

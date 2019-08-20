@@ -226,6 +226,10 @@ const lobbyStatus = async (message, gameLobby) => {
   message.channel.send(messageToSend);
 };
 
+// Game setup introduction
+const gameSetupIntroduction = (message, adminId) =>
+  message.channel.send(`Game setup has started! <@${adminId}>, you're up!`);
+
 // Game setup stop
 const gameSetupStop = message =>
   message.channel.send(
@@ -280,6 +284,7 @@ export default {
   lobbyStartTooManyPlayers,
   lobbyKick,
   lobbyStatus,
+  gameSetupIntroduction,
   gameSetupStop,
   gameSetupStatus,
 };
