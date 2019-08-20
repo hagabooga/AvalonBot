@@ -2,6 +2,7 @@ import {
   AVALON_RULEBOOK_URL,
   AVALONBOT_WEBSITE,
   COMMAND_ABOUT,
+  COMMAND_CHANNEL_DEINIT,
   COMMAND_CHANNEL_INIT,
   COMMAND_GAME_LOBBY_CLAIM_ADMIN,
   COMMAND_GAME_LOBBY_CREATE,
@@ -37,6 +38,8 @@ const help = message =>
       " - show AvalonBot's status\n" +
       `\`${COMMAND_PREFIX + COMMAND_CHANNEL_INIT}\`` +
       ' - initialize AvalonBot in a channel\n' +
+      `\`${COMMAND_PREFIX + COMMAND_CHANNEL_DEINIT}\`` +
+      ' - remove AvalonBot from a channel\n' +
       `\`${COMMAND_PREFIX + COMMAND_ABOUT}\`` +
       ' - learn about AvalonBot\n' +
       `\`${COMMAND_PREFIX + COMMAND_WEBSITE}\`` +
@@ -92,6 +95,12 @@ const channelInit = message =>
       'To start a game lobby type ' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CREATE}\`. ` +
       `Type \`${COMMAND_PREFIX + COMMAND_HELP}\` for help.`
+  );
+
+// Channel deinitialization
+const channelDeinit = message =>
+  message.channel.send(
+    `AvalonBot decommisioned in <#${message.channel.id}>.`
   );
 
 // Channel status (when neither game lobby nor game are active)
@@ -269,6 +278,7 @@ export default {
   about,
   website,
   channelInit,
+  channelDeinit,
   channelStatus,
   lobbyCreate,
   lobbyJoin,

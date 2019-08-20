@@ -26,6 +26,7 @@ export const COMMAND_RULES = 'rules';
 export const COMMAND_WEBSITE = 'website';
 export const COMMAND_STATUS = 'status';
 export const COMMAND_CHANNEL_INIT = 'init';
+export const COMMAND_CHANNEL_DEINIT = 'deinit';
 export const COMMAND_GAME_LOBBY_CREATE = 'avalon';
 export const COMMAND_GAME_LOBBY_JOIN = 'join';
 export const COMMAND_GAME_LOBBY_FORCE_JOIN = 'forcejoin';

@@ -3,7 +3,11 @@ import dotenv from 'dotenv';
 import * as log from 'loglevel';
 import prefix from 'loglevel-plugin-prefix';
 import Channel from './channel';
-import {COMMAND_CHANNEL_INIT, COMMAND_PREFIX} from './constants';
+import {
+  COMMAND_CHANNEL_DEINIT,
+  COMMAND_CHANNEL_INIT,
+  COMMAND_PREFIX,
+} from './constants';
 import moderator from './moderator';
 import {logFormat, logFormatCritical, logReprChannel} from './util';
 
@@ -30,8 +34,17 @@ const client = new Discord.Client();
 // Message handling
 client.on('message', message => {
   if (message.channel.id in channels) {
-    // Send message to channel message handler
-    channels[message.channel.id].handleMessage(message);
+    if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_DEINIT) {
+      // Remove the channel
+      delete channels[message.channel.id];
+
+      log.debug(`removing ${logReprChannel(message.channel)}`);
+
+      moderator.channelDeinit(message);
+    } else {
+      // Send message to channel message handler
+      channels[message.channel.id].handleMessage(message);
+    }
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
     channels[message.channel.id] = new Channel(client, forceJoinEnabled);
