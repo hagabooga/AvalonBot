@@ -19,7 +19,7 @@ export const STATE_GAME_SETUP_READY = 'ready';
 export const STATE_GAME_SETUP_STOPPED = 'stopped';
 
 // Commands. The values here are the actual commands, but they need to
-// be proceeded by COMMAND_PREFIX.
+// be preceded by COMMAND_PREFIX.
 export const COMMAND_PREFIX = '!';
 export const COMMAND_ABOUT = 'about';
 export const COMMAND_HELP = 'help';
