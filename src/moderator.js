@@ -11,6 +11,7 @@ import {
   COMMAND_GAME_LOBBY_START,
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
+  COMMAND_GAME_SETUP_STOP,
   COMMAND_HELP,
   COMMAND_PREFIX,
   COMMAND_RULES,
@@ -56,7 +57,10 @@ const help = message =>
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_KICK} @user1 @user2 ...\`` +
       ' - kick users from lobby (if admin)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_TRANSFER_ADMIN} @user\`` +
-      ' - transfer admin to another user (if admin)\n'
+      ' - transfer admin to another user (if admin)\n' +
+      '\n**Game setup commands**\n\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_STOP}\`` +
+      ' - stop game setup\n'
   );
 
 // Rules
@@ -222,6 +226,14 @@ const lobbyStatus = async (message, gameLobby) => {
   message.channel.send(messageToSend);
 };
 
+// Game setup stop
+const gameSetupStop = message =>
+  message.channel.send(
+    'Game setup has been stopped! Type ' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CREATE}\` ` +
+      'to start a new game lobby.'
+  );
+
 // Game setup status
 const gameSetupStatus = async (message, gameSetup) => {
   // Get the admin member and a list of joined players
@@ -268,5 +280,6 @@ export default {
   lobbyStartTooManyPlayers,
   lobbyKick,
   lobbyStatus,
+  gameSetupStop,
   gameSetupStatus,
 };

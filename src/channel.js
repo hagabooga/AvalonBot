@@ -12,6 +12,8 @@ import {
   STATE_CHANNEL_SETUP,
   STATE_GAME_LOBBY_READY,
   STATE_GAME_LOBBY_STOPPED,
+  STATE_GAME_SETUP_READY,
+  STATE_GAME_SETUP_STOPPED,
 } from './constants';
 import GameLobby from './game-lobby';
 import GameSetup from './game-setup';
@@ -77,6 +79,11 @@ class Channel {
     } else if (this.state === STATE_CHANNEL_SETUP) {
       // Send to game setup message handler
       this.gameSetup.handleCommand(message, command);
+
+      // Check game setup state and take appropriate actions
+      if (this.gameSetup.state === STATE_GAME_SETUP_STOPPED) {
+        this.removeGameSetup(message);
+      }
     } else if (this.state === STATE_CHANNEL_GAME) {
       // TODO send message to game message handler
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
