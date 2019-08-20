@@ -339,14 +339,14 @@ const gameSetupStatus = async (message, gameSetup) => {
     ', '
   );
 
+  messageToSend += `**Players**: ${playerListString}\n`;
+
   // List the ruleset
   if (gameSetup.ruleset === null) {
     messageToSend += '**Ruleset**: not yet selected\n';
   } else {
     messageToSend += `**Ruleset**: ${gameSetup.ruleset}\n`;
   }
-
-  messageToSend += `**Players**: ${playerListString}\n`;
 
   // Show game board
   messageToSend += '**Game board**: show game board here\n';
