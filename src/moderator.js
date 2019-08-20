@@ -12,12 +12,21 @@ import {
   COMMAND_GAME_LOBBY_START,
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
+  COMMAND_GAME_SETUP_CHOOSE,
   COMMAND_GAME_SETUP_STOP,
   COMMAND_HELP,
   COMMAND_PREFIX,
   COMMAND_RULES,
   COMMAND_STATUS,
   COMMAND_WEBSITE,
+  GAME_RULESET_AVALON,
+  GAME_RULESET_AVALON_OPTION_NUM,
+  GAME_RULESET_AVALON_WITH_TARGETING,
+  GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM,
+  GAME_RULESET_RESISTANCE,
+  GAME_RULESET_RESISTANCE_OPTION_NUM,
+  GAME_RULESET_RESISTANCE_WITH_TARGETING,
+  GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM,
   GAME_SETTINGS_MAX_AVALON_PLAYERS,
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
 } from './constants';
@@ -99,9 +108,7 @@ const channelInit = message =>
 
 // Channel deinitialization
 const channelDeinit = message =>
-  message.channel.send(
-    `AvalonBot decommisioned in <#${message.channel.id}>.`
-  );
+  message.channel.send(`AvalonBot decommisioned in <#${message.channel.id}>.`);
 
 // Channel status (when neither game lobby nor game are active)
 const channelStatus = message =>
@@ -239,6 +246,22 @@ const lobbyStatus = async (message, gameLobby) => {
 const gameSetupIntroduction = (message, adminId) =>
   message.channel.send(`Game setup has started! <@${adminId}>, you're up!`);
 
+// Game setup choose ruleset
+const gameSetupChooseRuleset = (message, adminId) =>
+  message.channel.send(
+    'Please select the game ruleset:\n\n' +
+      `${GAME_RULESET_AVALON_OPTION_NUM}. ${GAME_RULESET_AVALON}\n` +
+      `${GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM}. ${GAME_RULESET_AVALON_WITH_TARGETING}\n` +
+      `${GAME_RULESET_RESISTANCE_OPTION_NUM}. ${GAME_RULESET_RESISTANCE}\n` +
+      `${GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM}. ${GAME_RULESET_RESISTANCE_WITH_TARGETING}\n\n` +
+      `<@${adminId}>, type \`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CHOOSE}\` ` +
+      'followed by the option number you would like to select.'
+  );
+
+// Game setup choose ruleset echo
+const gameSetupChooseRulesetConfirmation = (message, ruleset) =>
+  message.channel.send(`**${ruleset}** ruleset selected.`);
+
 // Game setup stop
 const gameSetupStop = message =>
   message.channel.send(
@@ -295,6 +318,8 @@ export default {
   lobbyKick,
   lobbyStatus,
   gameSetupIntroduction,
+  gameSetupChooseRuleset,
+  gameSetupChooseRulesetConfirmation,
   gameSetupStop,
   gameSetupStatus,
 };

@@ -44,11 +44,16 @@ export const GAME_SETTINGS_MIN_AVALON_PLAYERS = 5;
 export const GAME_SETTINGS_MAX_AVALON_PLAYERS = 10;
 
 // Game rulesets
-export const GAME_RULESET_AVALON = 'avalon';
-export const GAME_RULESET_AVALON_WITH_TARGETING = 'avalon with targeting';
-export const GAME_RULESET_RESISTANCE = 'resistance';
+export const GAME_RULESET_AVALON = 'The Resistance: Avalon';
+export const GAME_RULESET_AVALON_WITH_TARGETING =
+  'The Resistance: Avalon (with targeting)';
+export const GAME_RULESET_RESISTANCE = 'The Resistance';
 export const GAME_RULESET_RESISTANCE_WITH_TARGETING =
-  'resistance with targeting';
+  'The Resistance (with targeting)';
+export const GAME_RULESET_AVALON_OPTION_NUM = '1';
+export const GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM = '2';
+export const GAME_RULESET_RESISTANCE_OPTION_NUM = '3';
+export const GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM = '4';
 
 // Team names
 export const RESISTANCE_TEAM = 'resistance';

@@ -1,11 +1,19 @@
 import * as log from 'loglevel';
 import {
-  COMMAND_STATUS,
   COMMAND_GAME_SETUP_CHOOSE,
   COMMAND_GAME_SETUP_STOP,
+  COMMAND_STATUS,
+  GAME_RULESET_AVALON,
+  GAME_RULESET_AVALON_OPTION_NUM,
+  GAME_RULESET_AVALON_WITH_TARGETING,
+  GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM,
+  GAME_RULESET_RESISTANCE,
+  GAME_RULESET_RESISTANCE_OPTION_NUM,
+  GAME_RULESET_RESISTANCE_WITH_TARGETING,
+  GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM,
   STATE_GAME_SETUP_CHOOSING_RULESET,
-  STATE_GAME_SETUP_STOPPED,
   STATE_GAME_SETUP_READY,
+  STATE_GAME_SETUP_STOPPED,
 } from './constants';
 import moderator from './moderator';
 import {logReprChannel} from './util';
@@ -29,6 +37,7 @@ class GameSetup {
 
     // Send welcome message
     moderator.gameSetupIntroduction(message, this.admin);
+    moderator.gameSetupChooseRuleset(message, this.admin);
   }
 
   handleCommand(message, command) {
@@ -53,7 +62,35 @@ class GameSetup {
     }
   }
 
-  handleAdminCommand(message, command) {}
+  handleAdminCommand(message, command) {
+    if (command[0] === COMMAND_GAME_SETUP_CHOOSE) {
+      // Choose command
+
+      if (this.state === STATE_GAME_SETUP_CHOOSING_RULESET) {
+        // Ruleset selection
+        if (command[1] === GAME_RULESET_AVALON_OPTION_NUM) {
+          this.setRuleset(message.channel, GAME_RULESET_AVALON);
+        } else if (
+          command[1] === GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM
+        ) {
+          this.setRuleset(message.channel, GAME_RULESET_AVALON_WITH_TARGETING);
+        } else if (command[1] === GAME_RULESET_RESISTANCE_OPTION_NUM) {
+          this.setRuleset(message.channel, GAME_RULESET_RESISTANCE);
+        } else if (
+          command[1] === GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM
+        ) {
+          this.setRuleset(
+            message.channel,
+            GAME_RULESET_RESISTANCE_WITH_TARGETING
+          );
+        } else {
+          return;
+        }
+
+        moderator.gameSetupChooseRulesetConfirmation(message, this.ruleset);
+      }
+    }
+  }
 
   playerIsJoined(user) {
     return this.players.includes(user.id);
@@ -69,6 +106,14 @@ class GameSetup {
     );
 
     this.state = state;
+  }
+
+  setRuleset(channel, ruleset) {
+    log.debug(
+      `setting game setup ruleset to '${ruleset}' in ${logReprChannel(channel)}`
+    );
+
+    this.ruleset = ruleset;
   }
 }
 
