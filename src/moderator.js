@@ -222,6 +222,31 @@ const lobbyStatus = async (message, gameLobby) => {
   message.channel.send(messageToSend);
 };
 
+// Game setup status
+const gameSetupStatus = async (message, gameSetup) => {
+  // Get the admin member and a list of joined players
+  let adminGuildMember = await getGuildMemberFromUserId(
+    gameSetup.client,
+    message.guild,
+    gameSetup.admin
+  );
+  let playerListString = await mapPlayerIdsToPlayersList(
+    message,
+    gameSetup.client,
+    gameSetup.players,
+    gameSetup.admin,
+    ', '
+  );
+
+  //Send the message
+  message.channel.send(
+    `Hang tight. **${adminGuildMember.displayName}** is currently ` +
+      'setting up the game.\n\n' +
+      `**Players**: ${playerListString}\n` +
+      '**Game board**: show game board here'
+  );
+};
+
 export default {
   help,
   rules,
@@ -243,4 +268,5 @@ export default {
   lobbyStartTooManyPlayers,
   lobbyKick,
   lobbyStatus,
+  gameSetupStatus,
 };

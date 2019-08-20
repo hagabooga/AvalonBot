@@ -1,5 +1,6 @@
 import * as log from 'loglevel';
 import {
+  COMMAND_STATUS,
   STATE_GAME_SETUP_SETTING_UP,
   STATE_GAME_SETUP_STOPPED,
   STATE_GAME_SETUP_READY,
@@ -22,7 +23,10 @@ class GameSetup {
   }
 
   handleCommand(message, command) {
-    message.channel.send('test');
+    if (command[0] === COMMAND_STATUS) {
+      // Inform the player about the status of the lobby
+      moderator.gameSetupStatus(message, this);
+    }
   }
 }
 
