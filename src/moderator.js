@@ -218,10 +218,7 @@ const lobbyStatus = async (message, gameLobby) => {
   // The first bit of the message shows the channel state
   messageToSend +=
     'A game lobby is currently accepting players. Type ' +
-    `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_JOIN}\` to join!`;
-
-  // Add some whitespace
-  messageToSend += '\n\n';
+    `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_JOIN}\` to join!\n\n`;
 
   // List the players that have joined
   let playerListString = await mapPlayerIdsToPlayersList(
@@ -272,12 +269,21 @@ const gameSetupStop = message =>
 
 // Game setup status
 const gameSetupStatus = async (message, gameSetup) => {
-  // Get the admin member and a list of joined players
+  // Build up a message to send and then send it
+  let messageToSend = '';
+
+  // Introductory message
   let adminGuildMember = await getGuildMemberFromUserId(
     gameSetup.client,
     message.guild,
     gameSetup.admin
   );
+
+  messageToSend +=
+    `Hang tight. **${adminGuildMember.displayName}** is currently ` +
+    'setting up the game.\n\n';
+
+  // List the players
   let playerListString = await mapPlayerIdsToPlayersList(
     message,
     gameSetup.client,
@@ -286,13 +292,20 @@ const gameSetupStatus = async (message, gameSetup) => {
     ', '
   );
 
+  // List the ruleset
+  if (gameSetup.ruleset === null) {
+    messageToSend += '**Ruleset**: not yet selected\n';
+  } else {
+    messageToSend += `**Ruleset**: ${gameSetup.ruleset}\n`;
+  }
+
+  messageToSend += `**Players**: ${playerListString}\n`;
+
+  // Show game board
+  messageToSend += '**Game board**: show game board here\n';
+
   //Send the message
-  message.channel.send(
-    `Hang tight. **${adminGuildMember.displayName}** is currently ` +
-      'setting up the game.\n\n' +
-      `**Players**: ${playerListString}\n` +
-      '**Game board**: show game board here'
-  );
+  message.channel.send(messageToSend);
 };
 
 export default {
