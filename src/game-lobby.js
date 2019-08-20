@@ -85,7 +85,7 @@ class GameLobby {
       moderator.lobbyLeave(message);
     } else if (command[0] === COMMAND_GAME_LOBBY_STOP) {
       // Set the game lobby state to stopped
-      this.stopLobby(message.channel);
+      this.setState(message.channel, STATE_GAME_LOBBY_STOPPED);
 
       moderator.lobbyStop(message);
     } else if (command[0] === COMMAND_GAME_LOBBY_CLAIM_ADMIN) {
@@ -162,7 +162,7 @@ class GameLobby {
       }
 
       // Good amount of players. Go to setup phase!
-      this.readyLobby(message.channel);
+      this.setState(message.channel, STATE_GAME_LOBBY_READY);
     }
   }
 
@@ -223,22 +223,12 @@ class GameLobby {
     this.admin = null;
   }
 
-  readyLobby(channel) {
+  setState(channel, state) {
     log.debug(
-      `setting game lobby state to '${STATE_GAME_LOBBY_READY}'` +
-        `in ${logReprChannel(channel)}`
+      `setting game lobby state to '${state}' in ${logReprChannel(channel)}`
     );
 
-    this.state = STATE_GAME_LOBBY_READY;
-  }
-
-  stopLobby(channel) {
-    log.debug(
-      `setting game lobby state to '${STATE_GAME_LOBBY_STOPPED}'` +
-        ` in ${logReprChannel(channel)}`
-    );
-
-    this.state = STATE_GAME_LOBBY_STOPPED;
+    this.state = state;
   }
 }
 
