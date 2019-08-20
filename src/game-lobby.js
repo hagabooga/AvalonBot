@@ -48,14 +48,14 @@ class GameLobby {
     } else if (command[0] === COMMAND_GAME_LOBBY_JOIN) {
       // Player wants to join the game. Check if player is already in
       // the game; if not, add them to the lobby
-      if (this.playerIsInGame(message.author)) {
+      if (this.playerIsJoined(message.author)) {
         moderator.lobbyJoinAlreadyJoined(message);
       } else {
         this.addPlayer(message.author, message.channel);
 
         moderator.lobbyJoin(message);
       }
-    } else if (this.playerIsInGame(message.author)) {
+    } else if (this.playerIsJoined(message.author)) {
       // Send to method handling commands for active players
       this.handleJoinedPlayerCommand(message, command);
     }
@@ -65,7 +65,7 @@ class GameLobby {
     if (command[0] === COMMAND_GAME_LOBBY_FORCE_JOIN) {
       // Force players to join the game
       let newPlayers = message.mentions.users.filter(
-        user => !this.playerIsInGame(user)
+        user => !this.playerIsJoined(user)
       );
 
       // If all of the mentioned players are in the game, ignore the
@@ -108,7 +108,7 @@ class GameLobby {
     if (command[0] === COMMAND_GAME_LOBBY_KICK) {
       // Kick players from the game
       let joinedPlayersToKick = message.mentions.users.filter(user =>
-        this.playerIsInGame(user)
+        this.playerIsJoined(user)
       );
 
       // If none of the mentioned players are in the game, ignore the
@@ -136,7 +136,7 @@ class GameLobby {
       }
 
       let joinedMentionedUsers = mentionedUsers.filter(user =>
-        this.playerIsInGame(user)
+        this.playerIsJoined(user)
       );
 
       if (joinedMentionedUsers.size === 1) {
@@ -166,7 +166,7 @@ class GameLobby {
     }
   }
 
-  playerIsInGame(user) {
+  playerIsJoined(user) {
     return this.players.includes(user.id);
   }
 
