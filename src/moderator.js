@@ -107,7 +107,7 @@ const lobbyJoin = message =>
   );
 
 // Attempted lobby join but already joined
-const lobbyAlreadyJoined = message =>
+const lobbyJoinAlreadyJoined = message =>
   message.channel.send(`<@${message.author.id}>, you are already in the game!`);
 
 // Lobby force join
@@ -125,7 +125,7 @@ const lobbyClaimAdmin = message =>
   );
 
 // Attempted admin claim but there's already an admin
-const lobbyFailedClaimAdmin = async (message, discordClient, adminId) => {
+const lobbyClaimAdminFailed = async (message, discordClient, adminId) => {
   let adminGuildMember = await getGuildMemberFromUserId(
     discordClient,
     message.guild,
@@ -151,7 +151,7 @@ const lobbyTransferAdmin = async (message, discordClient, newAdminId) => {
 };
 
 // Attempted admin transfer but mentioned too many users
-const lobbyFailedTransferAdmin = message =>
+const lobbyTransferAdminTooManyMentions = message =>
   message.channel.send(`Must select exactly one player to transfer admin to!`);
 
 // Lobby leave
@@ -207,7 +207,7 @@ const lobbyStatus = async (message, gameLobby) => {
   let playerGuildMemberStrings = playerGuildMembers.map(member => {
     // Show a crown and bold name if lobby admin. Else just display
     // name.
-    if (member.id === gameLobby.lobbyAdminId) {
+    if (member.id === gameLobby.admin) {
       return `👑**${member.displayName}**`;
     }
 
@@ -235,12 +235,12 @@ export default {
   channelStatus,
   lobbyCreate,
   lobbyJoin,
-  lobbyAlreadyJoined,
+  lobbyJoinAlreadyJoined,
   lobbyForceJoin,
   lobbyClaimAdmin,
-  lobbyFailedClaimAdmin,
+  lobbyClaimAdminFailed,
   lobbyTransferAdmin,
-  lobbyFailedTransferAdmin,
+  lobbyTransferAdminTooManyMentions,
   lobbyLeave,
   lobbyStop,
   lobbyStartNotEnoughPlayers,

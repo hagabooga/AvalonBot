@@ -24,7 +24,7 @@ class Channel {
     this.client = client;
 
     // Channel state
-    this.channelState = null;
+    this.state = null;
 
     // Setting for whether the force join command is enabled for game
     // lobbies
@@ -60,21 +60,21 @@ class Channel {
       moderator.about(message);
     } else if (command[0] === COMMAND_WEBSITE) {
       moderator.website(message);
-    } else if (this.channelState === STATE_CHANNEL_LOBBY) {
+    } else if (this.state === STATE_CHANNEL_LOBBY) {
       // Send to game lobby message handler
       this.gameLobby.handleCommand(message, command);
 
       // Check lobby state and take appropriate actions
-      if (this.gameLobby.gameLobbyState === STATE_GAME_LOBBY_STOPPED) {
+      if (this.gameLobby.state === STATE_GAME_LOBBY_STOPPED) {
         this.removeLobby(message);
-      } else if (this.gameLobby.gameLobbyState === STATE_GAME_LOBBY_READY) {
+      } else if (this.gameLobby.state === STATE_GAME_LOBBY_READY) {
         this.removeLobby(message);
         this.createGameSetup(message);
       }
-    } else if (this.channelState === STATE_CHANNEL_SETUP) {
+    } else if (this.state === STATE_CHANNEL_SETUP) {
       // Send to game setup message handler
       this.gameSetup.handleCommand(message, command);
-    } else if (this.channelState === STATE_CHANNEL_GAME) {
+    } else if (this.state === STATE_CHANNEL_GAME) {
       // TODO send message to game message handler
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
       moderator.lobbyCreate(message);
@@ -91,28 +91,28 @@ class Channel {
   createLobby(message) {
     log.debug(`creating game lobby in ${logReprChannel(message.channel)}`);
 
-    this.channelState = STATE_CHANNEL_LOBBY;
+    this.state = STATE_CHANNEL_LOBBY;
     this.gameLobby = new GameLobby(message, this.client, this.forceJoinEnabled);
   }
 
   removeLobby(message) {
     log.debug(`removing game lobby in ${logReprChannel(message.channel)}`);
 
-    this.channelState = null;
+    this.state = null;
     this.gameLobby = null;
   }
 
   createGameSetup(message) {
     log.debug(`creating game setup in ${logReprChannel(message.channel)}`);
 
-    this.channelState = STATE_CHANNEL_SETUP;
+    this.state = STATE_CHANNEL_SETUP;
     this.gameSetup = new GameSetup(message);
   }
 
   removeGameSetup(message) {
     log.debug(`removing game setup in ${logReprChannel(message.channel)}`);
 
-    this.channelState = null;
+    this.state = null;
     this.gameSetup = null;
   }
 }

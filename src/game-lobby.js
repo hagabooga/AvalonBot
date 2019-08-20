@@ -24,7 +24,7 @@ class GameLobby {
     this.client = client;
 
     // Game lobby state
-    this.gameLobbyState = STATE_GAME_LOBBY_ACCEPTING_PLAYERS;
+    this.state = STATE_GAME_LOBBY_ACCEPTING_PLAYERS;
 
     // Setting for whether to allow the force join command
     this.forceJoinEnabled = forceJoinEnabled;
@@ -37,7 +37,7 @@ class GameLobby {
     // Lobby admin's unique ID (as string). Note that we set it to null
     // initially so that the setAdmin function isn't modifying a
     // variable that doesn't exist.
-    this.lobbyAdminId = null;
+    this.admin = null;
     this.setAdmin(message.author, message.channel);
   }
 
@@ -46,7 +46,7 @@ class GameLobby {
       // Player wants to join the game. Check if player is already in
       // the game; if not, add them to the lobby
       if (this.playerIsInGame(message.author)) {
-        moderator.lobbyAlreadyJoined(message);
+        moderator.lobbyJoinAlreadyJoined(message);
       } else {
         this.addPlayer(message.author, message.channel);
 
@@ -91,16 +91,12 @@ class GameLobby {
     } else if (command[0] === COMMAND_GAME_LOBBY_CLAIM_ADMIN) {
       // User wants to claim admin. Let them if there's no admin,
       // otherwise send them a message saying there's already an admin.
-      if (this.lobbyAdminId === null) {
+      if (this.admin === null) {
         this.setAdmin(message.author, message.channel);
 
         moderator.lobbyClaimAdmin(message);
       } else {
-        moderator.lobbyFailedClaimAdmin(
-          message,
-          this.client,
-          this.lobbyAdminId
-        );
+        moderator.lobbyClaimAdminFailed(message, this.client, this.admin);
       }
     } else if (this.playerIsAdmin(message.author)) {
       // Send to method handling commands for the lobby admin
@@ -134,7 +130,7 @@ class GameLobby {
       // joined or isn't already the admin, ignore the command.
       // Otherwise proceed.
       if (mentionedUsers.size > 1) {
-        moderator.lobbyFailedTransferAdmin(message);
+        moderator.lobbyTransferAdminTooManyMentions(message);
 
         return;
       }
@@ -146,7 +142,7 @@ class GameLobby {
       if (joinedMentionedUsers.size === 1) {
         let newAdminUser = joinedMentionedUsers.values().next().value;
 
-        if (newAdminUser.id !== this.lobbyAdminId) {
+        if (newAdminUser.id !== this.admin) {
           this.setAdmin(newAdminUser, message.channel);
 
           moderator.lobbyTransferAdmin(message, this.client, newAdminUser.id);
@@ -175,7 +171,7 @@ class GameLobby {
   }
 
   playerIsAdmin(user) {
-    return user.id === this.lobbyAdminId;
+    return user.id === this.admin;
   }
 
   addPlayer(user, channel) {
@@ -192,7 +188,7 @@ class GameLobby {
 
   removePlayer(user, channel) {
     // Remove adminship if admin is removed
-    if (user.id === this.lobbyAdminId) {
+    if (user.id === this.admin) {
       this.unsetAdmin(user, channel);
     }
 
@@ -215,7 +211,7 @@ class GameLobby {
         `in ${logReprChannel(channel)}`
     );
 
-    this.lobbyAdminId = user.id;
+    this.admin = user.id;
   }
 
   unsetAdmin(user, channel) {
@@ -224,7 +220,7 @@ class GameLobby {
         `in ${logReprChannel(channel)}`
     );
 
-    this.lobbyAdminId = null;
+    this.admin = null;
   }
 
   readyLobby(channel) {
@@ -233,7 +229,7 @@ class GameLobby {
         `in ${logReprChannel(channel)}`
     );
 
-    this.gameLobbyState = STATE_GAME_LOBBY_READY;
+    this.state = STATE_GAME_LOBBY_READY;
   }
 
   stopLobby(channel) {
@@ -242,7 +238,7 @@ class GameLobby {
         ` in ${logReprChannel(channel)}`
     );
 
-    this.gameLobbyState = STATE_GAME_LOBBY_STOPPED;
+    this.state = STATE_GAME_LOBBY_STOPPED;
   }
 }
 
