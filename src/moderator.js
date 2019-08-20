@@ -19,7 +19,11 @@ import {
   GAME_SETTINGS_MAX_AVALON_PLAYERS,
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
 } from './constants';
-import {getGuildMemberFromUserId, mapUsersToMentions} from './util';
+import {
+  getGuildMemberFromUserId,
+  mapPlayerIdsToPlayersList,
+  mapUsersToMentions,
+} from './util';
 
 // Help
 const help = message =>
@@ -200,26 +204,18 @@ const lobbyStatus = async (message, gameLobby) => {
   messageToSend += '\n\n';
 
   // List the players that have joined
-  let playerGuildMemberPromises = gameLobby.players.map(playerId =>
-    getGuildMemberFromUserId(gameLobby.client, message.guild, playerId)
+  let playerListString = await mapPlayerIdsToPlayersList(
+    message,
+    gameLobby.client,
+    gameLobby.players,
+    gameLobby.admin,
+    ', '
   );
-  let playerGuildMembers = await Promise.all(playerGuildMemberPromises);
-  let playerGuildMemberStrings = playerGuildMembers.map(member => {
-    // Show a crown and bold name if lobby admin. Else just display
-    // name.
-    if (member.id === gameLobby.admin) {
-      return `👑**${member.displayName}**`;
-    }
 
-    return member.displayName;
-  });
-
-  if (playerGuildMemberStrings.length === 0) {
+  if (gameLobby.players.length === 0) {
     messageToSend += '**Joined players**: no joined players';
   } else {
-    messageToSend += `**Joined players**: ${playerGuildMemberStrings.join(
-      ', '
-    )}`;
+    messageToSend += `**Joined players**: ${playerListString}`;
   }
 
   //Send the message

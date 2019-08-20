@@ -43,6 +43,30 @@ const getGuildMemberFromUserId = async (discordClient, guild, id) =>
 const mapUsersToMentions = (users, sep = ' ') =>
   users.map(user => `<@${user.id}>`).join(sep);
 
+const mapPlayerIdsToPlayersList = async (
+  message,
+  client,
+  playerIds,
+  adminId = null,
+  sep = ' '
+) => {
+  let playerGuildMemberPromises = playerIds.map(playerId =>
+    getGuildMemberFromUserId(client, message.guild, playerId)
+  );
+  let playerGuildMembers = await Promise.all(playerGuildMemberPromises);
+  let playerGuildMemberStrings = playerGuildMembers.map(member => {
+    // Show a crown and bold name if lobby admin. Else just display
+    // name.
+    if (member.id === adminId) {
+      return `👑**${member.displayName}**`;
+    }
+
+    return member.displayName;
+  });
+
+  return playerGuildMemberStrings.join(sep);
+};
+
 export {
   logFormat,
   logFormatCritical,
@@ -52,4 +76,5 @@ export {
   getGuildMemberFromUser,
   getGuildMemberFromUserId,
   mapUsersToMentions,
+  mapPlayerIdsToPlayersList,
 };
