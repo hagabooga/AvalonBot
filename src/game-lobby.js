@@ -42,7 +42,10 @@ class GameLobby {
   }
 
   handleCommand(message, command) {
-    if (command[0] === COMMAND_GAME_LOBBY_JOIN) {
+    if (command[0] === COMMAND_STATUS) {
+      // Inform the player about the status of the lobby
+      moderator.lobbyStatus(message, this);
+    } else if (command[0] === COMMAND_GAME_LOBBY_JOIN) {
       // Player wants to join the game. Check if player is already in
       // the game; if not, add them to the lobby
       if (this.playerIsInGame(message.author)) {
@@ -52,9 +55,6 @@ class GameLobby {
 
         moderator.lobbyJoin(message);
       }
-    } else if (command[0] === COMMAND_STATUS) {
-      // Inform the player about the status of the lobby
-      moderator.lobbyStatus(message, this);
     } else if (this.playerIsInGame(message.author)) {
       // Send to method handling commands for active players
       this.handleJoinedPlayerCommand(message, command);
