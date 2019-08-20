@@ -51,6 +51,10 @@ export const GAME_RULESET_AVALON_WITH_TARGETING =
   'The Resistance: Avalon (with targeting)';
 export const GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM = '2';
 
+// Role attributes
+export const ROLE_COMPLEXITY_BASIC = 'basic role';
+export const ROLE_COMPLEXITY_ADVANCED = 'advanced role';
+
 // Team names
-export const RESISTANCE_TEAM = 'resistance';
-export const SPIES_TEAM = 'spies';
+export const TEAM_RESISTANCE = 'Resistance';
+export const TEAM_SPIES = 'Spies';
