@@ -3,6 +3,7 @@ import {
   COMMAND_ABOUT,
   COMMAND_GAME_LOBBY_CREATE,
   COMMAND_HELP,
+  COMMAND_HELP_ROLES,
   COMMAND_PREFIX,
   COMMAND_RULES,
   COMMAND_STATUS,
@@ -56,6 +57,8 @@ class Channel {
   handleCommand(message, command) {
     if (command[0] === COMMAND_HELP) {
       moderator.help(message);
+    } else if (command[0] === COMMAND_HELP_ROLES) {
+      moderator.roleHelp(message);
     } else if (command[0] === COMMAND_RULES) {
       moderator.rules(message);
     } else if (command[0] === COMMAND_ABOUT) {

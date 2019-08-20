@@ -23,6 +23,7 @@ export const STATE_GAME_SETUP_STOPPED = 'stopped';
 export const COMMAND_PREFIX = '!';
 export const COMMAND_ABOUT = 'about';
 export const COMMAND_HELP = 'help';
+export const COMMAND_HELP_ROLES = 'roles';
 export const COMMAND_RULES = 'rules';
 export const COMMAND_WEBSITE = 'website';
 export const COMMAND_STATUS = 'status';

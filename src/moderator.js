@@ -15,6 +15,7 @@ import {
   COMMAND_GAME_SETUP_CHOOSE,
   COMMAND_GAME_SETUP_STOP,
   COMMAND_HELP,
+  COMMAND_HELP_ROLES,
   COMMAND_PREFIX,
   COMMAND_RULES,
   COMMAND_STATUS,
@@ -25,7 +26,12 @@ import {
   GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM,
   GAME_SETTINGS_MAX_AVALON_PLAYERS,
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
+  ROLE_COMPLEXITY_ADVANCED,
+  ROLE_COMPLEXITY_BASIC,
+  TEAM_RESISTANCE,
+  TEAM_SPIES,
 } from './constants';
+import {ROLES_TABLE} from './roles';
 import {
   getGuildMemberFromUserId,
   mapPlayerIdsToPlayersList,
@@ -36,11 +42,14 @@ import {
 const help = message =>
   message.channel.send(
     '**Commands**\n\n' +
-      `\`${COMMAND_PREFIX + COMMAND_HELP}\` - display this message\n` +
+      `\`${COMMAND_PREFIX + COMMAND_HELP}\`` +
+      ' - display this message\n' +
+      `\`${COMMAND_PREFIX + COMMAND_HELP_ROLES}\`` +
+      ' - display all roles\n' +
       `\`${COMMAND_PREFIX + COMMAND_RULES}\`` +
       ' - link the official "The Resistance: Avalon" rulebook\n' +
       `\`${COMMAND_PREFIX + COMMAND_STATUS}\`` +
-      " - show AvalonBot's status\n" +
+      ' - show the current game status\n' +
       `\`${COMMAND_PREFIX + COMMAND_CHANNEL_INIT}\`` +
       ' - initialize AvalonBot in a channel\n' +
       `\`${COMMAND_PREFIX + COMMAND_CHANNEL_DEINIT}\`` +
@@ -71,6 +80,49 @@ const help = message =>
       ' - stop game setup\n'
   );
 
+// Roles help
+const roleHelp = message => {
+  const formatRole = role => {
+    let roleStr = `**${role.name}**\n-> ${role.description}\n`;
+
+    // If role has a strategy, show it
+    if (role.strategy === null) return roleStr;
+
+    return roleStr + `-> ${role.strategy}\n`;
+  };
+
+  message.channel.send(
+    `__**Team ${TEAM_RESISTANCE} roles (basic)**__\n\n` +
+      Object.values(ROLES_TABLE)
+        .filter(
+          role =>
+            role.team === TEAM_RESISTANCE &&
+            role.complexity === ROLE_COMPLEXITY_BASIC
+        )
+        .map(formatRole)
+        .join('\n') +
+      '\n\n' +
+      `__**Team ${TEAM_SPIES} roles (basic) **__\n\n` +
+      Object.values(ROLES_TABLE)
+        .filter(
+          role =>
+            role.team === TEAM_SPIES &&
+            role.complexity === ROLE_COMPLEXITY_BASIC
+        )
+        .map(formatRole)
+        .join('\n') +
+      '\n\n' +
+      `__**Team ${TEAM_RESISTANCE} roles (advanced) **__\n\n` +
+      Object.values(ROLES_TABLE)
+        .filter(
+          role =>
+            role.team === TEAM_RESISTANCE &&
+            role.complexity === ROLE_COMPLEXITY_ADVANCED
+        )
+        .map(formatRole)
+        .join('\n')
+  );
+};
 // Rules
 const rules = message =>
   message.channel.send(
@@ -305,6 +357,7 @@ const gameSetupStatus = async (message, gameSetup) => {
 
 export default {
   help,
+  roleHelp,
   rules,
   about,
   website,
