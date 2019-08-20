@@ -7,10 +7,6 @@ import {
   GAME_RULESET_AVALON_OPTION_NUM,
   GAME_RULESET_AVALON_WITH_TARGETING,
   GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM,
-  GAME_RULESET_RESISTANCE,
-  GAME_RULESET_RESISTANCE_OPTION_NUM,
-  GAME_RULESET_RESISTANCE_WITH_TARGETING,
-  GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM,
   STATE_GAME_SETUP_CHOOSING_ROLES,
   STATE_GAME_SETUP_CHOOSING_RULESET,
   STATE_GAME_SETUP_READY,
@@ -75,15 +71,6 @@ class GameSetup {
           command[1] === GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM
         ) {
           this.setRuleset(message.channel, GAME_RULESET_AVALON_WITH_TARGETING);
-        } else if (command[1] === GAME_RULESET_RESISTANCE_OPTION_NUM) {
-          this.setRuleset(message.channel, GAME_RULESET_RESISTANCE);
-        } else if (
-          command[1] === GAME_RULESET_RESISTANCE_WITH_TARGETING_OPTION_NUM
-        ) {
-          this.setRuleset(
-            message.channel,
-            GAME_RULESET_RESISTANCE_WITH_TARGETING
-          );
         } else {
           return;
         }
