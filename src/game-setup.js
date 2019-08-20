@@ -1,8 +1,9 @@
 import * as log from 'loglevel';
 import {
   COMMAND_STATUS,
+  COMMAND_GAME_SETUP_CHOOSE,
   COMMAND_GAME_SETUP_STOP,
-  STATE_GAME_SETUP_SETTING_UP,
+  STATE_GAME_SETUP_CHOOSING_RULESET,
   STATE_GAME_SETUP_STOPPED,
   STATE_GAME_SETUP_READY,
 } from './constants';
@@ -15,13 +16,16 @@ class GameSetup {
     this.client = client;
 
     // The game setup state
-    this.state = STATE_GAME_SETUP_SETTING_UP;
+    this.state = STATE_GAME_SETUP_CHOOSING_RULESET;
 
     // The lobby admin
     this.admin = adminId;
 
     // Array of player's unique IDs (as strings)
     this.players = playerIds;
+
+    // The game ruleset
+    this.ruleset = null;
   }
 
   handleCommand(message, command) {
@@ -31,6 +35,9 @@ class GameSetup {
     } else if (this.playerIsJoined(message.author)) {
       // Send to method handling commands for active players
       this.handleJoinedPlayerCommand(message, command);
+    } else if (this.playerIsAdmin(message.author)) {
+      // Send to method handling commands for the lobby admin
+      this.handleAdminCommand(message, command);
     }
   }
 
@@ -43,8 +50,14 @@ class GameSetup {
     }
   }
 
+  handleAdminCommand(message, command) {}
+
   playerIsJoined(user) {
     return this.players.includes(user.id);
+  }
+
+  playerIsAdmin(user) {
+    return user.id === this.admin;
   }
 
   setState(channel, state) {

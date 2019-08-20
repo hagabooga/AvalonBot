@@ -13,7 +13,7 @@ export const STATE_GAME_LOBBY_READY = 'ready';
 export const STATE_GAME_LOBBY_STOPPED = 'stopped';
 
 // Game setup states
-export const STATE_GAME_SETUP_SETTING_UP = 'setting up';
+export const STATE_GAME_SETUP_CHOOSING_RULESET = 'choosing ruleset';
 export const STATE_GAME_SETUP_READY = 'ready';
 export const STATE_GAME_SETUP_STOPPED = 'stopped';
 
@@ -35,11 +35,19 @@ export const COMMAND_GAME_LOBBY_LEAVE = 'leave';
 export const COMMAND_GAME_LOBBY_START = 'start';
 export const COMMAND_GAME_LOBBY_STOP = 'stop';
 export const COMMAND_GAME_LOBBY_KICK = 'kick';
+export const COMMAND_GAME_SETUP_CHOOOSE = 'choose';
 export const COMMAND_GAME_SETUP_STOP = 'stop';
 
 // Game settings
 export const GAME_SETTINGS_MIN_AVALON_PLAYERS = 5;
 export const GAME_SETTINGS_MAX_AVALON_PLAYERS = 10;
+
+// Game rulesets
+export const GAME_RULESET_AVALON = 'avalon';
+export const GAME_RULESET_AVALON_WITH_TARGETING = 'avalon with targeting';
+export const GAME_RULESET_RESISTANCE = 'resistance';
+export const GAME_RULESET_RESISTANCE_WITH_TARGETING =
+  'resistance with targeting';
 
 // Team names
 export const RESISTANCE_TEAM = 'resistance';
