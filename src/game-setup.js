@@ -38,9 +38,6 @@ class GameSetup {
     } else if (this.playerIsJoined(message.author)) {
       // Send to method handling commands for active players
       this.handleJoinedPlayerCommand(message, command);
-    } else if (this.playerIsAdmin(message.author)) {
-      // Send to method handling commands for the lobby admin
-      this.handleAdminCommand(message, command);
     }
   }
 
@@ -50,6 +47,9 @@ class GameSetup {
       this.setState(message.channel, STATE_GAME_SETUP_STOPPED);
 
       moderator.gameSetupStop(message);
+    } else if (this.playerIsAdmin(message.author)) {
+      // Send to method handling commands for the lobby admin
+      this.handleAdminCommand(message, command);
     }
   }
 
