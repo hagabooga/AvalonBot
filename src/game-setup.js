@@ -106,6 +106,8 @@ class GameSetup {
             this.admin,
             this.players.length
           );
+
+          return;
         }
 
         // Valid. Set the roles.
