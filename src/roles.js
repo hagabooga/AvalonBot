@@ -105,9 +105,7 @@ const validateRoles = (roleKeys, numPlayers) => {
 
   // Check that there are sufficiently many players
   if (roleKeys.length !== numPlayers) {
-    errors.push(
-      `wrong number of roles selected - need exactly ${numPlayers} roles`
-    );
+    errors.push(`need exactly ${numPlayers} roles`);
   }
 
   // Ensure that all of the keys are valid
