@@ -22,6 +22,8 @@ const VANILLA_RESISTANCE = {
     'If Merlin is in the game, deduce who Merlin is ' +
     'and ensure that the spies cannot identify Merlin.',
   team: TEAM_RESISTANCE,
+  maxAllowed: 6,
+  requires: [],
 };
 
 const VANILLA_SPY = {
@@ -35,6 +37,8 @@ const VANILLA_SPY = {
     'If Merlin is in the game, try to determine which player Merlin is so that ' +
     'the assassin can snipe him if three missions have not failed by game end.',
   team: TEAM_SPIES,
+  maxAllowed: 4,
+  requires: [],
 };
 
 const MERLIN = {
@@ -48,6 +52,8 @@ const MERLIN = {
     'Use your knowledge of the spies to steer the game in the right direction ' +
     'while trying to keep your identity secret.',
   team: TEAM_RESISTANCE,
+  maxAllowed: 1,
+  requires: [ASSASSIN_KEY],
 };
 
 const ASSASSIN = {
@@ -63,6 +69,8 @@ const ASSASSIN = {
     'When sniping Merlin, make sure to discuss with your fellow spies ' +
     'before finalizing the snipe selection!',
   team: TEAM_SPIES,
+  maxAllowed: 1,
+  requires: [MERLIN_KEY],
 };
 
 const PERCIVAL = {
@@ -75,6 +83,8 @@ const PERCIVAL = {
     'to which player.',
   strategy: null,
   team: TEAM_RESISTANCE,
+  maxAllowed: 1,
+  requires: [ASSASSIN_KEY, MERLIN_KEY],
 };
 
 const ROLES_TABLE = {
