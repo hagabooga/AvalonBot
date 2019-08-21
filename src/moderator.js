@@ -307,6 +307,28 @@ const gameSetupChooseRuleset = (message, adminId) =>
 const gameSetupChooseRulesetConfirmation = (message, ruleset) =>
   message.channel.send(`**${ruleset}** ruleset selected.`);
 
+// Game setup choose roles
+const gameSetupChooseRoles = (message, adminId, numPlayers) =>
+  message.channel.send(
+    `Please select ${numPlayers} (not necessarily unique) roles ` +
+      'to include in the game from the following roles :\n\n' +
+      Object.entries(ROLES_TABLE)
+        .map(([key, role]) => `**[${key}]** ${role.name}`)
+        .join('\n') +
+      `\n\n<@${adminId}>, type ` +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CHOOSE}\` ` +
+      'followed by the option keys of the roles you would like to select. ' +
+      `Type \`${COMMAND_PREFIX + COMMAND_HELP_ROLES}\` ` +
+      'to list available roles.'
+  );
+
+// Game setup choose roles errors
+const gameSetupChooseRolesErrors = (message, errors) =>
+  message.channel.send(
+    '**Invalid role selection**\n\nThe following errors occured:\n\n' +
+      errors.map(error => '⭢ ' + error).join('\n')
+  );
+
 // Game setup stop
 const gameSetupStop = message =>
   message.channel.send(
@@ -349,6 +371,15 @@ const gameSetupStatus = async (message, gameSetup) => {
     messageToSend += `**Ruleset**: ${gameSetup.ruleset}\n`;
   }
 
+  // List the roles chosen
+  if (gameSetup.roles.length === 0) {
+    messageToSend += '**Roles**: not yet selected\n';
+  } else {
+    messageToSend += `**Roles**: ${gameSetup.roles
+      .map(roleKey => ROLES_TABLE[roleKey].name)
+      .join(', ')}\n`;
+  }
+
   // Show game board
   messageToSend += '**Game board**: show game board here\n';
 
@@ -382,6 +413,8 @@ export default {
   gameSetupIntroduction,
   gameSetupChooseRuleset,
   gameSetupChooseRulesetConfirmation,
+  gameSetupChooseRoles,
+  gameSetupChooseRolesErrors,
   gameSetupStop,
   gameSetupStatus,
 };

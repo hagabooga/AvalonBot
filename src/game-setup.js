@@ -13,6 +13,7 @@ import {
   STATE_GAME_SETUP_STOPPED,
 } from './constants';
 import moderator from './moderator';
+import {validateRoles} from './roles';
 import {logReprChannel} from './util';
 
 class GameSetup {
@@ -32,7 +33,10 @@ class GameSetup {
     // The game ruleset
     this.ruleset = null;
 
-    // Send welcome message
+    // The roles in the game (just storing the keys)
+    this.roles = [];
+
+    // Send welcome message and send ruleset choosing message
     moderator.gameSetupIntroduction(message, this.admin);
     moderator.gameSetupChooseRuleset(message, this.admin);
   }
@@ -78,15 +82,32 @@ class GameSetup {
         moderator.gameSetupChooseRulesetConfirmation(message, this.ruleset);
 
         // Go to role picking state
-        // TODO code this
-        message.channel.send(
-          'SHOULD HAVE ROLE PICKING STUFF HERE BUT GOING TO CODE SOME GAME STUFF FIRST'
-        );
         this.setState(message.channel, STATE_GAME_SETUP_CHOOSING_ROLES);
+        moderator.gameSetupChooseRoles(
+          message,
+          this.admin,
+          this.players.length
+        );
+      } else if (this.state === STATE_GAME_SETUP_CHOOSING_ROLES) {
+        // Role selection - validate and if okay, go to confirmation
+        // phase
+        let roleSelectionErrors = validateRoles(
+          command.slice(1),
+          this.players.length
+        );
 
-        // TODO for now skip role picking state, go straight into game
-        // TODO delete me later
-        this.setState(message.channel, STATE_GAME_SETUP_READY);
+        if (roleSelectionErrors.length !== 0) {
+          moderator.gameSetupChooseRolesErrors(message, roleSelectionErrors);
+
+          // Re-echo the role picking dialogue
+          moderator.gameSetupChooseRoles(
+            message,
+            this.admin,
+            this.players.length
+          );
+        }
+
+        // TODO Go to confirmation
       }
     }
   }
