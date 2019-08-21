@@ -94,6 +94,7 @@ const roleHelp = message => {
     return roleStr + `→ ${role.strategy}\n`;
   };
 
+  // Send two messages so that the character limit is not exceeded
   message.channel.send(
     `__**Team ${TEAM_RESISTANCE} roles (basic)**__\n\n` +
       Object.values(ROLES_TABLE)
@@ -113,13 +114,25 @@ const roleHelp = message => {
             role.complexity === ROLE_COMPLEXITY_BASIC
         )
         .map(formatRole)
-        .join('\n') +
-      '\n' +
-      `__**Team ${TEAM_RESISTANCE} roles (advanced)**__\n\n` +
+        .join('\n')
+  );
+
+  message.channel.send(
+    `__**Team ${TEAM_RESISTANCE} roles (advanced)**__\n\n` +
       Object.values(ROLES_TABLE)
         .filter(
           role =>
             role.team === TEAM_RESISTANCE &&
+            role.complexity === ROLE_COMPLEXITY_ADVANCED
+        )
+        .map(formatRole)
+        .join('\n') +
+      '\n' +
+      `__**Team ${TEAM_SPIES} roles (advanced)**__\n\n` +
+      Object.values(ROLES_TABLE)
+        .filter(
+          role =>
+            role.team === TEAM_SPIES &&
             role.complexity === ROLE_COMPLEXITY_ADVANCED
         )
         .map(formatRole)

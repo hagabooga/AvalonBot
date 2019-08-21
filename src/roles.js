@@ -12,6 +12,9 @@ const MERLIN_KEY = 'ml';
 const VANILLA_SPY_KEY = 'vs';
 const ASSASSIN_KEY = 'as';
 const PERCIVAL_KEY = 'pv';
+const MORGANA_KEY = 'mg';
+const MORDRED_KEY = 'md';
+const OBERON_KEY = 'ob';
 
 const VANILLA_RESISTANCE = {
   name: '👮Vanilla Resistance',
@@ -50,7 +53,7 @@ const VANILLA_SPY = {
     'The Vanilla Spy role is a Spies role which has no special powers.',
   strategy:
     'Ensure that spies fail at least three missions ' +
-    'while trying to keep your spy identity secret! ' +
+    'while trying to keep your spy identity secret. ' +
     'If Merlin is in the game, try to determine which player Merlin is so that ' +
     'the assassin can snipe him if three missions have not failed by game end.',
   team: TEAM_SPIES,
@@ -79,8 +82,8 @@ const PERCIVAL = {
   name: '👮Percival',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
-    'Percival is a Resistance role who knows who Merlin is. ' +
-    'If Morgana is in the game, Percival will know the players with the ' +
+    'Percival is a Resistance role who knows which player Merlin is. ' +
+    'If Morgana is in the game, Percival will know which players have the ' +
     'Merlin and Morgana roles, but will not know which role corresponds ' +
     'to which player.',
   strategy: null,
@@ -89,12 +92,52 @@ const PERCIVAL = {
   requires: [ASSASSIN_KEY, MERLIN_KEY],
 };
 
+const MORGANA = {
+  name: '🕵Morgana',
+  complexity: ROLE_COMPLEXITY_ADVANCED,
+  description:
+    'Morgana is a Spies role who appears as Merlin to Percival. ' +
+    'More specifically, Pericival will know which players have the ' +
+    'Merlin and Morgana roles, but will not know which role corresponds ' +
+    'to which player.',
+  strategy: null,
+  team: TEAM_SPIES,
+  maxAllowed: 1,
+  requires: [PERCIVAL_KEY, ASSASSIN_KEY, MERLIN_KEY],
+};
+
+const MORDRED = {
+  name: '🕵Mordred',
+  complexity: ROLE_COMPLEXITY_ADVANCED,
+  description:
+    'Mordred is a Spies role who is not revealed to Merlin as a spy.',
+  strategy: null,
+  team: TEAM_SPIES,
+  maxAllowed: 1,
+  requires: [ASSASSIN_KEY, MERLIN_KEY],
+};
+
+const OBERON = {
+  name: '🕵Oberon',
+  complexity: ROLE_COMPLEXITY_ADVANCED,
+  description:
+    'Oberon is a Spies role who is hidden from the other spies and ' +
+    'does not know which other players are spies.',
+  strategy: null,
+  team: TEAM_SPIES,
+  maxAllowed: 1,
+  requires: [],
+};
+
 const ROLES_TABLE = {
   [VANILLA_RESISTANCE_KEY]: VANILLA_RESISTANCE,
   [MERLIN_KEY]: MERLIN,
   [VANILLA_SPY_KEY]: VANILLA_SPY,
   [ASSASSIN_KEY]: ASSASSIN,
   [PERCIVAL_KEY]: PERCIVAL,
+  [MORGANA_KEY]: MORGANA,
+  [MORDRED_KEY]: MORDRED,
+  [OBERON_KEY]: OBERON,
 };
 
 // Validate roles and pass along a (possibly empty) array of strings
@@ -186,6 +229,9 @@ export {
   VANILLA_SPY_KEY,
   ASSASSIN_KEY,
   PERCIVAL_KEY,
+  MORGANA_KEY,
+  MORDRED_KEY,
+  OBERON_KEY,
   ROLES_TABLE,
   validateRoles,
 };
