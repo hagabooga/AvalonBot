@@ -96,6 +96,67 @@ const ROLES_TABLE = {
   [PERCIVAL_KEY]: PERCIVAL,
 };
 
+// Validate roles and pass along a (possibly empty) array of strings
+// containing reasons why the roles are invalid
+// TODO need to validate that the right number of spies and resistance
+// are in the game
+const validateRoles = (roleKeys, numPlayers) => {
+  let errors = [];
+
+  // Check that there are sufficiently many players
+  if (roleKeys.length !== numPlayers) {
+    errors.push(
+      `wrong number of roles selected - need exactly ${numPlayers} roles`
+    );
+  }
+
+  // Ensure that all of the keys are valid
+  roleKeys
+    .filter(key => !Object.keys(ROLES_TABLE).includes(key))
+    .forEach(badKey => errors.push(`${badKey} is not a valid role key`));
+
+  // Ensure that the number selected of a given role is sufficiently low
+  let validRoleKeys = roleKeys.filter(key =>
+    Object.keys(ROLES_TABLE).includes(key)
+  );
+  let uniqueValidRoleKeys = [...new Set(validRoleKeys)];
+
+  uniqueValidRoleKeys.forEach(key => {
+    if (
+      validRoleKeys.reduce((n, val) => n + (val === key), 0) >
+      ROLES_TABLE[key].maxAllowed
+    ) {
+      // Use singular or plural for the role depending on the maximum
+      // number of the role allowed
+      if (ROLES_TABLE[key].maxAllowed === 1) {
+        errors.push(
+          `there can be at most ${ROLES_TABLE[key].maxAllowed} ` +
+            `${ROLES_TABLE[key].name} role`
+        );
+      } else {
+        errors.push(
+          `there can be at most ${ROLES_TABLE[key].maxAllowed} ` +
+            `${ROLES_TABLE[key].name} roles`
+        );
+      }
+    }
+  });
+
+  // Ensure that all role requirements are filled
+  uniqueValidRoleKeys.forEach(key =>
+    ROLES_TABLE[key].requires.forEach(requirement => {
+      if (!uniqueValidRoleKeys.includes(requirement)) {
+        errors.push(
+          `the ${ROLES_TABLE[key].name} role requires ` +
+            `the ${ROLES_TABLE[requirement].name} role`
+        );
+      }
+    })
+  );
+
+  return errors;
+};
+
 export {
   ROLE_COMPLEXITY_BASIC,
   ROLE_COMPLEXITY_ADVANCED,
@@ -105,4 +166,5 @@ export {
   ASSASSIN_KEY,
   PERCIVAL_KEY,
   ROLES_TABLE,
+  validateRoles,
 };
