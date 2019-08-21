@@ -387,6 +387,7 @@ const gameSetupStatus = async (message, gameSetup) => {
   }
 
   // Show game board
+  // TODO actually show game board
   messageToSend += '**Game board**: show game board here\n';
 
   //Send the message
