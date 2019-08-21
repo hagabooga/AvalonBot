@@ -83,12 +83,12 @@ const help = message =>
 // Roles help
 const roleHelp = message => {
   const formatRole = role => {
-    let roleStr = `**${role.name}**\n-> ${role.description}\n`;
+    let roleStr = `**${role.name}**\n⭢ ${role.description}\n`;
 
     // If role has a strategy, show it
     if (role.strategy === null) return roleStr;
 
-    return roleStr + `-> ${role.strategy}\n`;
+    return roleStr + `⭢ ${role.strategy}\n`;
   };
 
   message.channel.send(
