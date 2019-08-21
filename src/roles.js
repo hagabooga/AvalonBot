@@ -5,11 +5,12 @@ import {
   TEAM_SPIES,
 } from './constants';
 
-const VANILLA_RESISTANCE_KEY = 'vanilla resistance';
-const VANILLA_SPY_KEY = 'vanilla spy';
-const MERLIN_KEY = 'merlin';
-const ASSASSIN_KEY = 'assassin';
-const PERCIVAL_KEY = 'percival';
+// These keys will also be used as the option key when selecting roles.
+const VANILLA_RESISTANCE_KEY = 'vr';
+const VANILLA_SPY_KEY = 'vs';
+const MERLIN_KEY = 'ml';
+const ASSASSIN_KEY = 'as';
+const PERCIVAL_KEY = 'pv';
 
 const VANILLA_RESISTANCE = {
   name: 'Vanilla Resistance',
