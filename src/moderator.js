@@ -102,7 +102,7 @@ const roleHelp = message => {
         )
         .map(formatRole)
         .join('\n') +
-      '\n\n' +
+      '\n' +
       `__**Team ${TEAM_SPIES} roles (basic)**__\n\n` +
       Object.values(ROLES_TABLE)
         .filter(
@@ -112,7 +112,7 @@ const roleHelp = message => {
         )
         .map(formatRole)
         .join('\n') +
-      '\n\n' +
+      '\n' +
       `__**Team ${TEAM_RESISTANCE} roles (advanced)**__\n\n` +
       Object.values(ROLES_TABLE)
         .filter(
