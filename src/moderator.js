@@ -84,12 +84,12 @@ const help = message =>
 // Roles help
 const roleHelp = message => {
   const formatRole = role => {
-    let roleStr = `**${role.name}**\n⭢ ${role.description}\n`;
+    let roleStr = `**${role.name}**\n→ ${role.description}\n`;
 
     // If role has a strategy, show it
     if (role.strategy === null) return roleStr;
 
-    return roleStr + `⭢ ${role.strategy}\n`;
+    return roleStr + `→ ${role.strategy}\n`;
   };
 
   message.channel.send(
@@ -332,7 +332,7 @@ const gameSetupChooseRoles = (message, adminId, numPlayers) => {
 const gameSetupChooseRolesErrors = (message, errors) =>
   message.channel.send(
     '**Invalid role selection**\n\nThe following errors occured:\n' +
-      errors.map(error => '⭢ ' + error).join('\n')
+      errors.map(error => '→ ' + error).join('\n')
   );
 
 // Game setup stop
