@@ -15,6 +15,7 @@ export const STATE_GAME_LOBBY_STOPPED = 'stopped';
 // Game setup states
 export const STATE_GAME_SETUP_CHOOSING_RULESET = 'choosing ruleset';
 export const STATE_GAME_SETUP_CHOOSING_ROLES = 'choosing roles';
+export const STATE_GAME_SETUP_CONFIRMING_SETUP = 'confirming setup';
 export const STATE_GAME_SETUP_READY = 'ready';
 export const STATE_GAME_SETUP_STOPPED = 'stopped';
 
@@ -39,6 +40,8 @@ export const COMMAND_GAME_LOBBY_START = 'start';
 export const COMMAND_GAME_LOBBY_STOP = 'stop';
 export const COMMAND_GAME_LOBBY_KICK = 'kick';
 export const COMMAND_GAME_SETUP_CHOOSE = 'choose';
+export const COMMAND_GAME_SETUP_CONFIRM = 'confirm';
+export const COMMAND_GAME_SETUP_RESET = 'reset';
 export const COMMAND_GAME_SETUP_STOP = 'stop';
 
 // Game settings

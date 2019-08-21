@@ -13,6 +13,8 @@ import {
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_GAME_SETUP_CHOOSE,
+  COMMAND_GAME_SETUP_CONFIRM,
+  COMMAND_GAME_SETUP_RESET,
   COMMAND_GAME_SETUP_STOP,
   COMMAND_HELP,
   COMMAND_HELP_ROLES,
@@ -335,6 +337,20 @@ const gameSetupChooseRolesErrors = (message, errors) =>
       errors.map(error => '→ ' + error).join('\n')
   );
 
+// Game setup confirm setup
+const gameSetupConfirm = (message, gameSetup) =>
+  message.channel.send(
+    `<@${gameSetup.admin}>, please confirm the chosen game setup:\n\n` +
+      `**Ruleset**: ${gameSetup.ruleset}\n` +
+      `**Roles**: ${gameSetup.roles
+        .map(roleKey => ROLES_TABLE[roleKey].name)
+        .join(', ')}` +
+      '\n\n' +
+      `Type \`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CONFIRM}\` ` +
+      'to start the game or type ' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_RESET}\` to pick a new setup.`
+  );
+
 // Game setup stop
 const gameSetupStop = message =>
   message.channel.send(
@@ -422,6 +438,7 @@ export default {
   gameSetupChooseRulesetConfirmation,
   gameSetupChooseRoles,
   gameSetupChooseRolesErrors,
+  gameSetupConfirm,
   gameSetupStop,
   gameSetupStatus,
 };

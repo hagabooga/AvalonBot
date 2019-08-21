@@ -1,6 +1,8 @@
 import * as log from 'loglevel';
 import {
   COMMAND_GAME_SETUP_CHOOSE,
+  COMMAND_GAME_SETUP_CONFIRM,
+  COMMAND_GAME_SETUP_RESET,
   COMMAND_GAME_SETUP_STOP,
   COMMAND_STATUS,
   GAME_RULESET_AVALON,
@@ -9,6 +11,7 @@ import {
   GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM,
   STATE_GAME_SETUP_CHOOSING_ROLES,
   STATE_GAME_SETUP_CHOOSING_RULESET,
+  STATE_GAME_SETUP_CONFIRMING_SETUP,
   STATE_GAME_SETUP_READY,
   STATE_GAME_SETUP_STOPPED,
 } from './constants';
@@ -64,11 +67,9 @@ class GameSetup {
   }
 
   handleAdminCommand(message, command) {
-    if (command[0] === COMMAND_GAME_SETUP_CHOOSE) {
-      // Choose command
-
-      if (this.state === STATE_GAME_SETUP_CHOOSING_RULESET) {
-        // Ruleset selection
+    if (this.state === STATE_GAME_SETUP_CHOOSING_RULESET) {
+      // Ruleset selection
+      if (command[0] === COMMAND_GAME_SETUP_CHOOSE) {
         if (command[1] === GAME_RULESET_AVALON_OPTION_NUM) {
           this.setRuleset(message.channel, GAME_RULESET_AVALON);
         } else if (
@@ -88,7 +89,9 @@ class GameSetup {
           this.admin,
           this.players.length
         );
-      } else if (this.state === STATE_GAME_SETUP_CHOOSING_ROLES) {
+      }
+    } else if (this.state === STATE_GAME_SETUP_CHOOSING_ROLES) {
+      if (command[0] === COMMAND_GAME_SETUP_CHOOSE) {
         // Role selection - validate and if okay, go to confirmation
         // phase
         let roles = command.slice(1);
@@ -108,7 +111,21 @@ class GameSetup {
         // Valid. Set the roles.
         this.setRoles(message.channel, roles);
 
-        // TODO Go to confirmation
+        // Go to confirmation state
+        this.setState(message.channel, STATE_GAME_SETUP_CONFIRMING_SETUP);
+        moderator.gameSetupConfirm(message, this);
+      }
+    } else if (this.state === STATE_GAME_SETUP_CONFIRMING_SETUP) {
+      if (command[0] === COMMAND_GAME_SETUP_CONFIRM) {
+        // Start the game
+        // TODO
+      } else if (command[0] === COMMAND_GAME_SETUP_RESET) {
+        // Reset setup phase
+        this.setState(message.channel, STATE_GAME_SETUP_CHOOSING_RULESET);
+        this.unsetRoles(message.channel);
+        this.unsetRuleset(message.channel);
+
+        moderator.gameSetupChooseRuleset(message, this.admin);
       }
     }
   }
