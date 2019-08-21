@@ -13,7 +13,7 @@ import {
   STATE_GAME_SETUP_STOPPED,
 } from './constants';
 import moderator from './moderator';
-import {validateRoles} from './roles';
+import {ROLES_TABLE, validateRoles} from './roles';
 import {logReprChannel} from './util';
 
 class GameSetup {
@@ -91,10 +91,8 @@ class GameSetup {
       } else if (this.state === STATE_GAME_SETUP_CHOOSING_ROLES) {
         // Role selection - validate and if okay, go to confirmation
         // phase
-        let roleSelectionErrors = validateRoles(
-          command.slice(1),
-          this.players.length
-        );
+        let roles = command.slice(1);
+        let roleSelectionErrors = validateRoles(roles, this.players.length);
 
         if (roleSelectionErrors.length !== 0) {
           moderator.gameSetupChooseRolesErrors(message, roleSelectionErrors);
@@ -106,6 +104,9 @@ class GameSetup {
             this.players.length
           );
         }
+
+        // Valid. Set the roles.
+        this.setRoles(message.channel, roles);
 
         // TODO Go to confirmation
       }
@@ -130,10 +131,30 @@ class GameSetup {
 
   setRuleset(channel, ruleset) {
     log.debug(
-      `setting game setup ruleset to '${ruleset}' in ${logReprChannel(channel)}`
+      `setting game ruleset to '${ruleset}' in ${logReprChannel(channel)}`
     );
 
     this.ruleset = ruleset;
+  }
+
+  unsetRuleset(channel) {
+    log.debug(`unsetting game ruleset in ${logReprChannel(channel)}`);
+
+    this.ruleset = null;
+  }
+
+  setRoles(channel, roles) {
+    log.debug(`adding roles to game in ${logReprChannel(channel)}`);
+
+    this.roles = roles.sort((key1, key2) =>
+      ROLES_TABLE[key1].name.localeCompare(ROLES_TABLE[key2].name)
+    );
+  }
+
+  unsetRoles(channel) {
+    log.debug(`removing roles from game in ${logReprChannel(channel)}`);
+
+    this.roles = [];
   }
 }
 
