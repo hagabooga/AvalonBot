@@ -295,10 +295,11 @@ const gameSetupIntroduction = (message, adminId) =>
 const gameSetupChooseRuleset = (message, adminId) =>
   message.channel.send(
     'Please select the game ruleset:\n\n' +
-      `${GAME_RULESET_AVALON_OPTION_NUM}. ${GAME_RULESET_AVALON}\n` +
-      `${GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM}. ${GAME_RULESET_AVALON_WITH_TARGETING}\n` +
-      `\n<@${adminId}>, type \`${COMMAND_PREFIX +
-        COMMAND_GAME_SETUP_CHOOSE}\` ` +
+      `**[${GAME_RULESET_AVALON_OPTION_NUM}]** ${GAME_RULESET_AVALON}\n` +
+      `**[${GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM}]** ` +
+      `${GAME_RULESET_AVALON_WITH_TARGETING}\n` +
+      `\n<@${adminId}>, type ` +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CHOOSE}\` ` +
       'followed by the option number you would like to select.'
   );
 
