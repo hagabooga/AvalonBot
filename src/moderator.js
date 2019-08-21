@@ -31,6 +31,7 @@ import {
   TEAM_RESISTANCE,
   TEAM_SPIES,
 } from './constants';
+import {GAME_BOARDS_TABLE} from './game-boards';
 import {ROLES_TABLE} from './roles';
 import {
   getGuildMemberFromUserId,
@@ -308,19 +309,24 @@ const gameSetupChooseRulesetConfirmation = (message, ruleset) =>
   message.channel.send(`**${ruleset}** ruleset selected.`);
 
 // Game setup choose roles
-const gameSetupChooseRoles = (message, adminId, numPlayers) =>
+const gameSetupChooseRoles = (message, adminId, numPlayers) => {
+  let rolesString = Object.entries(ROLES_TABLE)
+    .map(([key, role]) => `**[${key}]** ${role.name}`)
+    .join('\n');
+  let numResistanceRoles = GAME_BOARDS_TABLE[numPlayers].numResistance;
+  let numSpiesRoles = GAME_BOARDS_TABLE[numPlayers].numSpies;
+
   message.channel.send(
-    `Please select ${numPlayers} (not necessarily unique) roles ` +
-      'to include in the game from the following roles :\n\n' +
-      Object.entries(ROLES_TABLE)
-        .map(([key, role]) => `**[${key}]** ${role.name}`)
-        .join('\n') +
+    `Please select **${numResistanceRoles} Resistance roles** and ` +
+      `**${numSpiesRoles} Spies roles** from the following roles:\n\n${rolesString}` +
       `\n\n<@${adminId}>, type ` +
       `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CHOOSE}\` ` +
-      'followed by the option keys of the roles you would like to select. ' +
+      'followed by the role keys of the roles you would like to select. ' +
+      'You may select the same role multiple times. ' +
       `Type \`${COMMAND_PREFIX + COMMAND_HELP_ROLES}\` ` +
       'to list available roles.'
   );
+};
 
 // Game setup choose roles errors
 const gameSetupChooseRolesErrors = (message, errors) =>
