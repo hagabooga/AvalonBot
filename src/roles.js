@@ -12,9 +12,11 @@ const MERLIN_KEY = 'ml';
 const VANILLA_SPY_KEY = 'vs';
 const ASSASSIN_KEY = 'as';
 const PERCIVAL_KEY = 'pv';
+const PROPERTY_MANAGER_KEY = 'pm';
 const MORGANA_KEY = 'mg';
 const MORDRED_KEY = 'md';
 const OBERON_KEY = 'ob';
+const JIMMY_KEY = 'jm';
 
 const VANILLA_RESISTANCE = {
   name: '👮Vanilla Resistance',
@@ -92,6 +94,18 @@ const PERCIVAL = {
   requires: [ASSASSIN_KEY, MERLIN_KEY],
 };
 
+const PROPERTY_MANAGER = {
+  name: '👮Property Manager',
+  complexity: ROLE_COMPLEXITY_ADVANCED,
+  description:
+    'The Property Manager is a Resistance role which must fail exactly ' +
+    'one mission for the Resistance team to win.',
+  strategy: null,
+  team: TEAM_RESISTANCE,
+  maxAllowed: 6,
+  requires: [],
+};
+
 const MORGANA = {
   name: '🕵Morgana',
   complexity: ROLE_COMPLEXITY_ADVANCED,
@@ -129,15 +143,29 @@ const OBERON = {
   requires: [],
 };
 
+const JIMMY = {
+  name: '🕵Jimmy',
+  complexity: ROLE_COMPLEXITY_ADVANCED,
+  description:
+    'Jimmy is a Spies role which must succeed their first mission ' +
+    'unless there are already two failed missions.',
+  strategy: null,
+  team: TEAM_SPIES,
+  maxAllowed: 4,
+  requires: [],
+};
+
 const ROLES_TABLE = {
   [VANILLA_RESISTANCE_KEY]: VANILLA_RESISTANCE,
   [MERLIN_KEY]: MERLIN,
   [VANILLA_SPY_KEY]: VANILLA_SPY,
   [ASSASSIN_KEY]: ASSASSIN,
   [PERCIVAL_KEY]: PERCIVAL,
+  [PROPERTY_MANAGER_KEY]: PROPERTY_MANAGER,
   [MORGANA_KEY]: MORGANA,
   [MORDRED_KEY]: MORDRED,
   [OBERON_KEY]: OBERON,
+  [JIMMY_KEY]: JIMMY,
 };
 
 // Validate roles and pass along a (possibly empty) array of strings
@@ -229,6 +257,7 @@ export {
   VANILLA_SPY_KEY,
   ASSASSIN_KEY,
   PERCIVAL_KEY,
+  PROPERTY_MANAGER_KEY,
   MORGANA_KEY,
   MORDRED_KEY,
   OBERON_KEY,
