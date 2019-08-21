@@ -4,6 +4,7 @@ import {
   TEAM_RESISTANCE,
   TEAM_SPIES,
 } from './constants';
+import {GAME_BOARDS_TABLE} from './game-boards';
 
 // These keys will also be used as the option key when selecting roles.
 const VANILLA_RESISTANCE_KEY = 'vr';
@@ -103,15 +104,17 @@ const ROLES_TABLE = {
 const validateRoles = (roleKeys, numPlayers) => {
   let errors = [];
 
+  // Ensure that all of the keys are valid
+  let uniqueRoleKeys = [...new Set(roleKeys)];
+
+  uniqueRoleKeys
+    .filter(key => !Object.keys(ROLES_TABLE).includes(key))
+    .forEach(badKey => errors.push(`${badKey} is not a valid role key`));
+
   // Check that there are sufficiently many players
   if (roleKeys.length !== numPlayers) {
     errors.push(`need exactly ${numPlayers} roles`);
   }
-
-  // Ensure that all of the keys are valid
-  roleKeys
-    .filter(key => !Object.keys(ROLES_TABLE).includes(key))
-    .forEach(badKey => errors.push(`${badKey} is not a valid role key`));
 
   // Ensure that the number selected of a given role is sufficiently low
   let validRoleKeys = roleKeys.filter(key =>
