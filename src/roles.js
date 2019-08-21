@@ -8,13 +8,13 @@ import {GAME_BOARDS_TABLE} from './game-boards';
 
 // These keys will also be used as the option key when selecting roles.
 const VANILLA_RESISTANCE_KEY = 'vr';
-const VANILLA_SPY_KEY = 'vs';
 const MERLIN_KEY = 'ml';
+const VANILLA_SPY_KEY = 'vs';
 const ASSASSIN_KEY = 'as';
 const PERCIVAL_KEY = 'pv';
 
 const VANILLA_RESISTANCE = {
-  name: 'Vanilla Resistance',
+  name: '👮Vanilla Resistance',
   complexity: ROLE_COMPLEXITY_BASIC,
   description:
     'The Vanilla Resistance is a Resistance role ' +
@@ -28,23 +28,8 @@ const VANILLA_RESISTANCE = {
   requires: [],
 };
 
-const VANILLA_SPY = {
-  name: 'Vanilla Spy',
-  complexity: ROLE_COMPLEXITY_BASIC,
-  description:
-    'The Vanilla Spy role is a Spies role which has no special powers.',
-  strategy:
-    'Ensure that spies fail at least three missions ' +
-    'while trying to keep your spy identity secret! ' +
-    'If Merlin is in the game, try to determine which player Merlin is so that ' +
-    'the assassin can snipe him if three missions have not failed by game end.',
-  team: TEAM_SPIES,
-  maxAllowed: 4,
-  requires: [],
-};
-
 const MERLIN = {
-  name: 'Merlin',
+  name: '👮Merlin',
   complexity: ROLE_COMPLEXITY_BASIC,
   description:
     'Merlin is a Resistance role who knows which players are spies. ' +
@@ -58,8 +43,23 @@ const MERLIN = {
   requires: [ASSASSIN_KEY],
 };
 
+const VANILLA_SPY = {
+  name: '🕵Vanilla Spy',
+  complexity: ROLE_COMPLEXITY_BASIC,
+  description:
+    'The Vanilla Spy role is a Spies role which has no special powers.',
+  strategy:
+    'Ensure that spies fail at least three missions ' +
+    'while trying to keep your spy identity secret! ' +
+    'If Merlin is in the game, try to determine which player Merlin is so that ' +
+    'the assassin can snipe him if three missions have not failed by game end.',
+  team: TEAM_SPIES,
+  maxAllowed: 4,
+  requires: [],
+};
+
 const ASSASSIN = {
-  name: 'Assassin',
+  name: '🕵Assassin',
   complexity: ROLE_COMPLEXITY_BASIC,
   description:
     'The Assassin is a Spies role that must be included if Merlin ' +
@@ -76,7 +76,7 @@ const ASSASSIN = {
 };
 
 const PERCIVAL = {
-  name: 'Percival',
+  name: '👮Percival',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
     'Percival is a Resistance role who knows who Merlin is. ' +
@@ -91,8 +91,8 @@ const PERCIVAL = {
 
 const ROLES_TABLE = {
   [VANILLA_RESISTANCE_KEY]: VANILLA_RESISTANCE,
-  [VANILLA_SPY_KEY]: VANILLA_SPY,
   [MERLIN_KEY]: MERLIN,
+  [VANILLA_SPY_KEY]: VANILLA_SPY,
   [ASSASSIN_KEY]: ASSASSIN,
   [PERCIVAL_KEY]: PERCIVAL,
 };
@@ -182,8 +182,8 @@ export {
   ROLE_COMPLEXITY_BASIC,
   ROLE_COMPLEXITY_ADVANCED,
   VANILLA_RESISTANCE_KEY,
-  VANILLA_SPY_KEY,
   MERLIN_KEY,
+  VANILLA_SPY_KEY,
   ASSASSIN_KEY,
   PERCIVAL_KEY,
   ROLES_TABLE,
