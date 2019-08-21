@@ -47,7 +47,7 @@ const mapPlayerIdsToPlayersList = async (
   message,
   client,
   playerIds,
-  adminId = null,
+  crownId = null,
   sep = ' '
 ) => {
   let playerGuildMemberPromises = playerIds.map(playerId =>
@@ -57,7 +57,7 @@ const mapPlayerIdsToPlayersList = async (
   let playerGuildMemberStrings = playerGuildMembers.map(member => {
     // Show a crown and bold name if lobby admin. Else just display
     // name.
-    if (member.id === adminId) {
+    if (member.id === crownId) {
       return `👑**${member.displayName}**`;
     }
 
