@@ -49,7 +49,7 @@ class Channel {
     if (message.content.startsWith(COMMAND_PREFIX)) {
       this.handleCommand(
         message,
-        message.content.substring(COMMAND_PREFIX.length).split(' ')
+        message.content.substring(COMMAND_PREFIX.length).split(/\s+/)
       );
     }
   }
