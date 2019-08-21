@@ -331,7 +331,7 @@ const gameSetupChooseRoles = (message, adminId, numPlayers) => {
 // Game setup choose roles errors
 const gameSetupChooseRolesErrors = (message, errors) =>
   message.channel.send(
-    '**Invalid role selection**\n\nThe following errors occured:\n\n' +
+    '**Invalid role selection**\n\nThe following errors occured:\n' +
       errors.map(error => '⭢ ' + error).join('\n')
   );
 

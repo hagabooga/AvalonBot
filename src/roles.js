@@ -99,8 +99,6 @@ const ROLES_TABLE = {
 
 // Validate roles and pass along a (possibly empty) array of strings
 // containing reasons why the roles are invalid
-// TODO need to validate that the right number of spies and resistance
-// are in the game
 const validateRoles = (roleKeys, numPlayers) => {
   let errors = [];
 
@@ -114,6 +112,28 @@ const validateRoles = (roleKeys, numPlayers) => {
   // Check that there are sufficiently many players
   if (roleKeys.length !== numPlayers) {
     errors.push(`need exactly ${numPlayers} roles`);
+  }
+
+  // Check that there are sufficiently many players for each team
+  let numRequiredResistanceRoles = GAME_BOARDS_TABLE[numPlayers].numResistance;
+  let numRequiredSpiesRoles = GAME_BOARDS_TABLE[numPlayers].numSpies;
+
+  if (
+    roleKeys.reduce(
+      (n, key) => n + (ROLES_TABLE[key].team == TEAM_RESISTANCE),
+      0
+    ) !== numRequiredResistanceRoles
+  ) {
+    errors.push(`need exactly ${numRequiredResistanceRoles} Resistance roles`);
+  }
+
+  if (
+    roleKeys.reduce(
+      (n, key) => n + (ROLES_TABLE[key].team == TEAM_SPIES),
+      0
+    ) !== numRequiredSpiesRoles
+  ) {
+    errors.push(`need exactly ${numRequiredSpiesRoles} Spies roles`);
   }
 
   // Ensure that the number selected of a given role is sufficiently low
