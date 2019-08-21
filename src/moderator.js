@@ -327,7 +327,7 @@ const gameSetupStatus = async (message, gameSetup) => {
   );
 
   messageToSend +=
-    `Hang tight. **${adminGuildMember.displayName}** is currently ` +
+    `Hang tight, **${adminGuildMember.displayName}** is currently ` +
     'setting up the game.\n\n';
 
   // List the players
