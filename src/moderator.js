@@ -117,8 +117,14 @@ const roleHelp = message => {
         .join('\n')
   );
 
+  // Start this messages with the Unicode ZERO WIDTH SPACE character and
+  // a new line. This is (the only?) way to have leading whitespace so
+  // that, in this case, this message lines up nicely with the previous
+  // one.
   message.channel.send(
-    `__**Team ${TEAM_RESISTANCE} roles (advanced)**__\n\n` +
+    '\u200B' +
+      '\n' +
+      `__**Team ${TEAM_RESISTANCE} roles (advanced)**__\n\n` +
       Object.values(ROLES_TABLE)
         .filter(
           role =>
