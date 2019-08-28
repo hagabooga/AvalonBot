@@ -52,7 +52,7 @@ const help = message =>
       `\`${COMMAND_PREFIX + COMMAND_RULES}\`` +
       ' - link the official "The Resistance: Avalon" rulebook\n' +
       `\`${COMMAND_PREFIX + COMMAND_STATUS}\`` +
-      ' - show the current game status\n' +
+      ' - show game status\n' +
       `\`${COMMAND_PREFIX + COMMAND_CHANNEL_INIT}\`` +
       ' - initialize AvalonBot in a channel\n' +
       `\`${COMMAND_PREFIX + COMMAND_CHANNEL_DEINIT}\`` +
@@ -63,17 +63,17 @@ const help = message =>
       " - link AvalonBot's source code\n" +
       '\n**Game lobby commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CREATE}\`` +
-      ' - create a game lobby\n' +
+      ' - create game lobby\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_JOIN}\`` +
-      ' - join a game lobby\n' +
+      ' - join game lobby\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_LEAVE}\`` +
-      ' - leave a game lobby\n' +
+      ' - leave game lobby\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_STOP}\`` +
-      ' - stop a game lobby\n' +
+      ' - stop game lobby\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CLAIM_ADMIN}\`` +
-      ' - claim lobby admin (if available)\n' +
+      ' - show lobby admin or claim lobby admin (if available)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_START}\`` +
-      ' - start a game (if admin)\n' +
+      ' - start game (if admin)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_KICK} @user1 @user2 ...\`` +
       ' - kick users from lobby (if admin)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_TRANSFER_ADMIN} @user\`` +
@@ -172,7 +172,7 @@ const channelInit = message =>
 
 // Channel deinitialization
 const channelDeinit = message =>
-  message.channel.send(`AvalonBot decommisioned in <#${message.channel.id}>.`);
+  message.channel.send(`AvalonBot deinitialized in <#${message.channel.id}>.`);
 
 // Channel status (when neither game lobby nor game are active)
 const channelStatus = message =>
@@ -221,7 +221,7 @@ const lobbyClaimAdminFailed = async (message, discordClient, adminId) => {
   );
 
   message.channel.send(
-    `**${adminGuildMember.displayName}** is already the lobby admin!`
+    `**${adminGuildMember.displayName}** is the lobby admin.`
   );
 };
 
@@ -256,15 +256,15 @@ const lobbyStop = message =>
 // Lobby start attempted but not enough players
 const lobbyStartNotEnoughPlayers = message =>
   message.channel.send(
-    'Cannot start game without at least ' +
-      `**${GAME_SETTINGS_MIN_AVALON_PLAYERS} players**!`
+    'Must have at least ' +
+      `**${GAME_SETTINGS_MIN_AVALON_PLAYERS} players** to start the game!`
   );
 
 // Lobby start attempted but too many players
 const lobbyStartTooManyPlayers = message =>
   message.channel.send(
-    'Cannot start game with more than ' +
-      `**${GAME_SETTINGS_MAX_AVALON_PLAYERS} players**!`
+    'Must have at most ' +
+      `**${GAME_SETTINGS_MAX_AVALON_PLAYERS} players** to start the game!`
   );
 
 // Lobby kick
