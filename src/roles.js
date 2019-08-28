@@ -57,7 +57,7 @@ const VANILLA_SPY = {
     'Ensure that spies fail at least three missions ' +
     'while trying to keep your spy identity secret. ' +
     'If Merlin is in the game, try to determine which player Merlin is so that ' +
-    'the assassin can snipe him if three missions have not failed by game end.',
+    'the Assassin can snipe him if three missions have not failed by game end.',
   team: TEAM_SPIES,
   maxAllowed: 4,
   requires: [],
@@ -69,7 +69,7 @@ const ASSASSIN = {
   description:
     'The Assassin is a Spies role that must be included if Merlin ' +
     'is in the game. If the spies have not failed three missions by game end, ' +
-    'the Assassin can try to snipe Merlin. If the snipe selection is correct, ' +
+    'the Assassin can attempt to snipe Merlin. If the snipe selection is correct, ' +
     'the spies win the game.',
   strategy:
     'The Assassin should play more-or-less the same as a Vanilla Spy. ' +
