@@ -16,6 +16,7 @@ import {
   STATE_GAME_SETUP_READY,
   STATE_GAME_SETUP_STOPPED,
 } from './constants';
+import Game from './game';
 import GameLobby from './game-lobby';
 import GameSetup from './game-setup';
 import moderator from './moderator';
@@ -87,11 +88,12 @@ class Channel {
       if (this.gameSetup.state === STATE_GAME_SETUP_STOPPED) {
         this.removeGameSetup(message);
       } else if (this.gameSetup.state === STATE_GAME_SETUP_READY) {
-        // TODO create a game
         this.removeGameSetup(message);
+        this.createGame(message);
       }
     } else if (this.state === STATE_CHANNEL_GAME) {
-      // TODO send message to game message handler
+      // Send message to game message handler
+      this.game.handleCommand(message, command);
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
       moderator.lobbyCreate(message);
 
@@ -136,6 +138,7 @@ class Channel {
     log.debug(`creating game in ${logReprChannel(message.channel)}`);
 
     this.state = STATE_CHANNEL_GAME;
+    this.game = new Game(this.client);
   }
 
   removeGame(message) {

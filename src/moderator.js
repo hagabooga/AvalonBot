@@ -429,6 +429,13 @@ const gameSetupStatus = async (message, gameSetup) => {
   message.channel.send(messageToSend);
 };
 
+// Game status
+// TODO
+const gameStatus = async (message, game) => {
+  //Send the message
+  message.channel.send('test');
+};
+
 export default {
   help,
   roleHelp,
@@ -460,4 +467,5 @@ export default {
   gameSetupConfirm,
   gameSetupStop,
   gameSetupStatus,
+  gameStatus,
 };

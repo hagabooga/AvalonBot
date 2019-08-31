@@ -120,7 +120,7 @@ class GameSetup {
     } else if (this.state === STATE_GAME_SETUP_CONFIRMING_SETUP) {
       if (command[0] === COMMAND_GAME_SETUP_CONFIRM) {
         // Start the game
-        // TODO
+        this.setState(message.channel, STATE_GAME_SETUP_READY);
       } else if (command[0] === COMMAND_GAME_SETUP_RESET) {
         // Reset setup phase
         this.setState(message.channel, STATE_GAME_SETUP_CHOOSING_RULESET);
