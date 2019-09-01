@@ -432,8 +432,7 @@ const gameSetupStatus = async (message, gameSetup) => {
 // Game status
 // TODO
 const gameStatus = async (message, game) => {
-  //Send the message
-  message.channel.send('test');
+  message.channel.send(game.players);
 };
 
 export default {

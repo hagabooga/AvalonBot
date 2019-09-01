@@ -67,6 +67,20 @@ const mapPlayerIdsToPlayersList = async (
   return playerGuildMemberStrings.join(sep);
 };
 
+// Fisher-Yates shuffling algorithm
+const fisherYatesShuffle = arr => {
+  let randArr = [];
+  let newArr = arr;
+
+  while (newArr.length !== 0) {
+    let idx = Math.floor(newArr.length * Math.random());
+
+    randArr.push(newArr[idx]);
+    newArr.splice(idx, 1);
+  }
+  return randArr;
+};
+
 export {
   logFormat,
   logFormatCritical,
@@ -77,4 +91,5 @@ export {
   getGuildMemberFromUserId,
   mapUsersToMentions,
   mapPlayerIdsToPlayersList,
+  fisherYatesShuffle,
 };

@@ -88,8 +88,12 @@ class Channel {
       if (this.gameSetup.state === STATE_GAME_SETUP_STOPPED) {
         this.removeGameSetup(message);
       } else if (this.gameSetup.state === STATE_GAME_SETUP_READY) {
+        let playerIds = this.gameSetup.players;
+        let roleKeys = this.gameSetup.roles;
+        let ruleset = this.gameSetup.ruleset;
+
         this.removeGameSetup(message);
-        this.createGame(message);
+        this.createGame(message, playerIds, roleKeys, ruleset);
       }
     } else if (this.state === STATE_CHANNEL_GAME) {
       // Send message to game message handler
@@ -134,11 +138,11 @@ class Channel {
     this.gameSetup = null;
   }
 
-  createGame(message) {
+  createGame(message, playerIds, roleKeys, ruleset) {
     log.debug(`creating game in ${logReprChannel(message.channel)}`);
 
     this.state = STATE_CHANNEL_GAME;
-    this.game = new Game(this.client);
+    this.game = new Game(this.client, playerIds, roleKeys, ruleset);
   }
 
   removeGame(message) {
