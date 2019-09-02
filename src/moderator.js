@@ -305,6 +305,31 @@ const lobbyStatus = async (message, gameLobby) => {
     messageToSend += `**Joined players**: ${playerListString}`;
   }
 
+  // List requirements for starting game
+  messageToSend += '\n\n';
+
+  if (gameLobby.players.length < GAME_SETTINGS_MIN_AVALON_PLAYERS) {
+    messageToSend +=
+      `At least **${GAME_SETTINGS_MIN_AVALON_PLAYERS}** players ` +
+      'are needed to start the game.';
+  } else if (gameLobby.players.length > GAME_SETTINGS_MAX_AVALON_PLAYERS) {
+    messageToSend +=
+      'Too many players! ' +
+      `There can be at most **${GAME_SETTINGS_MAX_AVALON_PLAYERS}** players.`;
+  } else {
+    if (gameLobby.admin !== null) {
+      messageToSend +=
+        `<@${gameLobby.admin}>, type ` +
+        `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_START}\` to start the game!`;
+    } else {
+      messageToSend +=
+        'An admin can now start the game! ' +
+        `Type \`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CLAIM_ADMIN}\` ` +
+        'to claim admin and then type ' +
+        `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_START}\` to start the game.`;
+    }
+  }
+
   //Send the message
   message.channel.send(messageToSend);
 };
