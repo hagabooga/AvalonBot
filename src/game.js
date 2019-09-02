@@ -32,9 +32,12 @@ class Game {
     // Ruleset
     this.ruleset = ruleset;
 
-    // Assign roles. assignedRolesTable has role keys as keys and arrays
-    // of corresponding user IDs (strings) as values.
-    this.assignedRolesTable = {};
+    // Assign roles. rolePlayersTable has role keys as keys and arrays
+    // of corresponding user IDs (strings) as values. playerRoleTable
+    // has user IDs (strings) as keys and corresponding role keys as
+    // values.
+    this.rolePlayersTable = {};
+    this.playerRoleTable = {};
     this.assignRoles(roleKeys);
   }
 
@@ -46,11 +49,11 @@ class Game {
   }
 
   assignRoles(roleKeys) {
-    // Setup the roles table
+    // Setup the role-players table
     let uniqueRoleKeys = [...new Set(roleKeys)];
 
     uniqueRoleKeys.map(key => {
-      this.assignedRolesTable[key] = [];
+      this.rolePlayersTable[key] = [];
     });
 
     // Assign players to their roles
@@ -59,7 +62,8 @@ class Game {
     shuffledRoleKeys.map(async (key, idx) => {
       let playerId = this.players[idx];
 
-      this.assignedRolesTable[key].push(playerId);
+      this.rolePlayersTable[key].push(playerId);
+      this.playerRoleTable[playerId] = key;
 
       let player = await getUserFromId(this.client, playerId);
       let verboseRole = ROLES_TABLE[key].name;
