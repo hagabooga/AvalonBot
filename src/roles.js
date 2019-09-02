@@ -20,7 +20,8 @@ const ROLE_KEY_OBERON = 'ob';
 const ROLE_KEY_JIMMY = 'jm';
 
 const VANILLA_RESISTANCE = {
-  name: '👮Vanilla Resistance',
+  name: 'Vanilla Resistance',
+  emojiName: '👮Vanilla Resistance',
   complexity: ROLE_COMPLEXITY_BASIC,
   description:
     'The Vanilla Resistance is a Resistance role ' +
@@ -35,7 +36,8 @@ const VANILLA_RESISTANCE = {
 };
 
 const MERLIN = {
-  name: '👮Merlin',
+  name: 'Merlin',
+  emojiName: '👮Merlin',
   complexity: ROLE_COMPLEXITY_BASIC,
   description:
     'Merlin is a Resistance role who knows which players are spies. ' +
@@ -50,7 +52,8 @@ const MERLIN = {
 };
 
 const VANILLA_SPY = {
-  name: '🕵Vanilla Spy',
+  name: 'Vanilla Spy',
+  emojiName: '🕵Vanilla Spy',
   complexity: ROLE_COMPLEXITY_BASIC,
   description:
     'The Vanilla Spy role is a Spies role which has no special powers.',
@@ -65,7 +68,8 @@ const VANILLA_SPY = {
 };
 
 const ASSASSIN = {
-  name: '🕵Assassin',
+  name: 'Assassin',
+  emojiName: '🕵Assassin',
   complexity: ROLE_COMPLEXITY_BASIC,
   description:
     'The Assassin is a Spies role that must be included if Merlin ' +
@@ -82,7 +86,8 @@ const ASSASSIN = {
 };
 
 const PERCIVAL = {
-  name: '👮Percival',
+  name: 'Percival',
+  emojiName: '👮Percival',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
     'Percival is a Resistance role who knows which player Merlin is. ' +
@@ -96,7 +101,8 @@ const PERCIVAL = {
 };
 
 const PROPERTY_MANAGER = {
-  name: '👮Property Manager',
+  name: 'Property Manager',
+  emojiName: '👮Property Manager',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
     'The Property Manager is a Resistance role which must fail exactly ' +
@@ -108,7 +114,8 @@ const PROPERTY_MANAGER = {
 };
 
 const MORGANA = {
-  name: '🕵Morgana',
+  name: 'Morgana',
+  emojiName: '🕵Morgana',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
     'Morgana is a Spies role who appears as Merlin to Percival. ' +
@@ -122,7 +129,8 @@ const MORGANA = {
 };
 
 const MORDRED = {
-  name: '🕵Mordred',
+  name: 'Mordred',
+  emojiName: '🕵Mordred',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
     'Mordred is a Spies role who is not revealed to Merlin as a spy.',
@@ -133,7 +141,8 @@ const MORDRED = {
 };
 
 const OBERON = {
-  name: '🕵Oberon',
+  name: 'Oberon',
+  emojiName: '🕵Oberon',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
     'Oberon is a Spies role who is hidden from the other spies and ' +
@@ -145,7 +154,8 @@ const OBERON = {
 };
 
 const JIMMY = {
-  name: '🕵Jimmy',
+  name: 'Jimmy',
+  emojiName: '🕵Jimmy',
   complexity: ROLE_COMPLEXITY_ADVANCED,
   description:
     'Jimmy is a Spies role which must succeed their first mission ' +

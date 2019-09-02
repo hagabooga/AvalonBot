@@ -86,7 +86,7 @@ const help = message =>
 // Roles help
 const roleHelp = message => {
   const formatRole = role => {
-    let roleStr = `**${role.name}**\n→ ${role.description}\n`;
+    let roleStr = `**${role.emojiName}**\n→ ${role.description}\n`;
 
     // If role has a strategy, show it
     if (role.strategy === null) return roleStr;
@@ -357,7 +357,7 @@ const gameSetupChooseRulesetConfirmation = (message, ruleset) =>
 // Game setup choose roles
 const gameSetupChooseRoles = (message, adminId, numPlayers) => {
   let rolesString = Object.entries(ROLES_TABLE)
-    .map(([key, role]) => `**[${key}]** ${role.name}`)
+    .map(([key, role]) => `**[${key}]** ${role.emojiName}`)
     .join('\n');
   let numResistanceRoles = GAME_BOARDS_TABLE[numPlayers].numResistance;
   let numSpiesRoles = GAME_BOARDS_TABLE[numPlayers].numSpies;
@@ -387,7 +387,7 @@ const gameSetupConfirm = (message, gameSetup) =>
     `<@${gameSetup.admin}>, please confirm the chosen game setup:\n\n` +
       `**Ruleset**: ${gameSetup.ruleset}\n` +
       `**Roles**: ${gameSetup.roles
-        .map(roleKey => ROLES_TABLE[roleKey].name)
+        .map(roleKey => ROLES_TABLE[roleKey].emojiName)
         .join(', ')}` +
       '\n\n' +
       `Type \`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CONFIRM}\` ` +
@@ -442,7 +442,7 @@ const gameSetupStatus = async (message, gameSetup) => {
     messageToSend += '**Roles**: not yet selected\n';
   } else {
     messageToSend += `**Roles**: ${gameSetup.roles
-      .map(roleKey => ROLES_TABLE[roleKey].name)
+      .map(roleKey => ROLES_TABLE[roleKey].emojiName)
       .join(', ')}\n`;
   }
 

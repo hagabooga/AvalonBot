@@ -171,7 +171,7 @@ class GameSetup {
     log.debug(`adding roles to game in ${logReprChannel(this.channel)}`);
 
     this.roles = roles.sort((key1, key2) =>
-      ROLES_TABLE[key1].name.localeCompare(ROLES_TABLE[key2].name)
+      ROLES_TABLE[key1].emojiName.localeCompare(ROLES_TABLE[key2].emojiName)
     );
   }
 
