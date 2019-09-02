@@ -4,10 +4,10 @@
 
 | **Note:** this is an active **work in progress**
 
-AvalonBot is a Discord bot which moderates ["The
-Resistance"](https://boardgamegeek.com/boardgame/41114/resistance) and
-["The Resistance:
-Avalon"](https://boardgamegeek.com/boardgame/128882/resistance-avalon)
+AvalonBot is a Discord bot which moderates [The
+Resistance](https://boardgamegeek.com/boardgame/41114/resistance) and
+[The Resistance:
+Avalon](https://boardgamegeek.com/boardgame/128882/resistance-avalon)
 games. The base ruleset for both games are supported, as well as the
 optional "targeting" rule; several home-made roles are also included.
 

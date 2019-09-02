@@ -14,7 +14,10 @@ import {
 } from './util';
 
 class Game {
-  constructor(message, client, playerIds, roleKeys, ruleset) {
+  constructor(message, gameId, client, playerIds, roleKeys, ruleset) {
+    // The ID of the game
+    this.id = gameId;
+
     // The bot client
     this.client = client;
 
