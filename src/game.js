@@ -39,6 +39,9 @@ class Game {
     this.rolePlayersTable = {};
     this.playerRoleTable = {};
     this.assignRoles(roleKeys);
+
+    // Perform the night phase
+    this.nightPhase();
   }
 
   handleCommand(message, command) {
@@ -72,6 +75,22 @@ class Game {
         `assigning ${verboseRole} to ${logReprUser(player)} ` +
           `in ${logReprChannel(this.channel)}`
       );
+    });
+  }
+
+  // TODO do this properly
+  nightPhase() {
+    // Message each user their assigned role
+    this.players.map(async playerId => {
+      let player = await getUserFromId(this.client, playerId);
+
+      player
+        .send(
+          `your role is ${ROLES_TABLE[this.playerRoleTable[playerId]].name}`
+        )
+        .catch(() =>
+          log.error(`failed to send private message to ${logReprUser(player)}`)
+        );
     });
   }
 
