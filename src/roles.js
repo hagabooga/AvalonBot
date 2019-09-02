@@ -5,18 +5,19 @@ import {
   TEAM_SPIES,
 } from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
+import {getGuildMemberFromUser, getGuildMemberFromUserId} from './util';
 
 // These keys will also be used as the option key when selecting roles.
-const VANILLA_RESISTANCE_KEY = 'vr';
-const MERLIN_KEY = 'ml';
-const VANILLA_SPY_KEY = 'vs';
-const ASSASSIN_KEY = 'as';
-const PERCIVAL_KEY = 'pv';
-const PROPERTY_MANAGER_KEY = 'pm';
-const MORGANA_KEY = 'mg';
-const MORDRED_KEY = 'md';
-const OBERON_KEY = 'ob';
-const JIMMY_KEY = 'jm';
+const ROLE_KEY_VANILLA_RESISTANCE = 'vr';
+const ROLE_KEY_MERLIN = 'ml';
+const ROLE_KEY_VANILLA_SPY = 'vs';
+const ROLE_KEY_ASSASSIN = 'as';
+const ROLE_KEY_PERCIVAL = 'pv';
+const ROLE_KEY_PROPERTY_MANAGER = 'pm';
+const ROLE_KEY_MORGANA = 'mg';
+const ROLE_KEY_MORDRED = 'md';
+const ROLE_KEY_OBERON = 'ob';
+const ROLE_KEY_JIMMY = 'jm';
 
 const VANILLA_RESISTANCE = {
   name: '👮Vanilla Resistance',
@@ -45,7 +46,7 @@ const MERLIN = {
     'while trying to keep your identity secret.',
   team: TEAM_RESISTANCE,
   maxAllowed: 1,
-  requires: [ASSASSIN_KEY],
+  requires: [ROLE_KEY_ASSASSIN],
 };
 
 const VANILLA_SPY = {
@@ -77,7 +78,7 @@ const ASSASSIN = {
     'before finalizing the snipe selection!',
   team: TEAM_SPIES,
   maxAllowed: 1,
-  requires: [MERLIN_KEY],
+  requires: [ROLE_KEY_MERLIN],
 };
 
 const PERCIVAL = {
@@ -91,7 +92,7 @@ const PERCIVAL = {
   strategy: null,
   team: TEAM_RESISTANCE,
   maxAllowed: 1,
-  requires: [ASSASSIN_KEY, MERLIN_KEY],
+  requires: [ROLE_KEY_ASSASSIN, ROLE_KEY_MERLIN],
 };
 
 const PROPERTY_MANAGER = {
@@ -117,7 +118,7 @@ const MORGANA = {
   strategy: null,
   team: TEAM_SPIES,
   maxAllowed: 1,
-  requires: [PERCIVAL_KEY, ASSASSIN_KEY, MERLIN_KEY],
+  requires: [ROLE_KEY_PERCIVAL, ROLE_KEY_ASSASSIN, ROLE_KEY_MERLIN],
 };
 
 const MORDRED = {
@@ -128,7 +129,7 @@ const MORDRED = {
   strategy: null,
   team: TEAM_SPIES,
   maxAllowed: 1,
-  requires: [ASSASSIN_KEY, MERLIN_KEY],
+  requires: [ROLE_KEY_ASSASSIN, ROLE_KEY_MERLIN],
 };
 
 const OBERON = {
@@ -156,16 +157,29 @@ const JIMMY = {
 };
 
 const ROLES_TABLE = {
-  [VANILLA_RESISTANCE_KEY]: VANILLA_RESISTANCE,
-  [MERLIN_KEY]: MERLIN,
-  [VANILLA_SPY_KEY]: VANILLA_SPY,
-  [ASSASSIN_KEY]: ASSASSIN,
-  [PERCIVAL_KEY]: PERCIVAL,
-  [PROPERTY_MANAGER_KEY]: PROPERTY_MANAGER,
-  [MORGANA_KEY]: MORGANA,
-  [MORDRED_KEY]: MORDRED,
-  [OBERON_KEY]: OBERON,
-  [JIMMY_KEY]: JIMMY,
+  [ROLE_KEY_VANILLA_RESISTANCE]: VANILLA_RESISTANCE,
+  [ROLE_KEY_MERLIN]: MERLIN,
+  [ROLE_KEY_VANILLA_SPY]: VANILLA_SPY,
+  [ROLE_KEY_ASSASSIN]: ASSASSIN,
+  [ROLE_KEY_PERCIVAL]: PERCIVAL,
+  [ROLE_KEY_PROPERTY_MANAGER]: PROPERTY_MANAGER,
+  [ROLE_KEY_MORGANA]: MORGANA,
+  [ROLE_KEY_MORDRED]: MORDRED,
+  [ROLE_KEY_OBERON]: OBERON,
+  [ROLE_KEY_JIMMY]: JIMMY,
+};
+
+const ROLES_NIGHT_PHASE_FN_TABLE = {
+  [ROLE_KEY_VANILLA_RESISTANCE]: VANILLA_RESISTANCE_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_MERLIN]: MERLIN_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_VANILLA_SPY]: VANILLA_SPY_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_ASSASSIN]: ASSASSIN_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_PERCIVAL]: PERCIVAL_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_PROPERTY_MANAGER]: PROPERTY_MANAGER_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_MORGANA]: MORGANA_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_MORDRED]: MORDRED_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_OBERON]: OBERON_NIGHT_PHASE_MESSAGE,
+  [ROLE_KEY_JIMMY]: JIMMY_NIGHT_PHASE_MESSAGE,
 };
 
 // Validate roles and pass along a (possibly empty) array of strings
@@ -252,15 +266,16 @@ const validateRoles = (roleKeys, numPlayers) => {
 export {
   ROLE_COMPLEXITY_BASIC,
   ROLE_COMPLEXITY_ADVANCED,
-  VANILLA_RESISTANCE_KEY,
-  MERLIN_KEY,
-  VANILLA_SPY_KEY,
-  ASSASSIN_KEY,
-  PERCIVAL_KEY,
-  PROPERTY_MANAGER_KEY,
-  MORGANA_KEY,
-  MORDRED_KEY,
-  OBERON_KEY,
+  ROLE_KEY_VANILLA_RESISTANCE,
+  ROLE_KEY_MERLIN,
+  ROLE_KEY_VANILLA_SPY,
+  ROLE_KEY_ASSASSIN,
+  ROLE_KEY_PERCIVAL,
+  ROLE_KEY_PROPERTY_MANAGER,
+  ROLE_KEY_MORGANA,
+  ROLE_KEY_MORDRED,
+  ROLE_KEY_OBERON,
+  ROLE_KEY_JIMMY,
   ROLES_TABLE,
   validateRoles,
 };
