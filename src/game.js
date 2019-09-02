@@ -5,6 +5,7 @@ import {
   GAME_RULESET_AVALON_WITH_TARGETING,
 } from './constants';
 import moderator from './moderator';
+import {ROLES_TABLE} from './roles';
 import {
   fisherYatesShuffle,
   getUserFromId,
@@ -31,8 +32,10 @@ class Game {
     // Ruleset
     this.ruleset = ruleset;
 
-    // TODO assign roles
-    this.rolesTable = {};
+    // Assign roles. assignedRolesTable has role keys as keys and arrays
+    // of corresponding user IDs (strings) as values.
+    this.assignedRolesTable = {};
+    this.assignRoles(roleKeys);
   }
 
   handleCommand(message, command) {
@@ -40,6 +43,32 @@ class Game {
       // Inform the player about the status of the lobby
       moderator.gameStatus(message, this);
     }
+  }
+
+  assignRoles(roleKeys) {
+    // Setup the roles table
+    let uniqueRoleKeys = [...new Set(roleKeys)];
+
+    uniqueRoleKeys.map(key => {
+      this.assignedRolesTable[key] = [];
+    });
+
+    // Assign players to their roles
+    let shuffledRoleKeys = fisherYatesShuffle(roleKeys);
+
+    shuffledRoleKeys.map(async (key, idx) => {
+      let playerId = this.players[idx];
+
+      this.assignedRolesTable[key].push(playerId);
+
+      let player = await getUserFromId(this.client, playerId);
+      let verboseRole = ROLES_TABLE[key].name;
+
+      log.debug(
+        `assigning ${verboseRole} to ${logReprUser(player)} ` +
+          `in ${logReprChannel(this.channel)}`
+      );
+    });
   }
 
   async setLeader() {
