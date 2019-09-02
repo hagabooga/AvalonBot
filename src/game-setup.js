@@ -24,6 +24,9 @@ class GameSetup {
     // The bot client
     this.client = client;
 
+    // The Discord channel for this lobby
+    this.channel = message.channel;
+
     // The game setup state
     this.state = STATE_GAME_SETUP_CHOOSING_RULESET;
 
@@ -57,7 +60,7 @@ class GameSetup {
   handleJoinedPlayerCommand(message, command) {
     if (command[0] === COMMAND_GAME_SETUP_STOP) {
       // Set the game setup state to stopped
-      this.setState(message.channel, STATE_GAME_SETUP_STOPPED);
+      this.setState(STATE_GAME_SETUP_STOPPED);
 
       moderator.gameSetupStop(message);
     } else if (this.playerIsAdmin(message.author)) {
@@ -71,11 +74,11 @@ class GameSetup {
       // Ruleset selection
       if (command[0] === COMMAND_GAME_SETUP_CHOOSE) {
         if (command[1] === GAME_RULESET_AVALON_OPTION_NUM) {
-          this.setRuleset(message.channel, GAME_RULESET_AVALON);
+          this.setRuleset(GAME_RULESET_AVALON);
         } else if (
           command[1] === GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM
         ) {
-          this.setRuleset(message.channel, GAME_RULESET_AVALON_WITH_TARGETING);
+          this.setRuleset(GAME_RULESET_AVALON_WITH_TARGETING);
         } else {
           return;
         }
@@ -83,7 +86,7 @@ class GameSetup {
         moderator.gameSetupChooseRulesetConfirmation(message, this.ruleset);
 
         // Go to role picking state
-        this.setState(message.channel, STATE_GAME_SETUP_CHOOSING_ROLES);
+        this.setState(STATE_GAME_SETUP_CHOOSING_ROLES);
         moderator.gameSetupChooseRoles(
           message,
           this.admin,
@@ -111,21 +114,21 @@ class GameSetup {
         }
 
         // Valid. Set the roles.
-        this.setRoles(message.channel, roles);
+        this.setRoles(roles);
 
         // Go to confirmation state
-        this.setState(message.channel, STATE_GAME_SETUP_CONFIRMING_SETUP);
+        this.setState(STATE_GAME_SETUP_CONFIRMING_SETUP);
         moderator.gameSetupConfirm(message, this);
       }
     } else if (this.state === STATE_GAME_SETUP_CONFIRMING_SETUP) {
       if (command[0] === COMMAND_GAME_SETUP_CONFIRM) {
         // Start the game
-        this.setState(message.channel, STATE_GAME_SETUP_READY);
+        this.setState(STATE_GAME_SETUP_READY);
       } else if (command[0] === COMMAND_GAME_SETUP_RESET) {
         // Reset setup phase
-        this.setState(message.channel, STATE_GAME_SETUP_CHOOSING_RULESET);
-        this.unsetRoles(message.channel);
-        this.unsetRuleset(message.channel);
+        this.setState(STATE_GAME_SETUP_CHOOSING_RULESET);
+        this.unsetRoles();
+        this.unsetRuleset();
 
         moderator.gameSetupChooseRuleset(message, this.admin);
       }
@@ -140,38 +143,40 @@ class GameSetup {
     return user.id === this.admin;
   }
 
-  setState(channel, state) {
+  setState(state) {
     log.debug(
-      `setting game setup state to '${state}' in ${logReprChannel(channel)}`
+      `setting game setup state to '${state}' ` +
+        `in ${logReprChannel(this.channel)}`
     );
 
     this.state = state;
   }
 
-  setRuleset(channel, ruleset) {
+  setRuleset(ruleset) {
     log.debug(
-      `setting game ruleset to '${ruleset}' in ${logReprChannel(channel)}`
+      `setting game ruleset to '${ruleset}' ` +
+        `in ${logReprChannel(this.channel)}`
     );
 
     this.ruleset = ruleset;
   }
 
-  unsetRuleset(channel) {
-    log.debug(`unsetting game ruleset in ${logReprChannel(channel)}`);
+  unsetRuleset() {
+    log.debug(`unsetting game ruleset in ${logReprChannel(this.channel)}`);
 
     this.ruleset = null;
   }
 
-  setRoles(channel, roles) {
-    log.debug(`adding roles to game in ${logReprChannel(channel)}`);
+  setRoles(roles) {
+    log.debug(`adding roles to game in ${logReprChannel(this.channel)}`);
 
     this.roles = roles.sort((key1, key2) =>
       ROLES_TABLE[key1].name.localeCompare(ROLES_TABLE[key2].name)
     );
   }
 
-  unsetRoles(channel) {
-    log.debug(`removing roles from game in ${logReprChannel(channel)}`);
+  unsetRoles() {
+    log.debug(`removing roles from game in ${logReprChannel(this.channel)}`);
 
     this.roles = [];
   }

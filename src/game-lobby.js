@@ -23,6 +23,9 @@ class GameLobby {
     // The bot client
     this.client = client;
 
+    // The Discord channel for this lobby
+    this.channel = message.channel;
+
     // Game lobby state
     this.state = STATE_GAME_LOBBY_ACCEPTING_PLAYERS;
 
@@ -31,14 +34,14 @@ class GameLobby {
 
     // Array of joined player's unique IDs (as strings)
     this.players = [];
-    this.addPlayer(message.author, message.channel);
+    this.addPlayer(message.author);
     moderator.lobbyJoin(message);
 
     // Lobby admin's unique ID (as string). Note that we set it to null
     // initially so that the setAdmin function isn't modifying a
     // variable that doesn't exist.
     this.admin = null;
-    this.setAdmin(message.author, message.channel);
+    this.setAdmin(message.author);
   }
 
   handleCommand(message, command) {
@@ -51,7 +54,7 @@ class GameLobby {
       if (this.playerIsJoined(message.author)) {
         moderator.lobbyJoinAlreadyJoined(message);
       } else {
-        this.addPlayer(message.author, message.channel);
+        this.addPlayer(message.author);
 
         moderator.lobbyJoin(message);
       }
@@ -75,24 +78,24 @@ class GameLobby {
       }
 
       // Add the players
-      this.addPlayers(newPlayers, message.channel);
+      this.addPlayers(newPlayers);
 
       moderator.lobbyForceJoin(message, newPlayers);
     } else if (command[0] === COMMAND_GAME_LOBBY_LEAVE) {
       // Remove the player from the game
-      this.removePlayer(message.author, message.channel);
+      this.removePlayer(message.author);
 
       moderator.lobbyLeave(message);
     } else if (command[0] === COMMAND_GAME_LOBBY_STOP) {
       // Set the game lobby state to stopped
-      this.setState(message.channel, STATE_GAME_LOBBY_STOPPED);
+      this.setState(STATE_GAME_LOBBY_STOPPED);
 
       moderator.lobbyStop(message);
     } else if (command[0] === COMMAND_GAME_LOBBY_CLAIM_ADMIN) {
       // User wants to claim admin. Let them if there's no admin,
       // otherwise send them a message saying there's already an admin.
       if (this.admin === null) {
-        this.setAdmin(message.author, message.channel);
+        this.setAdmin(message.author);
 
         moderator.lobbyClaimAdmin(message);
       } else {
@@ -118,7 +121,7 @@ class GameLobby {
       }
 
       // Remove the players
-      this.removePlayers(joinedPlayersToKick, message.channel);
+      this.removePlayers(joinedPlayersToKick);
 
       moderator.lobbyKick(message, joinedPlayersToKick);
     } else if (command[0] === COMMAND_GAME_LOBBY_TRANSFER_ADMIN) {
@@ -143,7 +146,7 @@ class GameLobby {
         let newAdminUser = joinedMentionedUsers.values().next().value;
 
         if (newAdminUser.id !== this.admin) {
-          this.setAdmin(newAdminUser, message.channel);
+          this.setAdmin(newAdminUser);
 
           moderator.lobbyTransferAdmin(message, this.client, newAdminUser.id);
         }
@@ -162,7 +165,7 @@ class GameLobby {
       }
 
       // Good amount of players. Go to setup phase!
-      this.setState(message.channel, STATE_GAME_LOBBY_READY);
+      this.setState(STATE_GAME_LOBBY_READY);
     }
   }
 
@@ -174,58 +177,60 @@ class GameLobby {
     return user.id === this.admin;
   }
 
-  addPlayer(user, channel) {
+  addPlayer(user) {
     log.debug(
-      `adding ${logReprUser(user)} to game lobby in ${logReprChannel(channel)}`
+      `adding ${logReprUser(user)} to game lobby in ` +
+        `${logReprChannel(this.channel)}`
     );
 
     this.players.push(user.id);
   }
 
-  addPlayers(users, channel) {
-    users.forEach(user => this.addPlayer(user, channel));
+  addPlayers(users) {
+    users.forEach(user => this.addPlayer(user));
   }
 
-  removePlayer(user, channel) {
+  removePlayer(user) {
     // Remove adminship if admin is removed
     if (user.id === this.admin) {
-      this.unsetAdmin(user, channel);
+      this.unsetAdmin(user);
     }
 
     log.debug(
       `removing ${logReprUser(user)} from game lobby ` +
-        `in ${logReprChannel(channel)}`
+        `in ${logReprChannel(this.channel)}`
     );
 
     // Remove the player
     this.players = this.players.filter(id => id !== user.id);
   }
 
-  removePlayers(users, channel) {
-    users.forEach(user => this.removePlayer(user, channel));
+  removePlayers(users) {
+    users.forEach(user => this.removePlayer(user));
   }
 
-  setAdmin(user, channel) {
+  setAdmin(user) {
     log.debug(
       `setting ${logReprUser(user)} as game lobby admin ` +
-        `in ${logReprChannel(channel)}`
+        `in ${logReprChannel(this.channel)}`
     );
 
     this.admin = user.id;
   }
 
-  unsetAdmin(user, channel) {
+  unsetAdmin(user) {
     log.debug(
       `removing ${logReprUser(user)} as game lobby admin ` +
-        `in ${logReprChannel(channel)}`
+        `in ${logReprChannel(this.channel)}`
     );
 
     this.admin = null;
   }
 
-  setState(channel, state) {
+  setState(state) {
     log.debug(
-      `setting game lobby state to '${state}' in ${logReprChannel(channel)}`
+      `setting game lobby state to '${state}' in ` +
+        `${logReprChannel(this.channel)}`
     );
 
     this.state = state;

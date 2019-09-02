@@ -142,7 +142,7 @@ class Channel {
     log.debug(`creating game in ${logReprChannel(message.channel)}`);
 
     this.state = STATE_CHANNEL_GAME;
-    this.game = new Game(this.client, playerIds, roleKeys, ruleset);
+    this.game = new Game(message, this.client, playerIds, roleKeys, ruleset);
   }
 
   removeGame(message) {
