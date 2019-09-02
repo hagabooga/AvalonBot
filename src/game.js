@@ -5,7 +5,12 @@ import {
   GAME_RULESET_AVALON_WITH_TARGETING,
 } from './constants';
 import moderator from './moderator';
-import {logReprChannel, logReprUser, fisherYatesShuffle} from './util';
+import {
+  fisherYatesShuffle,
+  getUserFromId,
+  logReprChannel,
+  logReprUser,
+} from './util';
 
 class Game {
   constructor(message, client, playerIds, roleKeys, ruleset) {
@@ -20,7 +25,8 @@ class Game {
 
     // The leader's player ID
     this.leaderIdx = 0;
-    this.leader = this.players[leaderIdx];
+    this.leader = null;
+    this.setLeader();
 
     // Ruleset
     this.ruleset = ruleset;
@@ -34,6 +40,17 @@ class Game {
       // Inform the player about the status of the lobby
       moderator.gameStatus(message, this);
     }
+  }
+
+  async setLeader() {
+    this.leader = this.players[this.leaderIdx];
+
+    let leaderUser = await getUserFromId(this.client, this.leader);
+
+    log.debug(
+      `setting ${logReprUser(leaderUser)} to leader ` +
+        `in ${logReprChannel(this.channel)}`
+    );
   }
 }
 
