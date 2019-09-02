@@ -5,6 +5,7 @@ import {
   GAME_RULESET_AVALON_WITH_TARGETING,
 } from './constants';
 import moderator from './moderator';
+import {nightPhaseMessage} from './moderator-private-messages';
 import {ROLES_TABLE} from './roles';
 import {
   fisherYatesShuffle,
@@ -81,21 +82,9 @@ class Game {
     });
   }
 
-  // TODO do this properly
   nightPhase() {
     // Message each user their assigned role
-    this.players.map(async playerId => {
-      let player = await getUserFromId(this.client, playerId);
-
-      player
-        .send(
-          `game id is **${this.id}** ` +
-            `your role is ${ROLES_TABLE[this.playerRoleTable[playerId]].name}`
-        )
-        .catch(() =>
-          log.error(`failed to send private message to ${logReprUser(player)}`)
-        );
-    });
+    this.players.map(playerId => nightPhaseMessage(playerId, this));
   }
 
   async setLeader() {
