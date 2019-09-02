@@ -31,6 +31,9 @@ let channels = {};
 // Bot setup
 const client = new Discord.Client();
 
+// Store game IDs in use so we don't have duplicates
+let usedGameIds = [];
+
 // Message handling
 client.on('message', message => {
   if (message.channel.id in channels) {
@@ -47,7 +50,11 @@ client.on('message', message => {
     }
   } else if (message.content === COMMAND_PREFIX + COMMAND_CHANNEL_INIT) {
     // Initialize the channel
-    channels[message.channel.id] = new Channel(client, forceJoinEnabled);
+    channels[message.channel.id] = new Channel(
+      client,
+      forceJoinEnabled,
+      usedGameIds
+    );
 
     log.debug(`initializing ${logReprChannel(message.channel)}`);
 

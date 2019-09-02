@@ -86,7 +86,8 @@ class Game {
 
       player
         .send(
-          `your role is ${ROLES_TABLE[this.playerRoleTable[playerId]].name}`
+          `game id is **${this.id}** ` +
+            `your role is ${ROLES_TABLE[this.playerRoleTable[playerId]].name}`
         )
         .catch(() =>
           log.error(`failed to send private message to ${logReprUser(player)}`)

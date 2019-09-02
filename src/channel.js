@@ -17,13 +17,17 @@ import {
   STATE_GAME_SETUP_STOPPED,
 } from './constants';
 import Game from './game';
+import ALL_GAME_IDS from './game-ids';
 import GameLobby from './game-lobby';
 import GameSetup from './game-setup';
 import moderator from './moderator';
 import {logReprChannel} from './util';
 
 class Channel {
-  constructor(client, forceJoinEnabled) {
+  constructor(client, forceJoinEnabled, usedGameIds) {
+    // The game IDs currently in use across all channels
+    this.usedGameIds = usedGameIds;
+
     // The bot client
     this.client = client;
 
@@ -139,10 +143,20 @@ class Channel {
   }
 
   createGame(message, playerIds, roleKeys, ruleset) {
-    log.debug(`creating game in ${logReprChannel(message.channel)}`);
+    // Generate a game ID
+    let unusedGameIds = ALL_GAME_IDS.filter(
+      id => !this.usedGameIds.includes(id)
+    );
+    let gameId =
+      unusedGameIds[Math.floor(Math.random() * unusedGameIds.length)];
+    this.usedGameIds.push(gameId);
+
+    log.debug(
+      `creating game with ID '${gameId}' in ${logReprChannel(message.channel)}`
+    );
 
     this.state = STATE_CHANNEL_GAME;
-    this.game = new Game(message, this.client, playerIds, roleKeys, ruleset);
+    this.game = new Game(message, gameId, this.client, playerIds, roleKeys, ruleset);
   }
 
   removeGame(message) {
