@@ -156,7 +156,14 @@ class Channel {
     );
 
     this.state = STATE_CHANNEL_GAME;
-    this.game = new Game(message, gameId, this.client, playerIds, roleKeys, ruleset);
+    this.game = new Game(
+      message,
+      gameId,
+      this.client,
+      playerIds,
+      roleKeys,
+      ruleset
+    );
   }
 
   removeGame(message) {

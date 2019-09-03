@@ -1,9 +1,5 @@
 import * as log from 'loglevel';
-import {
-  COMMAND_STATUS,
-  GAME_RULESET_AVALON,
-  GAME_RULESET_AVALON_WITH_TARGETING,
-} from './constants';
+import {COMMAND_STATUS} from './constants';
 import moderator from './moderator';
 import {nightPhaseMessage} from './moderator-private-messages';
 import {ROLES_TABLE} from './roles';

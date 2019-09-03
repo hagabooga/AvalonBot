@@ -5,7 +5,6 @@ import {
   TEAM_SPIES,
 } from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
-import {getGuildMemberFromUser, getGuildMemberFromUserId} from './util';
 
 // These keys will also be used as the option key when selecting roles.
 const ROLE_KEY_VANILLA_RESISTANCE = 'vr';
