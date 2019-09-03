@@ -51,6 +51,27 @@ class Game {
     }
   }
 
+  isRoleInGame(roleKey) {
+    return Object.keys(this.rolePlayersTable).includes(roleKey);
+  }
+
+  findPlayersOnTeam(team, excludedRoleKeys = [], shuffle = true) {
+    let selectedRoleKeys = Object.keys(this.rolePlayersTable)
+      .filter(roleKey => ROLES_TABLE[roleKey].team === team)
+      .filter(roleKey => !excludedRoleKeys.includes(roleKey));
+
+    let matchingPlayerIds = selectedRoleKeys.reduce(
+      (accumArray, playerArray) => accumArray.concat(playerArray),
+      []
+    );
+
+    if (shuffle) {
+      return fisherYatesShuffle(matchingPlayerIds);
+    }
+
+    return matchingPlayerIds;
+  }
+
   assignRoles(roleKeys) {
     // Setup the role-players table
     let uniqueRoleKeys = [...new Set(roleKeys)];
