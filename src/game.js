@@ -61,7 +61,8 @@ class Game {
       .filter(roleKey => !excludedRoleKeys.includes(roleKey));
 
     let matchingPlayerIds = selectedRoleKeys.reduce(
-      (accumArray, playerArray) => accumArray.concat(playerArray),
+      (accumArray, roleKey) =>
+        accumArray.concat(this.rolePlayersTable[roleKey]),
       []
     );
 
