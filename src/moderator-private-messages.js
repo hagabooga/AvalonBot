@@ -12,9 +12,8 @@ import {
   ROLE_KEY_PROPERTY_MANAGER,
   ROLE_KEY_VANILLA_SPY,
 } from './roles';
-import {getUserFromId, getGuildMemberFromUserId, logReprUser} from './util';
+import {getUserFromId, logReprUser} from './util';
 
-// TODO show spies and other info here
 const nightPhaseMessage = async (playerId, game) => {
   let roleKey = game.playerRoleTable[playerId];
   let role = ROLES_TABLE[roleKey];
@@ -25,6 +24,22 @@ const nightPhaseMessage = async (playerId, game) => {
     `with ID \`${game.id}\`.\n\n` +
     `You have the **${role.name}** role and are on ` +
     `the **${role.team}** team.`;
+
+  // There's a whole bunch of cases here, each of which should hopefully
+  // be self explanatory. Note that the Vanilla Resistance role receives
+  // no extra dialogue.
+  if (roleKey === ROLE_KEY_MERLIN) {
+    let spiesPlayerIds = game.findPlayersOnTeam(TEAM_SPIES, [ROLE_KEY_MORDRED]);
+
+    // Merlin dialogue, which varies with Mordred being in game
+    msgToSend += `\n\nThe spies are ${spiesPlayerIds
+      .map(id => `<@${id}>`)
+      .join(', ')}`;
+
+    // if (game.isRoleInGame(ROLE_KEY_MORDRED)) {
+    // } else {
+    // }
+  }
 
   player
     .send(msgToSend)
