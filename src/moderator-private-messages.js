@@ -22,8 +22,7 @@ const nightPhaseMessage = async (playerId, game) => {
 
   let msgToSend =
     `An Avalon game with ID **${game.id}** ` +
-    `has started in **#${game.channel.name}** ` +
-    `on server **${game.channel.guild.name}**. ` +
+    `has started in <#${game.channel.id}>. ` +
     `You are on the **${playerRole.team}** team ` +
     `with the role **${playerRole.name}**.`;
 
