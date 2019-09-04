@@ -55,12 +55,8 @@ class Game {
     return Object.keys(this.rolePlayersTable).includes(roleKey);
   }
 
-  findPlayersOnTeam(team, excludedRoleKeys = [], shuffle = true) {
-    let selectedRoleKeys = Object.keys(this.rolePlayersTable)
-      .filter(roleKey => ROLES_TABLE[roleKey].team === team)
-      .filter(roleKey => !excludedRoleKeys.includes(roleKey));
-
-    let matchingPlayerIds = selectedRoleKeys.reduce(
+  findPlayersWithRoles(roles, shuffle = true) {
+    let matchingPlayerIds = roles.reduce(
       (accumArray, roleKey) =>
         accumArray.concat(this.rolePlayersTable[roleKey]),
       []
@@ -71,6 +67,14 @@ class Game {
     }
 
     return matchingPlayerIds;
+  }
+
+  findPlayersOnTeam(team, excludedRoleKeys = [], shuffle = true) {
+    let selectedRoleKeys = Object.keys(this.rolePlayersTable)
+      .filter(roleKey => ROLES_TABLE[roleKey].team === team)
+      .filter(roleKey => !excludedRoleKeys.includes(roleKey));
+
+    return this.findPlayersWithRoles(selectedRoleKeys, shuffle);
   }
 
   assignRoles(roleKeys) {
