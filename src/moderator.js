@@ -248,6 +248,23 @@ const lobbyTransferAdmin = async (message, discordClient, newAdminId) => {
 const lobbyTransferAdminTooManyMentions = message =>
   message.channel.send(`Must select exactly one player to transfer admin to!`);
 
+// Attempted admin transfer but user not in game
+const lobbyTransferAdminUserNotInGame = async (
+  message,
+  discordClient,
+  userId
+) => {
+  let userGuildMember = await getGuildMemberFromUserId(
+    discordClient,
+    message.guild,
+    userId
+  );
+
+  message.channel.send(
+    `**${userGuildMember.displayName}** is not in the game lobby!`
+  );
+};
+
 // Lobby leave
 const lobbyLeave = message =>
   message.channel.send(`**${message.member.displayName}** has left the game.`);
@@ -477,6 +494,7 @@ export default {
   lobbyClaimAdminFailed,
   lobbyTransferAdmin,
   lobbyTransferAdminTooManyMentions,
+  lobbyTransferAdminUserNotInGame,
   lobbyLeave,
   lobbyStop,
   lobbyStartNotEnoughPlayers,
