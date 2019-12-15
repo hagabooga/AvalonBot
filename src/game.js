@@ -55,7 +55,7 @@ class Game {
     this.assignRoles(roleKeys);
 
     // Keep track of mission data
-    this.missionSchema = GAME_BOARD_TABLE[this.num_players].missionSizes;
+    this.missionSchema = GAME_BOARDS_TABLE[this.num_players].missionSizes;
     this.missionData = {
       1: {result: MISSION_RESULT_NULL},
       2: {result: MISSION_RESULT_NULL},
