@@ -73,9 +73,9 @@ const nightPhaseMessage = async (playerId, game) => {
     let spiesStr = spiesPlayerIds.map(id => `<@${id}>`).join(', ');
 
     if (spiesPlayerIds.length === 1) {
-      msgToSend += ` ${spiesStr} is also a spy!.`;
+      msgToSend += ` ${spiesStr} is also a spy!`;
     } else {
-      msgToSend += ` ${spiesStr} are also spies!.`;
+      msgToSend += ` ${spiesStr} are also spies!`;
     }
 
     if (game.isRoleInGame(ROLE_KEY_OBERON)) {
