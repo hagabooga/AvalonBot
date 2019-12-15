@@ -19,6 +19,12 @@ export const STATE_GAME_SETUP_CONFIRMING_SETUP = 'confirming setup';
 export const STATE_GAME_SETUP_READY = 'ready';
 export const STATE_GAME_SETUP_STOPPED = 'stopped';
 
+// Game states
+export const STATE_GAME_NIGHT_PHASE = 'night phase';
+export const STATE_GAME_CHOOSING_TEAM = 'choosing mission';
+export const STATE_GAME_VOTING_ON_TEAM = 'voting on team';
+export const STATE_GAME_ACCEPTING_MISSION_RESULTS = 'accepting mission results';
+
 // Commands. The values here are the actual commands, but they need to
 // be preceded by COMMAND_PREFIX.
 export const COMMAND_PREFIX = '!';

@@ -1,5 +1,12 @@
 import * as log from 'loglevel';
-import {COMMAND_STATUS} from './constants';
+import {
+  COMMAND_STATUS,
+  STATE_GAME_ACCEPTING_MISSION_RESULTS,
+  STATE_GAME_CHOOSING_TEAM,
+  STATE_GAME_NIGHT_PHASE,
+  STATE_GAME_VOTING_ON_TEAM,
+} from './constants';
+import {GAME_BOARDS_TABLE} from './game-boards';
 import moderator from './moderator';
 import {nightPhaseMessage} from './moderator-private-messages';
 import {ROLES_TABLE} from './roles';
@@ -21,7 +28,11 @@ class Game {
     // The Discord channel for this lobby
     this.channel = message.channel;
 
+    // The game state
+    this.state = STATE_GAME_NIGHT_PHASE;
+
     // (Randomized) array of player's unique IDs (as strings)
+    this.num_players = playerIds.length;
     this.players = fisherYatesShuffle(playerIds);
 
     // The leader's player ID
@@ -40,6 +51,9 @@ class Game {
     this.playerRoleTable = {};
     this.assignRoles(roleKeys);
 
+    // Keep track of mission data
+    this.missionSchema = GAME_BOARD_TABLE[this.num_players].missionSizes;
+
     // Perform the night phase
     this.nightPhase();
   }
@@ -53,6 +67,15 @@ class Game {
 
   isRoleInGame(roleKey) {
     return Object.keys(this.rolePlayersTable).includes(roleKey);
+  }
+
+  setState(state) {
+    log.debug(
+      `setting game state to '${state}' ` +
+        `in ${logReprChannel(this.channel)}`
+    );
+
+    this.state = state;
   }
 
   findPlayersWithRoles(roles, shuffle = true) {
