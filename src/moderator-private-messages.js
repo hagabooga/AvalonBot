@@ -31,7 +31,11 @@ const nightPhaseMessage = async (playerId, game) => {
     let spiesPlayerIds = game.findPlayersOnTeam(TEAM_SPIES, [ROLE_KEY_MORDRED]);
     let spiesStr = spiesPlayerIds.map(id => `<@${id}>`).join(', ');
 
-    msgToSend += ` The spies revealed to you are ${spiesStr}.`;
+    if (spiesPlayerIds.length === 1) {
+      msgToSend += ` ${spiesStr} is revealed to by a spy!`;
+    } else {
+      msgToSend += ` The spies revealed to you are ${spiesStr}.`;
+    }
 
     if (game.isRoleInGame(ROLE_KEY_MORDRED)) {
       msgToSend += ' However, Mordred remains hidden.';
@@ -68,7 +72,11 @@ const nightPhaseMessage = async (playerId, game) => {
       .filter(id => id !== playerId);
     let spiesStr = spiesPlayerIds.map(id => `<@${id}>`).join(', ');
 
-    msgToSend += ` The spies you see are ${spiesStr}.`;
+    if (spiesPlayerIds.length === 1) {
+      msgToSend += ` ${spiesStr} is also a spy!.`;
+    } else {
+      msgToSend += ` ${spiesStr} are also spies!.`;
+    }
 
     if (game.isRoleInGame(ROLE_KEY_OBERON)) {
       msgToSend += ' However, Oberon remains hidden.';
