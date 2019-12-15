@@ -68,3 +68,8 @@ export const ROLE_COMPLEXITY_ADVANCED = 'advanced role';
 // Team names
 export const TEAM_RESISTANCE = 'Resistance';
 export const TEAM_SPIES = 'Spies';
+
+// Mission results
+export const MISSION_RESULT_NULL = 'no mission result';
+export const MISSION_RESULT_SUCCEEDED = 'mission succeeded';
+export const MISSION_RESULT_FAILED = 'mission failed';

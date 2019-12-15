@@ -1,6 +1,9 @@
 import * as log from 'loglevel';
 import {
   COMMAND_STATUS,
+  MISSION_RESULT_FAILED,
+  MISSION_RESULT_NULL,
+  MISSION_RESULT_SUCCEEDED,
   STATE_GAME_ACCEPTING_MISSION_RESULTS,
   STATE_GAME_CHOOSING_TEAM,
   STATE_GAME_NIGHT_PHASE,
@@ -53,6 +56,16 @@ class Game {
 
     // Keep track of mission data
     this.missionSchema = GAME_BOARD_TABLE[this.num_players].missionSizes;
+    this.missionData = {
+      1: {result: MISSION_RESULT_NULL},
+      2: {result: MISSION_RESULT_NULL},
+      3: {result: MISSION_RESULT_NULL},
+      4: {result: MISSION_RESULT_NULL},
+      5: {result: MISSION_RESULT_NULL},
+    };
+
+    // Keep track of number of rejected teams for current mission
+    this.num_rejects = 0;
 
     // Perform the night phase
     this.nightPhase();
@@ -71,8 +84,7 @@ class Game {
 
   setState(state) {
     log.debug(
-      `setting game state to '${state}' ` +
-        `in ${logReprChannel(this.channel)}`
+      `setting game state to '${state}' ` + `in ${logReprChannel(this.channel)}`
     );
 
     this.state = state;
