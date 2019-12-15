@@ -65,7 +65,7 @@ class GameLobby {
   }
 
   handleJoinedPlayerCommand(message, command) {
-    if (command[0] === COMMAND_GAME_LOBBY_FORCE_JOIN) {
+    if (this.forceJoinEnabled && command[0] === COMMAND_GAME_LOBBY_FORCE_JOIN) {
       // Force players to join the game
       let newPlayers = message.mentions.users.filter(
         user => !this.playerIsJoined(user)
