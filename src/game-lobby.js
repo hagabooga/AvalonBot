@@ -151,6 +151,8 @@ class GameLobby {
           moderator.lobbyTransferAdmin(message, this.client, newAdminUser.id);
         }
       }
+      // TODO: add message about trying to transfer admin to user not in
+      // game
     } else if (command[0] === COMMAND_GAME_LOBBY_START) {
       // Attempting to start game. First ensure we have sufficiently
       // many (and sufficiently few) players
