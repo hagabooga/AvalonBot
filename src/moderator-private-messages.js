@@ -32,7 +32,7 @@ const nightPhaseMessage = async (playerId, game) => {
     let spiesStr = spiesPlayerIds.map(id => `<@${id}>`).join(', ');
 
     if (spiesPlayerIds.length === 1) {
-      msgToSend += ` ${spiesStr} is revealed to by a spy!`;
+      msgToSend += ` ${spiesStr} is revealed to be a spy!`;
     } else {
       msgToSend += ` The spies revealed to you are ${spiesStr}.`;
     }
