@@ -47,6 +47,9 @@ class Game {
     // Ruleset
     this.ruleset = ruleset;
 
+    // Roles
+    this.roles = roleKeys;
+
     // Assign roles. rolePlayersTable has role keys as keys and arrays
     // of corresponding user IDs (strings) as values. playerRoleTable
     // has user IDs (strings) as keys and corresponding role keys as

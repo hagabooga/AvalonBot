@@ -498,6 +498,25 @@ const gameStatus = async (message, game) => {
   }
   // TODO represent other game states here
 
+  // List the players
+  let playerListString = await mapPlayerIdsToPlayersList(
+    message,
+    game.client,
+    game.players,
+    game.leader,
+    ', '
+  );
+
+  messageToSend += `**Players**: ${playerListString}\n`;
+
+  // List the ruleset
+  messageToSend += `**Ruleset**: ${game.ruleset}\n`;
+
+  // List the roles chosen
+  messageToSend += `**Roles**: ${game.roles
+    .map(roleKey => ROLES_TABLE[roleKey].emojiName)
+    .join(', ')}\n`;
+
   // Show game board
   messageToSend +=
     '**Game board**:\n' +
