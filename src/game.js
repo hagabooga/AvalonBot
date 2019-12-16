@@ -58,18 +58,27 @@ class Game {
     // Keep track of mission data
     this.missionSchema = GAME_BOARDS_TABLE[this.num_players].missionSizes;
     this.missionData = {
-      1: {result: MISSION_RESULT_NULL},
+      1: {result: MISSION_RESULT_SELECTED},
       2: {result: MISSION_RESULT_NULL},
       3: {result: MISSION_RESULT_NULL},
       4: {result: MISSION_RESULT_NULL},
       5: {result: MISSION_RESULT_NULL},
     };
+    this.selectedMission = 1;
 
     // Keep track of number of rejected teams for current mission
     this.numRejects = 0;
 
     // Perform the night phase
     this.nightPhase();
+
+    // Start the choose mission phase
+    this.setState(STATE_GAME_CHOOSING_TEAM);
+    moderator.gameMissionChoose(
+      message,
+      this.missionSchema[this.selectedMission].size,
+      this.leader
+    );
   }
 
   handleCommand(message, command) {

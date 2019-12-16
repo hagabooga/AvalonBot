@@ -494,6 +494,13 @@ const gameStatus = async (message, game) => {
   message.channel.send(messageToSend);
 };
 
+// Game introduction
+const gameMissionChoose = (message, numOnMission, leaderId) =>
+  message.channel.send(
+    `<@${leaderId}>, type \`!team\` followed by ${numOnMission}` +
+      ' players you want on the mission team.'
+  );
+
 export default {
   help,
   roleHelp,
@@ -527,4 +534,5 @@ export default {
   gameSetupStop,
   gameSetupStatus,
   gameStatus,
+  gameMissionChoose,
 };
