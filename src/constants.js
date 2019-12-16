@@ -52,6 +52,8 @@ export const COMMAND_GAME_SETUP_RESET = 'reset';
 export const COMMAND_GAME_SETUP_STOP = 'stop';
 export const COMMAND_GAME_STOP = 'stop';
 export const COMMAND_GAME_TEAM = 'team';
+export const COMMAND_GAME_DM_APPROVE = 'approve';
+export const COMMAND_GAME_DM_REJECT = 'reject';
 
 // Game settings
 export const GAME_SETTINGS_MIN_AVALON_PLAYERS = 5;

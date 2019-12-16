@@ -4,6 +4,8 @@ import {
   COMMAND_ABOUT,
   COMMAND_CHANNEL_DEINIT,
   COMMAND_CHANNEL_INIT,
+  COMMAND_GAME_DM_APPROVE,
+  COMMAND_GAME_DM_REJECT,
   COMMAND_GAME_LOBBY_CLAIM_ADMIN,
   COMMAND_GAME_LOBBY_CREATE,
   COMMAND_GAME_LOBBY_JOIN,
@@ -568,6 +570,14 @@ const gameMissionChooseIncorrectNumberOfPlayers = (
       ' players to be on the mission team.'
   );
 
+// Game introduction
+const gameVoteOnTeam = (message, game) =>
+  message.channel.send(
+    'Everyone, direct message me either of the following:\n\n' +
+      `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
+      `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.`
+  );
+
 export default {
   help,
   roleHelp,
@@ -604,4 +614,5 @@ export default {
   gameStop,
   gameMissionChoose,
   gameMissionChooseIncorrectNumberOfPlayers,
+  gameVoteOnTeam,
 };

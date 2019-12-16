@@ -134,7 +134,8 @@ class Game {
         // Add players to team
         this.team = joinedPlayersToAdd.map(user => user.id);
 
-        this.setState(STATE_GAME_VOTING_ON_TEAM)
+        this.setState(STATE_GAME_VOTING_ON_TEAM);
+        moderator.gameVoteOnTeam(message, this);
       }
     }
   }
