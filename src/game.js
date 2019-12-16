@@ -97,7 +97,7 @@ class Game {
 
   setState(state) {
     log.debug(
-      `setting game state to '${state}' ` + `in ${logReprChannel(this.channel)}`
+      `setting game state to '${state}' in ${logReprChannel(this.channel)}`
     );
 
     this.state = state;
