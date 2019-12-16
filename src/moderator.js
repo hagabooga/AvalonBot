@@ -513,7 +513,7 @@ const gameStatus = async (message, game) => {
   } else if (game.state === STATE_GAME_VOTING_ON_TEAM) {
     messageToSend +=
       'Accepting votes for proposed team.' +
-      "If you haven't yet voted, direct message me either of the following:\n\n" +
+      " If you haven't yet voted, direct message me either of the following:\n\n" +
       `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
       `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.\n\n`;
   }
