@@ -154,7 +154,7 @@ class GameLobby {
         moderator.lobbyTransferAdminUserNotInGame(
           message,
           this.client,
-          mentionedUsers.values().next().value.id,
+          mentionedUsers.values().next().value.id
         );
       }
     } else if (command[0] === COMMAND_GAME_LOBBY_START) {
