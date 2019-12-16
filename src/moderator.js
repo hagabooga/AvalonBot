@@ -30,6 +30,9 @@ import {
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
   ROLE_COMPLEXITY_ADVANCED,
   ROLE_COMPLEXITY_BASIC,
+  STATE_GAME_CHOOSING_TEAM,
+  STATE_GAME_VOTING_ON_TEAM,
+  STATE_GAME_ACCEPTING_MISSION_RESULTS,
   TEAM_RESISTANCE,
   TEAM_SPIES,
 } from './constants';
@@ -481,6 +484,19 @@ const gameSetupStatus = async (message, gameSetup) => {
 const gameStatus = async (message, game) => {
   // Build up a message to send and then send it
   let messageToSend = '';
+
+  let leaderGuildMember = await getGuildMemberFromUserId(
+    game.client,
+    message.guild,
+    game.leader
+  );
+
+  if (game.state === STATE_GAME_CHOOSING_TEAM) {
+    messageToSend +=
+      `**${leaderGuildMember.displayName}** is currently` +
+      ' selecting the mission team.\n\n';
+  }
+  // TODO represent other game states here
 
   // Show game board
   messageToSend +=
