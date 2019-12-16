@@ -58,7 +58,7 @@ export const GAME_SETTINGS_MAX_AVALON_PLAYERS = 10;
 export const GAME_RULESET_AVALON = 'The Resistance: Avalon';
 export const GAME_RULESET_AVALON_OPTION_NUM = '1';
 export const GAME_RULESET_AVALON_WITH_TARGETING =
-  'The Resistance: Avalon (with targeting)';
+  'The Resistance: Avalon (with targeting) [NOT YET IMPLEMENTED]';
 export const GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM = '2';
 
 // Role attributes
