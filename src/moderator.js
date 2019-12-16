@@ -510,8 +510,13 @@ const gameStatus = async (message, game) => {
     messageToSend +=
       `**${leaderGuildMember.displayName}** is currently` +
       ' selecting the mission team.\n\n';
+  } else if (game.state === STATE_GAME_VOTING_ON_TEAM) {
+    messageToSend +=
+      'Accepting votes for proposed team.' +
+      "If you haven't yet voted, direct message me either of the following:\n\n" +
+      `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
+      `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.\n\n`;
   }
-  // TODO represent other game states here
 
   // List the players
   let playerListString = await mapPlayerIdsToPlayersList(
@@ -531,6 +536,20 @@ const gameStatus = async (message, game) => {
   messageToSend += `**Roles**: ${game.roles
     .map(roleKey => ROLES_TABLE[roleKey].emojiName)
     .join(', ')}\n`;
+
+  // List the current team members
+  if (game.team.length === 0) {
+    messageToSend += '**Current team**: not yet selected\n';
+  } else {
+    let currentTeamListString = await mapPlayerIdsToPlayersList(
+      message,
+      game.client,
+      game.team,
+      game.leader,
+      ', '
+    );
+    messageToSend += `**Current team**: ${currentTeamListString}\n`;
+  }
 
   // Show game board
   messageToSend +=
