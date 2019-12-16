@@ -131,7 +131,10 @@ class Game {
           return;
         }
 
-        // TODO
+        // Add players to team
+        this.team = joinedPlayersToAdd.map(user => user.id);
+
+        this.setState(STATE_GAME_VOTING_ON_TEAM)
       }
     }
   }
