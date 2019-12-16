@@ -35,8 +35,9 @@ class Game {
     // The bot client
     this.client = client;
 
-    // The Discord channel for this lobby
+    // The Discord channel for this lobby and the guild
     this.channel = message.channel;
+    this.guild = message.guild;
 
     // The game state
     this.state = STATE_GAME_NIGHT_PHASE;
@@ -97,10 +98,22 @@ class Game {
   }
 
   handleDirectMessageCommand(message, command) {
-    if (this.state == STATE_GAME_VOTING_ON_TEAM) {
-      // Handle team votes
-      if (this.playerIsJoined(message.author) && this.playerHasVoted(message.author))
-        console.log(command)
+    if (this.playerIsJoined(message.author)) {
+      if (
+        this.state == STATE_GAME_VOTING_ON_TEAM &&
+        !this.playerHasVoted(message.author) &&
+        [VOTE_APPROVED, VOTE_REJECTED].includes(command[0])
+      ) {
+        // Handle team votes
+        this.teamVotes[message.author.id] = command[0];
+
+        moderator.gameVoteOnTeamNewVote(
+          message,
+          this.channel,
+          this.guild,
+          this
+        );
+      }
     }
   }
 
@@ -192,6 +205,12 @@ class Game {
     return this.findPlayersWithRoles(selectedRoleKeys, shuffle);
   }
 
+  findPlayersNotYetVoted() {
+    return Object.keys(this.teamVotes).filter(
+      id => this.teamVotes[id] === VOTE_NOT_YET_VOTED
+    );
+  }
+
   setState(state) {
     log.debug(
       `setting game state to '${state}' in ${logReprChannel(this.channel)}`
@@ -249,7 +268,7 @@ class Game {
 
   resetTeamVotes() {
     this.teamVotes = this.players.reduce(
-      (accum, player) => (accum[player] = VOTE_NOT_YET_VOTED),
+      (accum, player) => ((accum[player] = VOTE_NOT_YET_VOTED), accum),
       {}
     );
   }

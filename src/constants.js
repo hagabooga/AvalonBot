@@ -82,5 +82,5 @@ export const MISSION_RESULT_FAILED = 'failed';
 
 // Vote results
 export const VOTE_NOT_YET_VOTED = 'not yet voted';
-export const VOTE_APPROVED = 'approved';
-export const VOTE_REJECTED = 'rejected';
+export const VOTE_APPROVED = 'approve';
+export const VOTE_REJECTED = 'reject';

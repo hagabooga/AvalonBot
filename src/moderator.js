@@ -597,6 +597,28 @@ const gameVoteOnTeam = (message, game) =>
       `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.`
   );
 
+// Player just voted
+const gameVoteOnTeamNewVote = async (message, channel, guild, game) => {
+  let messageToSend = '';
+
+  let voterGuildMember = await getGuildMemberFromUserId(
+    game.client,
+    guild,
+    message.author.id
+  );
+  let numNotYetVoted = game.findPlayersNotYetVoted().length;
+
+  messageToSend += `**${voterGuildMember.displayName}** has voted!`;
+
+  if (numNotYetVoted > 1) {
+    messageToSend += ` **${numNotYetVoted}** votes still need to be cast!`;
+  } else if (numNotYetVoted === 1) {
+    messageToSend += ` **${numNotYetVoted}** vote still need to be cast!`;
+  }
+
+  channel.send(messageToSend);
+};
+
 export default {
   help,
   roleHelp,
@@ -634,4 +656,5 @@ export default {
   gameMissionChoose,
   gameMissionChooseIncorrectNumberOfPlayers,
   gameVoteOnTeam,
+  gameVoteOnTeamNewVote,
 };
