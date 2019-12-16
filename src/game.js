@@ -90,6 +90,11 @@ class Game {
     );
   }
 
+  // TODO
+  handleDirectMessageCommand(message, command) {
+    console.log(command);
+  }
+
   handleCommand(message, command) {
     if (command[0] === COMMAND_STATUS) {
       // Inform the player about the status of the lobby

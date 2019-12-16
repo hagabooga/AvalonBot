@@ -59,6 +59,10 @@ client.on('message', message => {
     log.debug(`initializing ${logReprChannel(message.channel)}`);
 
     moderator.channelInit(message);
+  } else if (message.channel.type === 'dm') {
+    Object.values(channels).forEach(channel =>
+      channel.handleDirectMessage(message)
+    );
   }
 });
 

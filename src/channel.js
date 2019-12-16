@@ -45,6 +45,22 @@ class Channel {
     this.game = null;
   }
 
+  handleDirectMessage(message) {
+    if (
+      this.state === STATE_CHANNEL_GAME &&
+      message.content.startsWith(COMMAND_PREFIX)
+    ) {
+      // Verify and remove the game ID
+      let messageContents = message.content
+        .substring(COMMAND_PREFIX.length)
+        .split(/\s+/);
+
+      if (messageContents.pop() === this.game.id) {
+        this.game.handleDirectMessageCommand(message, messageContents);
+      }
+    }
+  }
+
   handleMessage(message) {
     // Reactions - these are just for fun
     if (message.content === 'leg') {
