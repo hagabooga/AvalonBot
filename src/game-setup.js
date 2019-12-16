@@ -70,7 +70,20 @@ class GameSetup {
   }
 
   handleAdminCommand(message, command) {
-    if (this.state === STATE_GAME_SETUP_CHOOSING_RULESET) {
+    if (command[0] === COMMAND_GAME_SETUP_RESET) {
+      // Reset setup phase
+      this.setState(STATE_GAME_SETUP_CHOOSING_RULESET);
+
+      if (this.roles.length > 0) {
+        this.unsetRoles();
+      }
+
+      if (this.ruleset !== null) {
+        this.unsetRuleset();
+      }
+
+      moderator.gameSetupChooseRuleset(message, this.admin);
+    } else if (this.state === STATE_GAME_SETUP_CHOOSING_RULESET) {
       // Ruleset selection
       if (command[0] === COMMAND_GAME_SETUP_CHOOSE) {
         if (command[1] === GAME_RULESET_AVALON_OPTION_NUM) {
@@ -124,13 +137,6 @@ class GameSetup {
       if (command[0] === COMMAND_GAME_SETUP_CONFIRM) {
         // Start the game
         this.setState(STATE_GAME_SETUP_READY);
-      } else if (command[0] === COMMAND_GAME_SETUP_RESET) {
-        // Reset setup phase
-        this.setState(STATE_GAME_SETUP_CHOOSING_RULESET);
-        this.unsetRoles();
-        this.unsetRuleset();
-
-        moderator.gameSetupChooseRuleset(message, this.admin);
       }
     }
   }
