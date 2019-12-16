@@ -66,7 +66,7 @@ class Game {
     };
 
     // Keep track of number of rejected teams for current mission
-    this.num_rejects = 0;
+    this.numRejects = 0;
 
     // Perform the night phase
     this.nightPhase();
