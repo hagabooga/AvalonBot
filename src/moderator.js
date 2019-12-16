@@ -1,6 +1,6 @@
 import {
-  AVALON_RULEBOOK_URL,
   AVALONBOT_WEBSITE,
+  AVALON_RULEBOOK_URL,
   COMMAND_ABOUT,
   COMMAND_CHANNEL_DEINIT,
   COMMAND_CHANNEL_INIT,
@@ -16,6 +16,8 @@ import {
   COMMAND_GAME_SETUP_CONFIRM,
   COMMAND_GAME_SETUP_RESET,
   COMMAND_GAME_SETUP_STOP,
+  COMMAND_GAME_STOP,
+  COMMAND_GAME_TEAM,
   COMMAND_HELP,
   COMMAND_HELP_ROLES,
   COMMAND_PREFIX,
@@ -30,9 +32,9 @@ import {
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
   ROLE_COMPLEXITY_ADVANCED,
   ROLE_COMPLEXITY_BASIC,
+  STATE_GAME_ACCEPTING_MISSION_RESULTS,
   STATE_GAME_CHOOSING_TEAM,
   STATE_GAME_VOTING_ON_TEAM,
-  STATE_GAME_ACCEPTING_MISSION_RESULTS,
   TEAM_RESISTANCE,
   TEAM_SPIES,
 } from './constants';
@@ -85,7 +87,18 @@ const help = message =>
       ' - transfer admin to another user (if admin)\n' +
       '\n**Game setup commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_STOP}\`` +
-      ' - stop game setup\n'
+      ' - stop game setup\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CHOOSE} opt1 opt2 ...\`` +
+      ' - choose game setup options (if admin) \n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CONFIRM}\`` +
+      ' - confirm game setup options (if admin) \n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_RESET}\`` +
+      ' - reset game setup (if admin)\n' +
+      '\n**Game commands**\n\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_STOP}\`` +
+      ' - stop game\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_TEAM} @user1 @user2 ...\`` +
+      ' - choose players for mission team (if leader)\n'
   );
 
 // Roles help
@@ -540,7 +553,7 @@ const gameStop = message =>
 // Game introduction
 const gameMissionChoose = (message, numOnMission, leaderId) =>
   message.channel.send(
-    `<@${leaderId}>, type \`!team\` followed by ${numOnMission}` +
+    `<@${leaderId}>, type \`!${COMMAND_GAME_TEAM}\` followed by ${numOnMission}` +
       ' players you want on the mission team.'
   );
 
