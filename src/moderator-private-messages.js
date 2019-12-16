@@ -33,12 +33,12 @@ const nightPhaseMessage = async (playerId, game) => {
 
     if (spiesPlayerIds.length === 1) {
       msgToSend += ` ${spiesStr} is revealed to be a spy!`;
-    } else {
+    } else if (spiesPlayerIds.length > 1) {
       msgToSend += ` The spies revealed to you are ${spiesStr}.`;
     }
 
     if (game.isRoleInGame(ROLE_KEY_MORDRED)) {
-      msgToSend += ' However, Mordred remains hidden.';
+      msgToSend += ' Mordred remains hidden.';
     }
   } else if (roleKey === ROLE_KEY_PERCIVAL) {
     // Percival dialogue, which varies with whether Morgana is in the
@@ -50,11 +50,11 @@ const nightPhaseMessage = async (playerId, game) => {
     let merlinsStr = merlinPlayerIds.map(id => `<@${id}>`).join(' and ');
 
     if (game.isRoleInGame(ROLE_KEY_MORGANA)) {
-      msgToSend += ` Merlin appears to you and reveals himself as ${merlinsStr}.`;
-    } else {
       msgToSend +=
         ` Two players, ${merlinsStr}, are revealed to you. ` +
         'One of the two players is Merlin and the other is Morgana.';
+    } else {
+      msgToSend += ` Merlin appears to you and reveals himself as ${merlinsStr}.`;
     }
   } else if (
     [
@@ -74,12 +74,12 @@ const nightPhaseMessage = async (playerId, game) => {
 
     if (spiesPlayerIds.length === 1) {
       msgToSend += ` ${spiesStr} is also a spy!`;
-    } else {
+    } else if (spiesPlayerIds.length > 1) {
       msgToSend += ` ${spiesStr} are also spies!`;
     }
 
     if (game.isRoleInGame(ROLE_KEY_OBERON)) {
-      msgToSend += ' However, Oberon remains hidden.';
+      msgToSend += ' Oberon remains hidden.';
     }
   } else if (roleKey === ROLE_KEY_OBERON) {
     // Oberon dialogue
