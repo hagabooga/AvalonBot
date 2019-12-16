@@ -1,8 +1,8 @@
 import * as log from 'loglevel';
 import {
-  COMMAND_STATUS,
   COMMAND_GAME_STOP,
   COMMAND_GAME_TEAM,
+  COMMAND_STATUS,
   MISSION_RESULT_FAILED,
   MISSION_RESULT_NULL,
   MISSION_RESULT_SELECTED,
@@ -12,6 +12,9 @@ import {
   STATE_GAME_NIGHT_PHASE,
   STATE_GAME_STOPPED,
   STATE_GAME_VOTING_ON_TEAM,
+  VOTE_APPROVED,
+  VOTE_NOT_YET_VOTED,
+  VOTE_REJECTED,
 } from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
 import moderator from './moderator';
@@ -39,7 +42,6 @@ class Game {
     this.state = STATE_GAME_NIGHT_PHASE;
 
     // (Randomized) array of player's unique IDs (as strings)
-    this.num_players = playerIds.length;
     this.players = fisherYatesShuffle(playerIds);
 
     // The leader's player ID
@@ -62,7 +64,7 @@ class Game {
     this.assignRoles(roleKeys);
 
     // Keep track of mission data
-    this.missionSchema = GAME_BOARDS_TABLE[this.num_players].missionSizes;
+    this.missionSchema = GAME_BOARDS_TABLE[this.players.length].missionSizes;
     this.missionData = {
       1: {result: MISSION_RESULT_SELECTED},
       2: {result: MISSION_RESULT_NULL},
@@ -78,6 +80,10 @@ class Game {
     // Keep track of current team
     this.team = [];
 
+    // Keep track of votes for current team
+    this.teamVotes = {};
+    this.resetTeamVotes();
+
     // Perform the night phase
     this.nightPhase();
 
@@ -90,9 +96,12 @@ class Game {
     );
   }
 
-  // TODO
   handleDirectMessageCommand(message, command) {
-    console.log(command);
+    if (this.state == STATE_GAME_VOTING_ON_TEAM) {
+      // Handle team votes
+      if (this.playerIsJoined(message.author) && this.playerHasVoted(message.author))
+        console.log(command)
+    }
   }
 
   handleCommand(message, command) {
@@ -157,12 +166,8 @@ class Game {
     return user.id === this.leader;
   }
 
-  setState(state) {
-    log.debug(
-      `setting game state to '${state}' in ${logReprChannel(this.channel)}`
-    );
-
-    this.state = state;
+  playerHasVoted(user) {
+    return this.teamVotes[user.id] !== VOTE_NOT_YET_VOTED;
   }
 
   findPlayersWithRoles(roles, shuffle = true) {
@@ -185,6 +190,14 @@ class Game {
       .filter(roleKey => !excludedRoleKeys.includes(roleKey));
 
     return this.findPlayersWithRoles(selectedRoleKeys, shuffle);
+  }
+
+  setState(state) {
+    log.debug(
+      `setting game state to '${state}' in ${logReprChannel(this.channel)}`
+    );
+
+    this.state = state;
   }
 
   assignRoles(roleKeys) {
@@ -214,11 +227,6 @@ class Game {
     });
   }
 
-  nightPhase() {
-    // Message each user their assigned role
-    this.players.map(playerId => nightPhaseMessage(playerId, this));
-  }
-
   async setLeader() {
     this.leader = this.players[this.leaderIdx];
 
@@ -230,8 +238,20 @@ class Game {
     );
   }
 
+  nightPhase() {
+    // Message each user their assigned role
+    this.players.map(playerId => nightPhaseMessage(playerId, this));
+  }
+
   getCurrentMissionSize() {
     return this.missionSchema[this.selectedMission].size;
+  }
+
+  resetTeamVotes() {
+    this.teamVotes = this.players.reduce(
+      (accum, player) => (accum[player] = VOTE_NOT_YET_VOTED),
+      {}
+    );
   }
 }
 

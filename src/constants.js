@@ -79,3 +79,8 @@ export const MISSION_RESULT_NULL = '';
 export const MISSION_RESULT_SELECTED = 'selected';
 export const MISSION_RESULT_SUCCEEDED = 'succeeded';
 export const MISSION_RESULT_FAILED = 'failed';
+
+// Vote results
+export const VOTE_NOT_YET_VOTED = 'not yet voted';
+export const VOTE_APPROVED = 'approved';
+export const VOTE_REJECTED = 'rejected';
