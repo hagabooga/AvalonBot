@@ -70,6 +70,7 @@ export const TEAM_RESISTANCE = 'Resistance';
 export const TEAM_SPIES = 'Spies';
 
 // Mission results
-export const MISSION_RESULT_NULL = 'no mission result';
-export const MISSION_RESULT_SUCCEEDED = 'mission succeeded';
-export const MISSION_RESULT_FAILED = 'mission failed';
+export const MISSION_RESULT_NULL = '';
+export const MISSION_RESULT_SELECTED = 'selected';
+export const MISSION_RESULT_SUCCEEDED = 'succeeded';
+export const MISSION_RESULT_FAILED = 'failed';

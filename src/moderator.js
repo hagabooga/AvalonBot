@@ -37,6 +37,7 @@ import {GAME_BOARDS_TABLE} from './game-boards';
 import {ROLES_TABLE} from './roles';
 import {
   gameBoardRepresentNoData,
+  gameBoardRepresentWithData,
   getGuildMemberFromUserId,
   mapPlayerIdsToPlayersList,
   mapUsersToMentions,
@@ -478,7 +479,15 @@ const gameSetupStatus = async (message, gameSetup) => {
 // Game status
 // TODO
 const gameStatus = async (message, game) => {
-  message.channel.send(game.players);
+  // Build up a message to send and then send it
+  let messageToSend = '';
+
+  // Show game board
+  messageToSend +=
+    '**Game board**:\n' + '```' + gameBoardRepresentWithData(game) + '```';
+
+  //Send the message
+  message.channel.send(messageToSend);
 };
 
 export default {

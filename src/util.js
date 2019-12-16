@@ -86,6 +86,28 @@ const gameBoardRepresentNoData = numPlayers => {
   return table(data);
 };
 
+const gameBoardRepresentWithData = game => {
+  let missionSizes = game.missionSchema;
+
+  let data = Object.keys(missionSizes).reduce(
+    (accum, key) => [
+      ...accum,
+      [
+        key,
+        missionSizes[key].size,
+        missionSizes[key].twoFailsRequired,
+        game.missionData[key].result,
+      ],
+    ],
+    [
+      ['MISSION', 'SIZE', 'TWO FAILS', 'STATUS'],
+      ['=======', '====', '=========', '======'],
+    ]
+  );
+
+  return table(data);
+};
+
 // Fisher-Yates shuffling algorithm
 const fisherYatesShuffle = arr => {
   let randArr = [];
@@ -111,5 +133,6 @@ export {
   mapUsersToMentions,
   mapPlayerIdsToPlayersList,
   gameBoardRepresentNoData,
+  gameBoardRepresentWithData,
   fisherYatesShuffle,
 };
