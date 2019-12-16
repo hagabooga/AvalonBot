@@ -1,4 +1,6 @@
 import chalk from 'chalk';
+import table from 'text-table';
+import {GAME_BOARDS_TABLE} from './game-boards';
 
 // Log formatting functions
 const logColors = {
@@ -67,6 +69,23 @@ const mapPlayerIdsToPlayersList = async (
   return playerGuildMemberStrings.join(sep);
 };
 
+const gameBoardRepresentNoData = numPlayers => {
+  let missionSizes = GAME_BOARDS_TABLE[numPlayers].missionSizes;
+
+  let data = Object.keys(missionSizes).reduce(
+    (accum, key) => [
+      ...accum,
+      [key, missionSizes[key].size, missionSizes[key].twoFailsRequired],
+    ],
+    [
+      ['MISSION', 'SIZE', 'TWO FAILS'],
+      ['=======', '====', '========='],
+    ]
+  );
+
+  return table(data);
+};
+
 // Fisher-Yates shuffling algorithm
 const fisherYatesShuffle = arr => {
   let randArr = [];
@@ -91,5 +110,6 @@ export {
   getGuildMemberFromUserId,
   mapUsersToMentions,
   mapPlayerIdsToPlayersList,
+  gameBoardRepresentNoData,
   fisherYatesShuffle,
 };
