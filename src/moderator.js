@@ -557,6 +557,17 @@ const gameMissionChoose = (message, numOnMission, leaderId) =>
       ' players you want on the mission team.'
   );
 
+// Game choose team not right amount of players
+const gameMissionChooseIncorrectNumberOfPlayers = (
+  message,
+  numOnMission,
+  leaderId
+) =>
+  message.channel.send(
+    `<@${leaderId}>, please select exactly ${numOnMission}` +
+      ' players to be on the mission team.'
+  );
+
 export default {
   help,
   roleHelp,
@@ -592,4 +603,5 @@ export default {
   gameStatus,
   gameStop,
   gameMissionChoose,
+  gameMissionChooseIncorrectNumberOfPlayers,
 };

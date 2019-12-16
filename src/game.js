@@ -2,6 +2,7 @@ import * as log from 'loglevel';
 import {
   COMMAND_STATUS,
   COMMAND_GAME_STOP,
+  COMMAND_GAME_TEAM,
   MISSION_RESULT_FAILED,
   MISSION_RESULT_NULL,
   MISSION_RESULT_SELECTED,
@@ -74,6 +75,9 @@ class Game {
     // Keep track of number of rejected teams for current mission
     this.numRejects = 0;
 
+    // Keep track of current team
+    this.team = [];
+
     // Perform the night phase
     this.nightPhase();
 
@@ -81,7 +85,7 @@ class Game {
     this.setState(STATE_GAME_CHOOSING_TEAM);
     moderator.gameMissionChoose(
       message,
-      this.missionSchema[this.selectedMission].size,
+      this.getCurrentMissionSize(),
       this.leader
     );
   }
@@ -102,6 +106,33 @@ class Game {
       this.setState(STATE_GAME_STOPPED);
 
       moderator.gameStop(message);
+    } else if (this.playerIsLeader(message.author)) {
+      // Send to method handling commands for the lobby admin
+      this.handleLeaderCommand(message, command);
+    }
+  }
+
+  handleLeaderCommand(message, command) {
+    if (this.state == STATE_GAME_CHOOSING_TEAM) {
+      if (command[0] === COMMAND_GAME_TEAM) {
+        // Add players to proposed team
+        let joinedPlayersToAdd = message.mentions.users.filter(user =>
+          this.playerIsJoined(user)
+        );
+
+        // Check if we have the required number of players
+        if (joinedPlayersToAdd.size !== this.getCurrentMissionSize()) {
+          moderator.gameMissionChooseIncorrectNumberOfPlayers(
+            message,
+            this.getCurrentMissionSize(),
+            this.leader
+          );
+
+          return;
+        }
+
+        // TODO
+      }
     }
   }
 
@@ -188,6 +219,10 @@ class Game {
       `setting ${logReprUser(leaderUser)} to leader ` +
         `in ${logReprChannel(this.channel)}`
     );
+  }
+
+  getCurrentMissionSize() {
+    return this.missionSchema[this.selectedMission].size;
   }
 }
 
