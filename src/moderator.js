@@ -613,7 +613,7 @@ const gameVoteOnTeamNewVote = async (message, channel, guild, game) => {
   if (numNotYetVoted > 1) {
     messageToSend += ` **${numNotYetVoted}** votes still need to be cast!`;
   } else if (numNotYetVoted === 1) {
-    messageToSend += ` **${numNotYetVoted}** vote still need to be cast!`;
+    messageToSend += ` **${numNotYetVoted}** vote still needs to be cast!`;
   }
 
   channel.send(messageToSend);
