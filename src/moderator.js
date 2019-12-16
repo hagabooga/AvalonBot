@@ -529,6 +529,14 @@ const gameStatus = async (message, game) => {
   message.channel.send(messageToSend);
 };
 
+// Game stop
+const gameStop = message =>
+  message.channel.send(
+    'Game has been stopped! Type ' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_LOBBY_CREATE}\` ` +
+      'to start a new game lobby.'
+  );
+
 // Game introduction
 const gameMissionChoose = (message, numOnMission, leaderId) =>
   message.channel.send(
@@ -569,5 +577,6 @@ export default {
   gameSetupStop,
   gameSetupStatus,
   gameStatus,
+  gameStop,
   gameMissionChoose,
 };

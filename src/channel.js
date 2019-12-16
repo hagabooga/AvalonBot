@@ -15,6 +15,7 @@ import {
   STATE_GAME_LOBBY_STOPPED,
   STATE_GAME_SETUP_READY,
   STATE_GAME_SETUP_STOPPED,
+  STATE_GAME_STOPPED,
 } from './constants';
 import Game from './game';
 import ALL_GAME_IDS from './game-ids';
@@ -101,7 +102,11 @@ class Channel {
       }
     } else if (this.state === STATE_CHANNEL_GAME) {
       // Send message to game message handler
-      this.game.handleCommand(message, command);
+      if (this.game.state === STATE_GAME_STOPPED) {
+        this.removeGame(message);
+      } else {
+        this.game.handleCommand(message, command);
+      }
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
       moderator.lobbyCreate(message);
 
@@ -170,7 +175,7 @@ class Channel {
     log.debug(`removing game in ${logReprChannel(message.channel)}`);
 
     this.state = null;
-    this.gameSetup = null;
+    this.game = null;
   }
 }
 

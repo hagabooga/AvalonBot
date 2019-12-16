@@ -1,6 +1,7 @@
 import * as log from 'loglevel';
 import {
   COMMAND_STATUS,
+  COMMAND_GAME_STOP,
   MISSION_RESULT_FAILED,
   MISSION_RESULT_NULL,
   MISSION_RESULT_SELECTED,
@@ -8,6 +9,7 @@ import {
   STATE_GAME_ACCEPTING_MISSION_RESULTS,
   STATE_GAME_CHOOSING_TEAM,
   STATE_GAME_NIGHT_PHASE,
+  STATE_GAME_STOPPED,
   STATE_GAME_VOTING_ON_TEAM,
 } from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
@@ -88,11 +90,31 @@ class Game {
     if (command[0] === COMMAND_STATUS) {
       // Inform the player about the status of the lobby
       moderator.gameStatus(message, this);
+    } else if (this.playerIsJoined(message.author)) {
+      // Send to method handling commands for active players
+      this.handleJoinedPlayerCommand(message, command);
+    }
+  }
+
+  handleJoinedPlayerCommand(message, command) {
+    if (command[0] === COMMAND_GAME_STOP) {
+      // Set the game setup state to stopped
+      this.setState(STATE_GAME_STOPPED);
+
+      moderator.gameStop(message);
     }
   }
 
   isRoleInGame(roleKey) {
     return Object.keys(this.rolePlayersTable).includes(roleKey);
+  }
+
+  playerIsJoined(user) {
+    return this.players.includes(user.id);
+  }
+
+  playerIsLeader(user) {
+    return user.id === this.leader;
   }
 
   setState(state) {
