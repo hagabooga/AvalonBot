@@ -111,7 +111,7 @@ const gameBoardRepresentWithData = game => {
 // Fisher-Yates shuffling algorithm
 const fisherYatesShuffle = arr => {
   let randArr = [];
-  let newArr = arr;
+  let newArr = [...arr];
 
   while (newArr.length !== 0) {
     let idx = Math.floor(newArr.length * Math.random());
