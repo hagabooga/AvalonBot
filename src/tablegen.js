@@ -24,7 +24,7 @@ function seperator(lengths) {
   return;
 }
 
-function table(data) {
+function create_table(data) {
   let top = topleft;
   let lengths = data[0]
     .map((col, i) => data.map(row => row[i].toString()))
@@ -36,21 +36,25 @@ function table(data) {
   );
   top += '\n' + v + ' ';
   data.map((row, j) => {
-    row.map(
-      (x, i) =>
-        (top += x + ' '.repeat(lengths[i] - x.toString().length + 1) + v + ' ')
-    );
-    top += '\n';
-    lengths.map((y, j) => {
-      top +=
-        (j == 0 ? lt : cross) +
-        h.repeat(y + 2) +
-        (j == lengths.length - 1 ? rt : '');
+    // middle
+    row.map((x, i) => {
+      let middle = lengths[i] - x.toString().length;
+      let half = Math.trunc(middle / 2);
+      console.log(half);
+      top += ' '.repeat(half) + x + ' '.repeat(middle - half + 1) + v + ' ';
     });
-
-    top += '\n' + v + ' ';
+    top += '\n';
+    // under
+    let last = j == data.length - 1;
+    lengths.map((y, k) => {
+      top +=
+        (k == 0 ? (last ? botleft : lt) : last ? bt : cross) +
+        h.repeat(y + 2) +
+        (k == lengths.length - 1 ? (last ? botright : rt) : '');
+    });
+    if (!last) top += '\n' + v + ' ';
   });
-  console.log(top);
+  return top;
 }
 
-table(data);
+console.log(create_table(data));
