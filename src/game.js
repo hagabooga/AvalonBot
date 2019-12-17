@@ -186,7 +186,9 @@ class Game {
   findPlayersWithRoles(roles, shuffle = true) {
     let matchingPlayerIds = roles.reduce(
       (accumArray, roleKey) =>
-        accumArray.concat(this.rolePlayersTable[roleKey]),
+        this.roles.includes(roleKey)
+          ? accumArray.concat(this.rolePlayersTable[roleKey])
+          : accumArray,
       []
     );
 
