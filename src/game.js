@@ -91,7 +91,7 @@ class Game {
     // Start the choose mission phase
     this.setState(STATE_GAME_CHOOSING_TEAM);
     moderator.gameMissionChoose(
-      message,
+      message.channel,
       this.getCurrentMissionSize(),
       this.leader
     );
