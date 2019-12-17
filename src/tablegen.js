@@ -9,20 +9,6 @@ const t = '\u2566';
 const bt = '\u2569';
 const lt = '\u2560';
 const rt = '\u2563';
-const data = [
-  ['MISSION', 'SIZE', 'TWO FAILS'],
-  ['1', 2, false],
-  ['2', 3, false],
-  ['3', 2, false],
-  ['4', 3, false],
-  ['5', 3, false],
-];
-
-function words_row(words, lengths) {}
-
-function seperator(lengths) {
-  return;
-}
 
 function create_table(data) {
   let top = topleft;
@@ -56,5 +42,3 @@ function create_table(data) {
   });
   return top;
 }
-
-console.log(create_table(data));
