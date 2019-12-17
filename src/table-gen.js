@@ -14,7 +14,7 @@ function createTable(data) {
   let top = topleft;
   let lengths = data[0]
     .map((col, i) => data.map(row => row[i].toString()))
-    .map((x, i) => Math.max(...x.map(string => string.length)));
+    .map(x => Math.max(...x.map(string => string.length)));
 
   // top
   lengths.map(
