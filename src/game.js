@@ -39,6 +39,11 @@ class Game {
     this.channel = message.channel;
     this.guild = message.guild;
 
+    // Also keep track of a message. We're storing this because we need
+    // to use functions that require a message as their argument, but
+    // only interface with it to get the channel.
+    this.firstMessage = message;
+
     // The game state
     this.state = STATE_GAME_NIGHT_PHASE;
 
@@ -97,7 +102,7 @@ class Game {
     );
   }
 
-  handleDirectMessageCommand(message, command) {
+  async handleDirectMessageCommand(message, command) {
     if (this.playerIsJoined(message.author)) {
       if (
         this.state == STATE_GAME_VOTING_ON_TEAM &&
@@ -107,12 +112,38 @@ class Game {
         // Handle team votes
         this.teamVotes[message.author.id] = command[0];
 
-        moderator.gameVoteOnTeamNewVote(
+        await moderator.gameVoteOnTeamNewVote(
           message,
           this.channel,
           this.guild,
           this
         );
+
+        // Check outcome of the votes
+        if (this.findPlayersNotYetVoted().length === 0) {
+          // Determine outcome
+          let hasPassed = this.doesTeamGoThrough();
+
+          if (hasPassed) {
+            // TODO move to next state
+          } else {
+            if (this.numRejects === 4) {
+              // TODO end game if no more proposed teams left
+            } else {
+              // Move to next team voting iteration
+              this.numRejects += 1;
+
+              this.setNextLeader();
+              this.setState(STATE_GAME_CHOOSING_TEAM);
+
+              moderator.gameMissionChoose(
+                this.firstMessage,
+                this.getCurrentMissionSize(),
+                this.leader
+              );
+            }
+          }
+        }
       }
     }
   }
@@ -213,6 +244,20 @@ class Game {
     );
   }
 
+  doesTeamGoThrough() {
+    let approveCount = Object.values(this.teamVotes).reduce(
+      (count, vote) => count + (vote === VOTE_APPROVED ? 1 : 0),
+      0
+    );
+    let rejectCount = this.players.length - approveCount;
+
+    if (approveCount > rejectCount) {
+      return true;
+    }
+
+    return false;
+  }
+
   setState(state) {
     log.debug(
       `setting game state to '${state}' in ${logReprChannel(this.channel)}`
@@ -257,6 +302,11 @@ class Game {
       `setting ${logReprUser(leaderUser)} to leader ` +
         `in ${logReprChannel(this.channel)}`
     );
+  }
+
+  setNextLeader() {
+    this.leaderIdx = (this.leaderIdx + 1) % this.players.length;
+    this.setLeader();
   }
 
   nightPhase() {
