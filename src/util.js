@@ -46,14 +46,14 @@ const mapUsersToMentions = (users, sep = ' ') =>
   users.map(user => `<@${user.id}>`).join(sep);
 
 const mapPlayerIdsToPlayersList = async (
-  message,
+  guild,
   client,
   playerIds,
   crownId = null,
   sep = ' '
 ) => {
   let playerGuildMemberPromises = playerIds.map(playerId =>
-    getGuildMemberFromUserId(client, message.guild, playerId)
+    getGuildMemberFromUserId(client, guild, playerId)
   );
   let playerGuildMembers = await Promise.all(playerGuildMemberPromises);
   let playerGuildMemberStrings = playerGuildMembers.map(member => {

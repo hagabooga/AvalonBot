@@ -329,7 +329,7 @@ const lobbyStatus = async (message, gameLobby) => {
 
   // List the players that have joined
   let playerListString = await mapPlayerIdsToPlayersList(
-    message,
+    message.guild,
     gameLobby.client,
     gameLobby.players,
     gameLobby.admin,
@@ -458,7 +458,7 @@ const gameSetupStatus = async (message, gameSetup) => {
 
   // List the players
   let playerListString = await mapPlayerIdsToPlayersList(
-    message,
+    message.guild,
     gameSetup.client,
     gameSetup.players,
     gameSetup.admin,
@@ -520,7 +520,7 @@ const gameStatus = async (message, game) => {
 
   // List the players
   let playerListString = await mapPlayerIdsToPlayersList(
-    message,
+    message.guild,
     game.client,
     game.players,
     game.leader,
@@ -542,7 +542,7 @@ const gameStatus = async (message, game) => {
     messageToSend += '**Current team**: not yet selected\n';
   } else {
     let currentTeamListString = await mapPlayerIdsToPlayersList(
-      message,
+      message.guild,
       game.client,
       game.team,
       game.leader,
@@ -572,8 +572,8 @@ const gameStop = message =>
   );
 
 // Game introduction
-const gameMissionChoose = (message, numOnMission, leaderId) =>
-  message.channel.send(
+const gameMissionChoose = (channel, numOnMission, leaderId) =>
+  channel.send(
     `<@${leaderId}>, type \`!${COMMAND_GAME_TEAM}\` followed by ${numOnMission}` +
       ' players you want on the mission team.'
   );
@@ -598,7 +598,7 @@ const gameVoteOnTeam = (message, game) =>
   );
 
 // Player just voted
-const gameVoteOnTeamNewVote = async (message, channel, guild, game) => {
+const gameVoteOnTeamNewVote = async (message, mainChannel, guild, game) => {
   let messageToSend = '';
 
   let voterGuildMember = await getGuildMemberFromUserId(
@@ -616,7 +616,7 @@ const gameVoteOnTeamNewVote = async (message, channel, guild, game) => {
     messageToSend += ` **${numNotYetVoted}** vote still needs to be cast!`;
   }
 
-  channel.send(messageToSend);
+  mainChannel.send(messageToSend);
 };
 
 export default {

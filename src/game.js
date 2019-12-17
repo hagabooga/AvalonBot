@@ -39,11 +39,6 @@ class Game {
     this.channel = message.channel;
     this.guild = message.guild;
 
-    // Also keep track of a message. We're storing this because we need
-    // to use functions that require a message as their argument, but
-    // only interface with it to get the channel.
-    this.firstMessage = message;
-
     // The game state
     this.state = STATE_GAME_NIGHT_PHASE;
 
@@ -137,7 +132,7 @@ class Game {
               this.setState(STATE_GAME_CHOOSING_TEAM);
 
               moderator.gameMissionChoose(
-                this.firstMessage,
+                this.channel,
                 this.getCurrentMissionSize(),
                 this.leader
               );
