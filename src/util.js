@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import table from 'text-table';
+import table from './table-gen';
 import {GAME_BOARDS_TABLE} from './game-boards';
 
 // Log formatting functions
@@ -77,10 +77,7 @@ const gameBoardRepresentNoData = numPlayers => {
       ...accum,
       [key, missionSizes[key].size, missionSizes[key].twoFailsRequired],
     ],
-    [
-      ['MISSION', 'SIZE', 'TWO FAILS'],
-      ['=======', '====', '========='],
-    ]
+    [['MISSION', 'SIZE', 'TWO FAILS']]
   );
 
   return table(data);
@@ -99,10 +96,7 @@ const gameBoardRepresentWithData = game => {
         game.missionData[key].result,
       ],
     ],
-    [
-      ['MISSION', 'SIZE', 'TWO FAILS', 'STATUS'],
-      ['=======', '====', '=========', '======'],
-    ]
+    [['MISSION', 'SIZE', 'TWO FAILS', 'STATUS']]
   );
 
   return table(data);

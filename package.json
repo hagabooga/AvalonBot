@@ -22,7 +22,6 @@
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "loglevel": "^1.6.6",
-    "loglevel-plugin-prefix": "^0.8.4",
-    "text-table": "^0.2.0"
+    "loglevel-plugin-prefix": "^0.8.4"
   }
 }
