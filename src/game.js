@@ -119,24 +119,29 @@ class Game {
           // Determine outcome
           let hasPassed = this.doesTeamGoThrough();
 
+          await moderator.gameVoteOnTeamVotingFinished(
+            hasPassed,
+            this.channel,
+            this.guild,
+            this
+          );
+
           if (hasPassed) {
             // TODO move to next state
+          } else if (this.numRejects === 4) {
+            // TODO end game if no more proposed teams left
           } else {
-            if (this.numRejects === 4) {
-              // TODO end game if no more proposed teams left
-            } else {
-              // Move to next team voting iteration
-              this.numRejects += 1;
+            // Move to next team voting iteration
+            this.numRejects += 1;
 
-              this.setNextLeader();
-              this.setState(STATE_GAME_CHOOSING_TEAM);
+            this.setNextLeader();
+            this.setState(STATE_GAME_CHOOSING_TEAM);
 
-              moderator.gameMissionChoose(
-                this.channel,
-                this.getCurrentMissionSize(),
-                this.leader
-              );
-            }
+            moderator.gameMissionChoose(
+              this.channel,
+              this.getCurrentMissionSize(),
+              this.leader
+            );
           }
         }
       }

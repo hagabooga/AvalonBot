@@ -619,6 +619,47 @@ const gameVoteOnTeamNewVote = async (message, mainChannel, guild, game) => {
   mainChannel.send(messageToSend);
 };
 
+// Game choose team - voting finished
+const gameVoteOnTeamVotingFinished = async (
+  hasPassed,
+  channel,
+  guild,
+  game
+) => {
+  let messageToSend = '';
+
+  // List individual votes
+  // TODO: fix the possible race condition here
+  messageToSend += '**Voting results**:\n';
+
+  let promises = game.players.map(async id => {
+    // Get player guild member
+    let playerGuildMember = await getGuildMemberFromUserId(
+      game.client,
+      guild,
+      id
+    );
+
+    // Get the player's vote
+    let playerVote = game.teamVotes[id];
+
+    messageToSend += `→ **${playerGuildMember.displayName}** voted **${playerVote}**.\n`;
+  });
+
+  await Promise.all(promises);
+
+  // List the result
+  if (hasPassed) {
+    messageToSend += '\nThe team has been **approved**!';
+  } else {
+    messageToSend +=
+      '\nThe team has been **rejected**.' +
+      ' The next leader will propose a new team.';
+  }
+
+  channel.send(messageToSend);
+};
+
 export default {
   help,
   roleHelp,
@@ -657,4 +698,5 @@ export default {
   gameMissionChooseIncorrectNumberOfPlayers,
   gameVoteOnTeam,
   gameVoteOnTeamNewVote,
+  gameVoteOnTeamVotingFinished,
 };
