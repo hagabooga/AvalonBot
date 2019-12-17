@@ -571,14 +571,14 @@ const gameStop = message =>
       'to start a new game lobby.'
   );
 
-// Game introduction
+// Game choose team - prompt leader
 const gameMissionChoose = (channel, numOnMission, leaderId) =>
   channel.send(
     `<@${leaderId}>, type \`!${COMMAND_GAME_TEAM}\` followed by ${numOnMission}` +
       ' players you want on the mission team.'
   );
 
-// Game choose team not right amount of players
+// Game choose team - leader selected not right amount of players
 const gameMissionChooseIncorrectNumberOfPlayers = (
   message,
   numOnMission,
@@ -589,7 +589,7 @@ const gameMissionChooseIncorrectNumberOfPlayers = (
       ' players to be on the mission team.'
   );
 
-// Game introduction
+// Game choose team - instructions
 const gameVoteOnTeam = (message, game) =>
   message.channel.send(
     'Everyone, direct message me either of the following:\n\n' +
@@ -597,7 +597,7 @@ const gameVoteOnTeam = (message, game) =>
       `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.`
   );
 
-// Player just voted
+// Game choose team - player just voted
 const gameVoteOnTeamNewVote = async (message, mainChannel, guild, game) => {
   let messageToSend = '';
 
