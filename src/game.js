@@ -247,7 +247,7 @@ class Game {
   }
 
   isRoleInGame(roleKey) {
-    return Object.keys(this.rolePlayersTable).includes(roleKey);
+    return this.roles.includes(roleKey);
   }
 
   playerIsJoined(user) {
