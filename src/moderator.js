@@ -39,6 +39,9 @@ import {
   STATE_GAME_VOTING_ON_TEAM,
   TEAM_RESISTANCE,
   TEAM_SPIES,
+  VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
+  VICTORY_SPIES_FIVE_FAILED_VOTES,
+  VICTORY_SPIES_THREE_FAILED_MISSIONS,
 } from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
 import {ROLES_TABLE} from './roles';
@@ -718,6 +721,46 @@ const gameMissionPhaseFinished = (hasSucceeded, channel, game) => {
   channel.send(messageToSend);
 };
 
+// Game over message
+const gameGameOver = (gameOutcome, channel, game) => {
+  let messageToSend = '';
+
+  if (
+    [
+      VICTORY_SPIES_FIVE_FAILED_VOTES,
+      VICTORY_SPIES_THREE_FAILED_MISSIONS,
+    ].includes(gameOutcome)
+  ) {
+    if (gameOutcome === VICTORY_SPIES_FIVE_FAILED_VOTES) {
+      messageToSend += 'Five consecutive team selections have failed.';
+    } else {
+      messageToSend += 'Three missions have failed.';
+    }
+
+    messageToSend += ' **Spies win**!\n\n';
+
+    let spiesStr = game
+      .findPlayersOnTeam(TEAM_SPIES)
+      .map(id => `<@${id}>`)
+      .join(', ');
+
+    messageToSend += `Congratulations ${spiesStr}!`;
+  } else if (game.hasMerlin) {
+    //TODO implement merlin sniping
+  } else {
+    messageToSend += '**Resistance wins**!';
+
+    let resistanceStr = game
+      .findPlayersOnTeam(TEAM_RESISTANCE)
+      .map(id => `<@${id}>`)
+      .join(', ');
+
+    messageToSend += `Congratulations ${resistanceStr}!`;
+  }
+
+  channel.send(messageToSend);
+};
+
 export default {
   help,
   roleHelp,
@@ -760,4 +803,5 @@ export default {
   gameMissionPhaseIntro,
   gameMissionPhaseNewOutcome,
   gameMissionPhaseFinished,
+  gameGameOver,
 };

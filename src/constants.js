@@ -88,3 +88,9 @@ export const VOTE_REJECTED = 'reject';
 export const MISSION_OUTCOME_NULL = 'no outcome';
 export const MISSION_OUTCOME_SUCCESS = 'success';
 export const MISSION_OUTCOME_FAIL = 'fail';
+
+// Game outcomes (prior to an optional assassination attempt)
+export const VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS =
+  'three successful missions';
+export const VICTORY_SPIES_FIVE_FAILED_VOTES = 'file failed votes';
+export const VICTORY_SPIES_THREE_FAILED_MISSIONS = 'three failed missoins';

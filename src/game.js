@@ -17,6 +17,9 @@ import {
   STATE_GAME_STOPPED,
   STATE_GAME_VOTING_ON_TEAM,
   TEAM_RESISTANCE,
+  VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
+  VICTORY_SPIES_FIVE_FAILED_VOTES,
+  VICTORY_SPIES_THREE_FAILED_MISSIONS,
   VOTE_APPROVED,
   VOTE_NOT_YET_VOTED,
   VOTE_REJECTED,
@@ -80,6 +83,7 @@ class Game {
       5: {result: MISSION_RESULT_NULL},
     };
     this.selectedMission = 1;
+    this.numFails = 0;
 
     // Keep track of number of rejected teams for current mission
     this.numRejects = 0;
@@ -157,7 +161,14 @@ class Game {
 
         moderator.gameMissionPhaseIntro(this.channel, this);
       } else if (this.numRejects === 4) {
-        // TODO end game if no more proposed teams left
+        // End game if no more proposed teams left
+        this.setState(STATE_GAME_STOPPED);
+
+        moderator.gameGameOver(
+          VICTORY_SPIES_FIVE_FAILED_VOTES,
+          this.channel,
+          this
+        );
       } else {
         // Move to next team voting iteration
         this.numRejects += 1;
