@@ -1,5 +1,6 @@
 import * as log from 'loglevel';
 import {
+  COMMAND_GAME_DM_SUCCESS,
   COMMAND_GAME_STOP,
   COMMAND_GAME_TEAM,
   COMMAND_STATUS,
@@ -15,6 +16,7 @@ import {
   STATE_GAME_NIGHT_PHASE,
   STATE_GAME_STOPPED,
   STATE_GAME_VOTING_ON_TEAM,
+  TEAM_RESISTANCE,
   VOTE_APPROVED,
   VOTE_NOT_YET_VOTED,
   VOTE_REJECTED,
@@ -173,7 +175,18 @@ class Game {
 
   // TODO
   async handleDirectMessageMissionOutcome(message, command) {
-    // TODO restrict resistance members from failing mission
+    // Only allow spies to fail
+    if (
+      command[0] === MISSION_OUTCOME_FAIL &&
+      ROLES_TABLE[this.playerRoleTable[message.author.id]].team ===
+        TEAM_RESISTANCE
+    ) {
+      message.channel.send(`You must submit ${COMMAND_GAME_DM_SUCCESS}.`);
+
+      return;
+    }
+
+    // Outcome is okay
     this.missionOutcomes[message.author.id] = command[0];
 
     await moderator.gameMissionPhaseNewOutcome(
