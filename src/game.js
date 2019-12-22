@@ -113,7 +113,7 @@ class Game {
         // Handle team votes
         this.handleDirectMessageTeamVote(message, command);
       } else if (
-        this.state == STATE_GAME_ACCEPTING_RESULTS &&
+        this.state == STATE_GAME_ACCEPTING_MISSION_RESULTS &&
         this.team.includes(message.author.id) &&
         !this.playerHasDoneMission(message.author) &&
         [MISSION_OUTCOME_SUCCESS, MISSION_OUTCOME_FAIL].includes(command[0])
@@ -172,8 +172,15 @@ class Game {
   }
 
   // TODO
-  handleDirectMessageMissionOutcome(message, command) {
-    console.log('HEY');
+  async handleDirectMessageMissionOutcome(message, command) {
+    this.missionOutcomes[message.author.id] = command[0];
+
+    await moderator.gameMissionPhaseNewOutcome(
+      message,
+      this.channel,
+      this.guild,
+      this
+    );
   }
 
   handleCommand(message, command) {
@@ -273,6 +280,12 @@ class Game {
   findPlayersNotYetVoted() {
     return Object.keys(this.teamVotes).filter(
       id => this.teamVotes[id] === VOTE_NOT_YET_VOTED
+    );
+  }
+
+  findPlayersNotYetDoneMission() {
+    return Object.keys(this.missionOutcomes).filter(
+      id => this.missionOutcomes[id] === MISSION_OUTCOME_NULL
     );
   }
 

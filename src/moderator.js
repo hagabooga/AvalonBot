@@ -671,6 +671,35 @@ const gameMissionPhaseIntro = (channel, game) =>
       `→  \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.`
   );
 
+// Game mission phase - player just submitted outcome
+const gameMissionPhaseNewOutcome = async (
+  message,
+  mainChannel,
+  guild,
+  game
+) => {
+  let messageToSend = '';
+
+  let playerGuildMember = await getGuildMemberFromUserId(
+    game.client,
+    guild,
+    message.author.id
+  );
+  let numNotYetDoneMission = game.findPlayersNotYetDoneMission().length;
+
+  messageToSend += `**${playerGuildMember.displayName}** has completed the mission!`;
+
+  if (numNotYetDoneMission > 1) {
+    messageToSend +=
+      ` **${numNotYetDoneMission}**` +
+      ' team members still need to complete the mission!';
+  } else if (numNotYetDoneMission === 1) {
+    messageToSend += ` **1** team member still needs to complete the mission!`;
+  }
+
+  mainChannel.send(messageToSend);
+};
+
 export default {
   help,
   roleHelp,
@@ -711,4 +740,5 @@ export default {
   gameVoteOnTeamNewVote,
   gameVoteOnTeamVotingFinished,
   gameMissionPhaseIntro,
+  gameMissionPhaseNewOutcome,
 };
