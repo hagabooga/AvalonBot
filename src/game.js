@@ -111,52 +111,69 @@ class Game {
         [VOTE_APPROVED, VOTE_REJECTED].includes(command[0])
       ) {
         // Handle team votes
-        this.teamVotes[message.author.id] = command[0];
-
-        await moderator.gameVoteOnTeamNewVote(
-          message,
-          this.channel,
-          this.guild,
-          this
-        );
-
-        // Check outcome of the votes
-        if (this.findPlayersNotYetVoted().length === 0) {
-          // Determine outcome
-          let hasPassed = this.doesTeamGoThrough();
-
-          await moderator.gameVoteOnTeamVotingFinished(
-            hasPassed,
-            this.channel,
-            this.guild,
-            this
-          );
-
-          if (hasPassed) {
-            // Setup next phase
-            this.setState(STATE_GAME_ACCEPTING_MISSION_RESULTS);
-            this.resetTeamVotes();
-            this.resetMissionOutcomes();
-
-            moderator.gameMissionPhaseIntro(this.channel, this);
-          } else if (this.numRejects === 4) {
-            // TODO end game if no more proposed teams left
-          } else {
-            // Move to next team voting iteration
-            this.numRejects += 1;
-
-            this.setNextLeader();
-            this.setState(STATE_GAME_CHOOSING_TEAM);
-
-            moderator.gameMissionChoose(
-              this.channel,
-              this.getCurrentMissionSize(),
-              this.leader
-            );
-          }
-        }
+        this.handleDirectMessageTeamVote(message, command);
+      } else if (
+        this.state == STATE_GAME_ACCEPTING_RESULTS &&
+        this.team.includes(message.author.id) &&
+        !this.playerHasDoneMission(message.author) &&
+        [MISSION_OUTCOME_SUCCESS, MISSION_OUTCOME_FAIL].includes(command[0])
+      ) {
+        // Handle mission outcomes
+        this.handleDirectMessageMissionOutcome(message, command);
       }
     }
+  }
+
+  async handleDirectMessageTeamVote(message, command) {
+    this.teamVotes[message.author.id] = command[0];
+
+    await moderator.gameVoteOnTeamNewVote(
+      message,
+      this.channel,
+      this.guild,
+      this
+    );
+
+    // Check outcome of the votes
+    if (this.findPlayersNotYetVoted().length === 0) {
+      // Determine outcome
+      let hasPassed = this.doesTeamGoThrough();
+
+      await moderator.gameVoteOnTeamVotingFinished(
+        hasPassed,
+        this.channel,
+        this.guild,
+        this
+      );
+
+      if (hasPassed) {
+        // Setup next phase
+        this.setState(STATE_GAME_ACCEPTING_MISSION_RESULTS);
+        this.resetTeamVotes();
+        this.resetMissionOutcomes();
+
+        moderator.gameMissionPhaseIntro(this.channel, this);
+      } else if (this.numRejects === 4) {
+        // TODO end game if no more proposed teams left
+      } else {
+        // Move to next team voting iteration
+        this.numRejects += 1;
+
+        this.setNextLeader();
+        this.setState(STATE_GAME_CHOOSING_TEAM);
+
+        moderator.gameMissionChoose(
+          this.channel,
+          this.getCurrentMissionSize(),
+          this.leader
+        );
+      }
+    }
+  }
+
+  // TODO
+  handleDirectMessageMissionOutcome(message, command) {
+    console.log('HEY');
   }
 
   handleCommand(message, command) {
@@ -223,6 +240,10 @@ class Game {
 
   playerHasVoted(user) {
     return this.teamVotes[user.id] !== VOTE_NOT_YET_VOTED;
+  }
+
+  playerHasDoneMission(user) {
+    return this.missionOutcomes[user.id] !== MISSION_OUTCOME_NULL;
   }
 
   findPlayersWithRoles(roles, shuffle = true) {
