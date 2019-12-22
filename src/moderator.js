@@ -758,7 +758,7 @@ const gameGameOver = async (gameOutcome, channel, game) => {
   } else if (game.hasMerlin) {
     //TODO implement merlin sniping
   } else {
-    messageToSend += '**Resistance wins**!';
+    messageToSend += '**Resistance wins**!\n\n';
 
     let resistanceStr = game
       .findPlayersOnTeam(TEAM_RESISTANCE)
