@@ -36,7 +36,15 @@ import {
 } from './util';
 
 class Game {
-  constructor(message, gameId, client, playerIds, roleKeys, ruleset) {
+  constructor(
+    message,
+    gameId,
+    client,
+    playerIds,
+    roleKeys,
+    ruleset,
+    cleanupMethod
+  ) {
     // The ID of the game
     this.id = gameId;
 
@@ -46,6 +54,9 @@ class Game {
     // The Discord channel for this lobby and the guild
     this.channel = message.channel;
     this.guild = message.guild;
+
+    // The AvalonBot channel cleanup method
+    this.avalonBotGameCleanup = cleanupMethod;
 
     // The game state
     this.state = STATE_GAME_NIGHT_PHASE;
@@ -163,6 +174,7 @@ class Game {
       } else if (this.numRejects === 4) {
         // End game if no more proposed teams left
         this.setState(STATE_GAME_STOPPED);
+        this.avalonBotGameCleanup();
 
         moderator.gameGameOver(
           VICTORY_SPIES_FIVE_FAILED_VOTES,

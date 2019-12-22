@@ -183,7 +183,8 @@ class Channel {
       this.client,
       playerIds,
       roleKeys,
-      ruleset
+      ruleset,
+      () => this.removeGame(message)
     );
   }
 
