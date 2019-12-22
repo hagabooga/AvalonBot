@@ -3,6 +3,9 @@ import {
   COMMAND_GAME_STOP,
   COMMAND_GAME_TEAM,
   COMMAND_STATUS,
+  MISSION_OUTCOME_FAIL,
+  MISSION_OUTCOME_NULL,
+  MISSION_OUTCOME_SUCCESS,
   MISSION_RESULT_FAILED,
   MISSION_RESULT_NULL,
   MISSION_RESULT_SELECTED,
@@ -85,6 +88,9 @@ class Game {
     this.teamVotes = {};
     this.resetTeamVotes();
 
+    // Keep track of mission outcomes
+    this.missionOutcomes = {};
+
     // Perform the night phase
     this.nightPhase();
 
@@ -127,7 +133,12 @@ class Game {
           );
 
           if (hasPassed) {
-            // TODO move to next state
+            // Setup next phase
+            this.setState(STATE_GAME_ACCEPTING_MISSION_RESULTS);
+            this.resetTeamVotes();
+            this.resetMissionOutcomes();
+
+            moderator.gameMissionPhaseIntro(this.channel, this);
           } else if (this.numRejects === 4) {
             // TODO end game if no more proposed teams left
           } else {
@@ -323,6 +334,11 @@ class Game {
       (accum, player) => ((accum[player] = VOTE_NOT_YET_VOTED), accum),
       {}
     );
+  }
+
+  resetMissionOutcomes() {
+    this.missionOutcomes = {};
+    this.team.forEach(id => (this.missionOutcomes[id] = MISSION_OUTCOME_NULL));
   }
 }
 

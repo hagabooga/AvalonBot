@@ -5,7 +5,9 @@ import {
   COMMAND_CHANNEL_DEINIT,
   COMMAND_CHANNEL_INIT,
   COMMAND_GAME_DM_APPROVE,
+  COMMAND_GAME_DM_FAIL,
   COMMAND_GAME_DM_REJECT,
+  COMMAND_GAME_DM_SUCCESS,
   COMMAND_GAME_LOBBY_CLAIM_ADMIN,
   COMMAND_GAME_LOBBY_CREATE,
   COMMAND_GAME_LOBBY_JOIN,
@@ -630,7 +632,7 @@ const gameVoteOnTeamVotingFinished = async (
 
   // List individual votes
   // TODO: fix the possible race condition here
-  messageToSend += '**Voting results**:\n';
+  messageToSend += '**Voting results**:\n\n';
 
   let promises = game.players.map(async id => {
     // Get player guild member
@@ -659,6 +661,15 @@ const gameVoteOnTeamVotingFinished = async (
 
   channel.send(messageToSend);
 };
+
+// Game mission phase introduction
+const gameMissionPhaseIntro = (channel, game) =>
+  channel.send(
+    game.team.map(id => `<@${id}>`).join(', ') +
+      ': direct message me either of the following:\n\n' +
+      `→  \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
+      `→  \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.`
+  );
 
 export default {
   help,
@@ -699,4 +710,5 @@ export default {
   gameVoteOnTeam,
   gameVoteOnTeamNewVote,
   gameVoteOnTeamVotingFinished,
+  gameMissionPhaseIntro,
 };

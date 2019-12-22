@@ -54,6 +54,8 @@ export const COMMAND_GAME_STOP = 'stop';
 export const COMMAND_GAME_TEAM = 'team';
 export const COMMAND_GAME_DM_APPROVE = 'approve';
 export const COMMAND_GAME_DM_REJECT = 'reject';
+export const COMMAND_GAME_DM_SUCCESS = 'success';
+export const COMMAND_GAME_DM_FAIL = 'fail';
 
 // Game settings
 export const GAME_SETTINGS_MIN_AVALON_PLAYERS = 5;
@@ -84,3 +86,8 @@ export const MISSION_RESULT_FAILED = 'failed';
 export const VOTE_NOT_YET_VOTED = 'not yet voted';
 export const VOTE_APPROVED = 'approve';
 export const VOTE_REJECTED = 'reject';
+
+// Individual mission outcomes
+export const MISSION_OUTCOME_NULL = 'no outcome';
+export const MISSION_OUTCOME_SUCCESS = 'success';
+export const MISSION_OUTCOME_FAIL = 'fail';
