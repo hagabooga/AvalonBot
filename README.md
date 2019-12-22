@@ -9,7 +9,8 @@ Resistance](https://boardgamegeek.com/boardgame/41114/resistance) and
 [The Resistance:
 Avalon](https://boardgamegeek.com/boardgame/128882/resistance-avalon)
 games. The base ruleset for both games are supported, as well as the
-optional "targeting" rule; several home-made roles are also included.
+optional "targeting" rule (soon™); several home-made roles are also
+included (soon™).
 
 AvalonBot is maintained by [Cameron Hu](https://github.com/hagabooga/)
 and [Matt Wiens](https://github.com/mwiens91/) and is licensed under the
