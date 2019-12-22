@@ -30,8 +30,6 @@ import {
   COMMAND_WEBSITE,
   GAME_RULESET_AVALON,
   GAME_RULESET_AVALON_OPTION_NUM,
-  GAME_RULESET_AVALON_WITH_TARGETING,
-  GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM,
   GAME_SETTINGS_MAX_AVALON_PLAYERS,
   GAME_SETTINGS_MIN_AVALON_PLAYERS,
   ROLE_COMPLEXITY_ADVANCED,
@@ -382,8 +380,6 @@ const gameSetupChooseRuleset = (message, adminId) =>
   message.channel.send(
     'Please select the game ruleset:\n\n' +
       `**[${GAME_RULESET_AVALON_OPTION_NUM}]** ${GAME_RULESET_AVALON}\n` +
-      `**[${GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM}]** ` +
-      `${GAME_RULESET_AVALON_WITH_TARGETING}\n` +
       `\n<@${adminId}>, type ` +
       `\`${COMMAND_PREFIX + COMMAND_GAME_SETUP_CHOOSE}\` ` +
       'followed by the option number you would like to select.'

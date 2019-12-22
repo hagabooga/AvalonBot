@@ -3,7 +3,6 @@ import {TEAM_SPIES} from './constants';
 import {
   ROLES_TABLE,
   ROLE_KEY_ASSASSIN,
-  ROLE_KEY_JIMMY,
   ROLE_KEY_MERLIN,
   ROLE_KEY_MORDRED,
   ROLE_KEY_MORGANA,
@@ -62,7 +61,6 @@ const nightPhaseMessage = async (playerId, game) => {
       ROLE_KEY_ASSASSIN,
       ROLE_KEY_MORGANA,
       ROLE_KEY_MORDRED,
-      ROLE_KEY_JIMMY,
     ].includes(roleKey)
   ) {
     // Non-Oberon spy dialogue, which varies with Oberon being in the

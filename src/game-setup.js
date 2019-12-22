@@ -7,8 +7,6 @@ import {
   COMMAND_STATUS,
   GAME_RULESET_AVALON,
   GAME_RULESET_AVALON_OPTION_NUM,
-  GAME_RULESET_AVALON_WITH_TARGETING,
-  GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM,
   STATE_GAME_SETUP_CHOOSING_ROLES,
   STATE_GAME_SETUP_CHOOSING_RULESET,
   STATE_GAME_SETUP_CONFIRMING_SETUP,
@@ -88,10 +86,6 @@ class GameSetup {
       if (command[0] === COMMAND_GAME_SETUP_CHOOSE) {
         if (command[1] === GAME_RULESET_AVALON_OPTION_NUM) {
           this.setRuleset(GAME_RULESET_AVALON);
-        } else if (
-          command[1] === GAME_RULESET_AVALON_WITH_TARGETING_OPTION_NUM
-        ) {
-          this.setRuleset(GAME_RULESET_AVALON_WITH_TARGETING);
         } else {
           return;
         }
