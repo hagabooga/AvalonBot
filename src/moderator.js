@@ -716,9 +716,13 @@ const gameMissionPhaseFinished = (hasSucceeded, channel, game) => {
   let messageToSend = '';
 
   // State the final outcome
-  messageToSend +=
-    `The mission has **${outcomeStr}**!` +
-    ` **${numFails}** players failed the mission.\n`;
+  messageToSend += `The mission has **${outcomeStr}**!`;
+
+  if (numFails === 1) {
+    messageToSend += ` **1** player failed the mission.\n`;
+  } else {
+    messageToSend += ` **${numFails}** players failed the mission.\n`;
+  }
 
   channel.send(messageToSend);
 };
