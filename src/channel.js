@@ -118,10 +118,10 @@ class Channel {
       }
     } else if (this.state === STATE_CHANNEL_GAME) {
       // Send message to game message handler
+      this.game.handleCommand(message, command);
+
       if (this.game.state === STATE_GAME_STOPPED) {
         this.removeGame(message);
-      } else {
-        this.game.handleCommand(message, command);
       }
     } else if (command[0] === COMMAND_GAME_LOBBY_CREATE) {
       moderator.lobbyCreate(message);
