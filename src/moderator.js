@@ -497,7 +497,6 @@ const gameSetupStatus = async (message, gameSetup) => {
 };
 
 // Game status
-// TODO
 const gameStatus = async (message, game) => {
   // Build up a message to send and then send it
   let messageToSend = '';
@@ -518,6 +517,13 @@ const gameStatus = async (message, game) => {
       " If you haven't yet voted, direct message me either of the following:\n\n" +
       `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
       `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.\n\n`;
+  } else if (game.state === STATE_GAME_ACCEPTING_MISSION_RESULTS) {
+    messageToSend +=
+      ' Accepting mission outcomes from team members' +
+      " If you haven't yet completed the mission," +
+      'direct message me either of the following:\n\n' +
+      `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
+      `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.`;
   }
 
   // List the players
