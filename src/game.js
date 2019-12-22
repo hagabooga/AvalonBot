@@ -236,8 +236,20 @@ class Game {
 
       // Move to next state
       if (hasSucceeded && this.numSuccesses === 2) {
-        // TODO
-        // End game if no Merlin else move to assassination phase
+        if (this.hasMerlin) {
+          // TODO
+          // Assassination phase
+        } else {
+          // End game
+          this.setState(STATE_GAME_STOPPED);
+          this.avalonBotGameCleanup();
+
+          moderator.gameGameOver(
+            VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
+            this.channel,
+            this
+          );
+        }
       } else if (!hasSucceeded && this.numFails === 2) {
         // End game
         this.setState(STATE_GAME_STOPPED);
