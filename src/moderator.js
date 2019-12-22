@@ -522,8 +522,8 @@ const gameStatus = async (message, game) => {
       ' Accepting mission outcomes from team members' +
       " If you haven't yet completed the mission," +
       'direct message me either of the following:\n\n' +
-      `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
-      `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.`;
+      `→  \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
+      `→  \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.\n\n`
   }
 
   // List the players
