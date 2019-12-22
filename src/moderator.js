@@ -515,15 +515,15 @@ const gameStatus = async (message, game) => {
     messageToSend +=
       'Accepting votes for proposed team.' +
       " If you haven't yet voted, direct message me either of the following:\n\n" +
-      `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
-      `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.\n\n`;
+      `→ \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
+      `→ \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.\n\n`;
   } else if (game.state === STATE_GAME_ACCEPTING_MISSION_RESULTS) {
     messageToSend +=
       ' Accepting mission outcomes from team members.' +
       " If you haven't yet completed the mission," +
       ' direct message me either of the following:\n\n' +
-      `→  \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
-      `→  \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.\n\n`;
+      `→ \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
+      `→ \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.\n\n`;
   }
 
   // List the players
@@ -601,8 +601,8 @@ const gameMissionChooseIncorrectNumberOfPlayers = (
 const gameVoteOnTeam = (message, game) =>
   message.channel.send(
     'Everyone, direct message me either of the following:\n\n' +
-      `→  \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
-      `→  \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.`
+      `→ \`!${COMMAND_GAME_DM_APPROVE} ${game.id}\` to approve the team.\n` +
+      `→ \`!${COMMAND_GAME_DM_REJECT} ${game.id}\` to reject the team.`
   );
 
 // Game choose team - player just voted
@@ -673,8 +673,8 @@ const gameMissionPhaseIntro = (channel, game) =>
   channel.send(
     game.team.map(id => `<@${id}>`).join(', ') +
       ': direct message me either of the following:\n\n' +
-      `→  \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
-      `→  \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.`
+      `→ \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
+      `→ \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.`
   );
 
 // Game mission phase - player just submitted outcome
