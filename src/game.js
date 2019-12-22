@@ -164,6 +164,8 @@ class Game {
 
         this.setNextLeader();
         this.setState(STATE_GAME_CHOOSING_TEAM);
+        this.resetTeamVotes();
+        this.resetTeam();
 
         moderator.gameMissionChoose(
           this.channel,
@@ -410,6 +412,10 @@ class Game {
 
   getCurrentMissionSize() {
     return this.missionSchema[this.selectedMission].size;
+  }
+
+  resetTeam() {
+    this.team = [];
   }
 
   resetTeamVotes() {
