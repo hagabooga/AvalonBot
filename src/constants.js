@@ -24,6 +24,7 @@ export const STATE_GAME_NIGHT_PHASE = 'night phase';
 export const STATE_GAME_CHOOSING_TEAM = 'choosing mission';
 export const STATE_GAME_VOTING_ON_TEAM = 'voting on team';
 export const STATE_GAME_ACCEPTING_MISSION_RESULTS = 'accepting mission results';
+export const STATE_GAME_ASSASSINATION = 'assassination phase';
 export const STATE_GAME_STOPPED = 'stopped';
 
 // Commands. The values here are the actual commands, but they need to
@@ -52,6 +53,7 @@ export const COMMAND_GAME_SETUP_RESET = 'reset';
 export const COMMAND_GAME_SETUP_STOP = 'stop';
 export const COMMAND_GAME_STOP = 'stop';
 export const COMMAND_GAME_TEAM = 'team';
+export const COMMAND_GAME_ASSASSINATE = 'assassinate';
 export const COMMAND_GAME_DM_APPROVE = 'approve';
 export const COMMAND_GAME_DM_REJECT = 'reject';
 export const COMMAND_GAME_DM_SUCCESS = 'success';

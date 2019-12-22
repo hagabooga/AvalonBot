@@ -4,6 +4,7 @@ import {
   COMMAND_ABOUT,
   COMMAND_CHANNEL_DEINIT,
   COMMAND_CHANNEL_INIT,
+  COMMAND_GAME_ASSASSINATE,
   COMMAND_GAME_DM_APPROVE,
   COMMAND_GAME_DM_FAIL,
   COMMAND_GAME_DM_REJECT,
@@ -35,6 +36,7 @@ import {
   ROLE_COMPLEXITY_ADVANCED,
   ROLE_COMPLEXITY_BASIC,
   STATE_GAME_ACCEPTING_MISSION_RESULTS,
+  STATE_GAME_ASSASSINATION,
   STATE_GAME_CHOOSING_TEAM,
   STATE_GAME_VOTING_ON_TEAM,
   TEAM_RESISTANCE,
@@ -43,7 +45,7 @@ import {
   VICTORY_SPIES_THREE_FAILED_MISSIONS,
 } from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
-import {ROLES_TABLE} from './roles';
+import {ROLE_KEY_ASSASSIN, ROLES_TABLE} from './roles';
 import {
   gameBoardRepresentNoData,
   gameBoardRepresentWithData,
@@ -103,7 +105,9 @@ const help = message =>
       `\`${COMMAND_PREFIX + COMMAND_GAME_STOP}\`` +
       ' - stop game\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_TEAM} @user1 @user2 ...\`` +
-      ' - choose players for mission team (if leader)\n'
+      ' - choose players for mission team (if leader)\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_ASSASSINATE} @user ...\`` +
+      ' - choose player to assassinate (if assassin)\n'
   );
 
 // Roles help
@@ -523,8 +527,17 @@ const gameStatus = async (message, game) => {
       ' direct message me either of the following:\n\n' +
       `→ \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
       `→ \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.\n\n`;
+  } else if (game.state === STATE_GAME_ASSASSINATION) {
+    let assassinGuildMember = await getGuildMemberFromUserId(
+      game.client,
+      game.guild,
+      game.findPlayersWithRoles([ROLE_KEY_ASSASSIN], false)[0]
+    );
+
+    messageToSend +=
+      `**${assassinGuildMember.displayName}** is currently` +
+      ' selecting a player to assassinate.\n\n';
   }
-  //TODO implement merlin sniping
 
   // List the players
   let playerListString = await mapPlayerIdsToPlayersList(
@@ -727,6 +740,16 @@ const gameMissionPhaseFinished = (hasSucceeded, channel, game) => {
   channel.send(messageToSend);
 };
 
+// Game assassination phase introduction
+const gameAssassinationPhaseIntro = (channel, game) => {
+  let assassinId = game.findPlayersWithRoles([ROLE_KEY_ASSASSIN], false)[0];
+
+  channel.send(
+    'Resistance has almost won!' +
+      ` <@${assassinId}>, please select a player to assassinate.`
+  );
+};
+
 // Game over message
 const gameGameOver = async (gameOutcome, channel, game) => {
   let messageToSend = '';
@@ -751,10 +774,6 @@ const gameGameOver = async (gameOutcome, channel, game) => {
       .join(', ');
 
     messageToSend += `Congratulations ${spiesStr}!\n\n`;
-
-    let playerRoleList = await getPlayerRolesList(game);
-
-    messageToSend += playerRoleList;
   } else if (game.hasMerlin) {
     //TODO implement merlin sniping
   } else {
@@ -766,11 +785,10 @@ const gameGameOver = async (gameOutcome, channel, game) => {
       .join(', ');
 
     messageToSend += `Congratulations ${resistanceStr}!\n\n`;
-
-    let playerRoleList = await getPlayerRolesList(game);
-
-    messageToSend += playerRoleList;
   }
+
+  let playerRoleList = await getPlayerRolesList(game);
+  messageToSend += playerRoleList;
 
   channel.send(messageToSend);
 };
@@ -817,5 +835,6 @@ export default {
   gameMissionPhaseIntro,
   gameMissionPhaseNewOutcome,
   gameMissionPhaseFinished,
+  gameAssassinationPhaseIntro,
   gameGameOver,
 };

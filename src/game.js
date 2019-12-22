@@ -12,6 +12,7 @@ import {
   MISSION_RESULT_SELECTED,
   MISSION_RESULT_SUCCEEDED,
   STATE_GAME_ACCEPTING_MISSION_RESULTS,
+  STATE_GAME_ASSASSINATION,
   STATE_GAME_CHOOSING_TEAM,
   STATE_GAME_NIGHT_PHASE,
   STATE_GAME_STOPPED,
@@ -237,8 +238,11 @@ class Game {
       // Move to next state
       if (hasSucceeded && this.numSuccesses === 2) {
         if (this.hasMerlin) {
-          // TODO
           // Assassination phase
+          this.resetTeam();
+          this.setState(STATE_GAME_ASSASSINATION);
+
+          moderator.gameAssassinationPhaseIntro(this.channel, this);
         } else {
           // End game
           this.setState(STATE_GAME_STOPPED);
