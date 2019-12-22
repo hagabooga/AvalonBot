@@ -706,6 +706,22 @@ const gameMissionPhaseNewOutcome = async (
   mainChannel.send(messageToSend);
 };
 
+// Game mission phase - mission finished
+const gameMissionPhaseFinished = (hasSucceeded, channel, game) => {
+  let numFails = game.findNumFailsOnMission();
+
+  let outcomeStr = hasSucceeded ? 'succeeded' : 'failed';
+
+  let messageToSend = '';
+
+  // State the final outcome
+  messageToSend +=
+    `The mission has **${outcomeStr}**!` +
+    ` **${numFails}** players failed the mission.\n`;
+
+  channel.send(messageToSend);
+};
+
 export default {
   help,
   roleHelp,
@@ -747,4 +763,5 @@ export default {
   gameVoteOnTeamVotingFinished,
   gameMissionPhaseIntro,
   gameMissionPhaseNewOutcome,
+  gameMissionPhaseFinished,
 };

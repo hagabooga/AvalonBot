@@ -173,6 +173,7 @@ class Game {
 
   // TODO
   async handleDirectMessageMissionOutcome(message, command) {
+    // TODO restrict resistance members from failing mission
     this.missionOutcomes[message.author.id] = command[0];
 
     await moderator.gameMissionPhaseNewOutcome(
@@ -181,6 +182,18 @@ class Game {
       this.guild,
       this
     );
+
+    // Check for final mission outcome
+    if (this.findPlayersNotYetDoneMission().length === 0) {
+      // Determine outcome
+      let hasSucceeded = this.doesMissionSucceed();
+
+      await moderator.gameMissionPhaseFinished(
+        hasSucceeded,
+        this.channel,
+        this
+      );
+    }
   }
 
   handleCommand(message, command) {
@@ -289,6 +302,13 @@ class Game {
     );
   }
 
+  findNumFailsOnMission() {
+    return Object.values(this.missionOutcomes).reduce(
+      (count, outcome) => count + (outcome === MISSION_OUTCOME_FAIL ? 1 : 0),
+      0
+    );
+  }
+
   doesTeamGoThrough() {
     let approveCount = Object.values(this.teamVotes).reduce(
       (count, vote) => count + (vote === VOTE_APPROVED ? 1 : 0),
@@ -301,6 +321,21 @@ class Game {
     }
 
     return false;
+  }
+
+  doesMissionSucceed() {
+    let failCount = this.findNumFailsOnMission();
+
+    if (
+      (this.missionSchema[this.selectedMission].twoFailsRequired &&
+        failCount > 1) ||
+      (!this.missionSchema[this.selectedMission].twoFailsRequired &&
+        failCount > 0)
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   setState(state) {
