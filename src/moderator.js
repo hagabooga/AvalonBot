@@ -177,8 +177,8 @@ const about = message =>
     'AvalonBot is a Discord bot which moderates ' +
       '"The Resistance" and "The Resistance: Avalon" games. ' +
       'The base rulesets for both games are supported, as well as ' +
-      'the optional "targeting" rule; several home-made roles ' +
-      'are also included.\n\n' +
+      'the optional "targeting" rule (soon™); several home-made roles ' +
+      'are also included (soon™).\n\n' +
       'AvalonBot is maintained by ' +
       'Cameron Hu (@hagabooga) and Matt Wiens (@mwiens91) ' +
       'and is licensed under the GNU General Public License v3.0.'
