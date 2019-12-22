@@ -24,7 +24,7 @@ import {
 import {GAME_BOARDS_TABLE} from './game-boards';
 import moderator from './moderator';
 import {nightPhaseMessage} from './moderator-private-messages';
-import {ROLES_TABLE} from './roles';
+import {ROLE_KEY_MERLIN, ROLES_TABLE} from './roles';
 import {
   fisherYatesShuffle,
   getUserFromId,
@@ -57,6 +57,7 @@ class Game {
 
     // Ruleset
     this.ruleset = ruleset;
+    this.hasMerlin = roleKeys.includes(ROLE_KEY_MERLIN);
 
     // Roles
     this.roles = roleKeys;
