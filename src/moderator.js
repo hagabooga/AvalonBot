@@ -41,6 +41,8 @@ import {
   STATE_GAME_VOTING_ON_TEAM,
   TEAM_RESISTANCE,
   TEAM_SPIES,
+  VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
+  VICTORY_SPIES_ASSASSINATION_SUCCESSFUL,
   VICTORY_SPIES_FIVE_FAILED_VOTES,
   VICTORY_SPIES_THREE_FAILED_MISSIONS,
 } from './constants';
@@ -273,7 +275,9 @@ const lobbyTransferAdmin = async (message, discordClient, newAdminId) => {
 
 // Attempted admin transfer but mentioned too many users
 const lobbyTransferAdminTooManyMentions = message =>
-  message.channel.send(`Must select exactly one player to transfer admin to!`);
+  message.channel.send(
+    `You must select exactly one player to transfer admin to!`
+  );
 
 // Attempted admin transfer but user not in game
 const lobbyTransferAdminUserNotInGame = async (
@@ -750,6 +754,11 @@ const gameAssassinationPhaseIntro = (channel, game) => {
   );
 };
 
+// Game assassination - attempted assassination but mentioned wrong
+// number of joined players
+const gameAssassinationPhaseWrongPlayerNumber = message =>
+  message.channel.send(`You must select exactly 1 player to assassinate!`);
+
 // Game over message
 const gameGameOver = async (gameOutcome, channel, game) => {
   let messageToSend = '';
@@ -758,12 +767,15 @@ const gameGameOver = async (gameOutcome, channel, game) => {
     [
       VICTORY_SPIES_FIVE_FAILED_VOTES,
       VICTORY_SPIES_THREE_FAILED_MISSIONS,
+      VICTORY_SPIES_ASSASSINATION_SUCCESSFUL,
     ].includes(gameOutcome)
   ) {
     if (gameOutcome === VICTORY_SPIES_FIVE_FAILED_VOTES) {
       messageToSend += 'Five consecutive team selections have failed.';
-    } else {
+    } else if (gameOutcome === VICTORY_SPIES_THREE_FAILED_MISSIONS) {
       messageToSend += 'Three missions have failed.';
+    } else {
+      messageToSend += 'Merlin was assassinated';
     }
 
     messageToSend += ' **Spies win**!\n\n';
@@ -774,10 +786,14 @@ const gameGameOver = async (gameOutcome, channel, game) => {
       .join(', ');
 
     messageToSend += `Congratulations ${spiesStr}!\n\n`;
-  } else if (game.hasMerlin) {
-    //TODO implement merlin sniping
   } else {
-    messageToSend += '**Resistance wins**!\n\n';
+    if (gameOutcome === VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS) {
+      messageToSend += 'Three missions have succeeded.';
+    } else {
+      messageToSend += 'Merlin avoided assassination!';
+    }
+
+    messageToSend += ' **Resistance wins**!\n\n';
 
     let resistanceStr = game
       .findPlayersOnTeam(TEAM_RESISTANCE)
@@ -836,5 +852,6 @@ export default {
   gameMissionPhaseNewOutcome,
   gameMissionPhaseFinished,
   gameAssassinationPhaseIntro,
+  gameAssassinationPhaseWrongPlayerNumber,
   gameGameOver,
 };

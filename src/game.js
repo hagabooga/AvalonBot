@@ -1,5 +1,6 @@
 import * as log from 'loglevel';
 import {
+  COMMAND_GAME_ASSASSINATE,
   COMMAND_GAME_DM_SUCCESS,
   COMMAND_GAME_STOP,
   COMMAND_GAME_TEAM,
@@ -18,7 +19,9 @@ import {
   STATE_GAME_STOPPED,
   STATE_GAME_VOTING_ON_TEAM,
   TEAM_RESISTANCE,
+  VICTORY_RESISTANCE_ASSASSINATION_FAILED,
   VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
+  VICTORY_SPIES_ASSASSINATION_SUCCESSFUL,
   VICTORY_SPIES_FIVE_FAILED_VOTES,
   VICTORY_SPIES_THREE_FAILED_MISSIONS,
   VOTE_APPROVED,
@@ -28,7 +31,7 @@ import {
 import {GAME_BOARDS_TABLE} from './game-boards';
 import moderator from './moderator';
 import {nightPhaseMessage} from './moderator-private-messages';
-import {ROLE_KEY_MERLIN, ROLES_TABLE} from './roles';
+import {ROLE_KEY_ASSASSIN, ROLE_KEY_MERLIN, ROLES_TABLE} from './roles';
 import {
   fisherYatesShuffle,
   getUserFromId,
@@ -176,14 +179,14 @@ class Game {
         moderator.gameMissionPhaseIntro(this.channel, this);
       } else if (this.numRejects === 4) {
         // End game if no more proposed teams left
-        this.setState(STATE_GAME_STOPPED);
-        this.avalonBotGameCleanup();
-
-        moderator.gameGameOver(
+        await moderator.gameGameOver(
           VICTORY_SPIES_FIVE_FAILED_VOTES,
           this.channel,
           this
         );
+
+        this.setState(STATE_GAME_STOPPED);
+        this.avalonBotGameCleanup();
       } else {
         // Move to next team voting iteration
         this.numRejects += 1;
@@ -245,25 +248,25 @@ class Game {
           moderator.gameAssassinationPhaseIntro(this.channel, this);
         } else {
           // End game
-          this.setState(STATE_GAME_STOPPED);
-          this.avalonBotGameCleanup();
-
-          moderator.gameGameOver(
+          await moderator.gameGameOver(
             VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
             this.channel,
             this
           );
+
+          this.setState(STATE_GAME_STOPPED);
+          this.avalonBotGameCleanup();
         }
       } else if (!hasSucceeded && this.numFails === 2) {
         // End game
-        this.setState(STATE_GAME_STOPPED);
-        this.avalonBotGameCleanup();
-
-        moderator.gameGameOver(
+        await moderator.gameGameOver(
           VICTORY_SPIES_THREE_FAILED_MISSIONS,
           this.channel,
           this
         );
+
+        this.setState(STATE_GAME_STOPPED);
+        this.avalonBotGameCleanup();
       } else {
         // Move to next mission
         if (hasSucceeded) {
@@ -312,6 +315,12 @@ class Game {
     } else if (this.playerIsLeader(message.author)) {
       // Send to method handling commands for the lobby admin
       this.handleLeaderCommand(message, command);
+    } else if (
+      this.state == STATE_GAME_ASSASSINATION &&
+      this.playerRoleTable[message.author.id] === ROLE_KEY_ASSASSIN
+    ) {
+      // Handle assassination
+      this.handleAssassinationCommand(message, command);
     }
   }
 
@@ -340,6 +349,35 @@ class Game {
         this.setState(STATE_GAME_VOTING_ON_TEAM);
         moderator.gameVoteOnTeam(message, this);
       }
+    }
+  }
+
+  async handleAssassinationCommand(message, command) {
+    if (command[0] === COMMAND_GAME_ASSASSINATE) {
+      // Find all mentions to assassinate
+      let joinedPlayersToKill = message.mentions.users.filter(user =>
+        this.playerIsJoined(user)
+      );
+
+      // Check that we have exactly one target
+      if (joinedPlayersToKill.size !== 1) {
+        moderator.gameAssassinationPhaseWrongPlayerNumber(message);
+
+        return;
+      }
+
+      // Determine if the assassination was successful
+      let targetId = joinedPlayersToKill.first().id;
+      let outcome =
+        this.playerRoleTable[targetId] === ROLE_KEY_MERLIN
+          ? VICTORY_SPIES_ASSASSINATION_SUCCESSFUL
+          : VICTORY_RESISTANCE_ASSASSINATION_FAILED;
+
+      // End game
+      await moderator.gameGameOver(outcome, message.channel, this);
+
+      this.setState(STATE_GAME_STOPPED);
+      this.avalonBotGameCleanup();
     }
   }
 
