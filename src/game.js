@@ -95,6 +95,7 @@ class Game {
     };
     this.selectedMission = 1;
     this.numFails = 0;
+    this.numSuccesses = 0;
 
     // Keep track of number of rejected teams for current mission
     this.numRejects = 0;
@@ -167,6 +168,7 @@ class Game {
       if (hasPassed) {
         // Setup next phase
         this.setState(STATE_GAME_ACCEPTING_MISSION_RESULTS);
+        this.numRejects = 0;
         this.resetTeamVotes();
         this.resetMissionOutcomes();
 
@@ -232,6 +234,39 @@ class Game {
         this.channel,
         this
       );
+
+      // Move to next state
+      if (hasSucceeded && this.numSuccesses === 2) {
+        // End game if no Merlin else move to assassination phase
+        console.log('HEY');
+      } else if (!hasSucceeded && this.numFails === 2) {
+        // End game
+      } else {
+        // Move to next mission
+        if (hasSucceeded) {
+          this.numSuccesses += 1;
+          this.missionData[
+            this.selectedMission
+          ].result = MISSION_RESULT_SUCCEEDED;
+        } else {
+          this.numFails += 1;
+          this.missionData[this.selectedMission].result = MISSION_RESULT_FAILED;
+        }
+
+        // Do next team selection
+        this.selectedMission += 1;
+        this.missionData[this.selectedMission].result = MISSION_RESULT_SELECTED;
+
+        this.resetTeam();
+        this.setNextLeader();
+        this.setState(STATE_GAME_CHOOSING_TEAM);
+
+        moderator.gameMissionChoose(
+          this.channel,
+          this.getCurrentMissionSize(),
+          this.leader
+        );
+      }
     }
   }
 
