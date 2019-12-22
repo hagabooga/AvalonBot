@@ -412,6 +412,7 @@ class Game {
   }
 
   resetTeamVotes() {
+    this.numRejects = 0;
     this.teamVotes = this.players.reduce(
       (accum, player) => ((accum[player] = VOTE_NOT_YET_VOTED), accum),
       {}
