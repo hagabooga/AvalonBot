@@ -39,7 +39,6 @@ import {
   STATE_GAME_VOTING_ON_TEAM,
   TEAM_RESISTANCE,
   TEAM_SPIES,
-  VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
   VICTORY_SPIES_FIVE_FAILED_VOTES,
   VICTORY_SPIES_THREE_FAILED_MISSIONS,
 } from './constants';
@@ -525,6 +524,7 @@ const gameStatus = async (message, game) => {
       `→ \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
       `→ \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.\n\n`;
   }
+  //TODO implement merlin sniping
 
   // List the players
   let playerListString = await mapPlayerIdsToPlayersList(

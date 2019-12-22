@@ -201,7 +201,6 @@ class Game {
     }
   }
 
-  // TODO
   async handleDirectMessageMissionOutcome(message, command) {
     // Only allow spies to fail
     if (
@@ -237,10 +236,18 @@ class Game {
 
       // Move to next state
       if (hasSucceeded && this.numSuccesses === 2) {
+        // TODO
         // End game if no Merlin else move to assassination phase
-        console.log('HEY');
       } else if (!hasSucceeded && this.numFails === 2) {
         // End game
+        this.setState(STATE_GAME_STOPPED);
+        this.avalonBotGameCleanup();
+
+        moderator.gameGameOver(
+          VICTORY_SPIES_THREE_FAILED_MISSIONS,
+          this.channel,
+          this
+        );
       } else {
         // Move to next mission
         if (hasSucceeded) {
