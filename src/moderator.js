@@ -49,6 +49,7 @@ import {
   gameBoardRepresentNoData,
   gameBoardRepresentWithData,
   getGuildMemberFromUserId,
+  getPlayerRolesList,
   mapPlayerIdsToPlayersList,
   mapUsersToMentions,
 } from './util';
@@ -722,7 +723,7 @@ const gameMissionPhaseFinished = (hasSucceeded, channel, game) => {
 };
 
 // Game over message
-const gameGameOver = (gameOutcome, channel, game) => {
+const gameGameOver = async (gameOutcome, channel, game) => {
   let messageToSend = '';
 
   if (
@@ -744,7 +745,11 @@ const gameGameOver = (gameOutcome, channel, game) => {
       .map(id => `<@${id}>`)
       .join(', ');
 
-    messageToSend += `Congratulations ${spiesStr}!`;
+    messageToSend += `Congratulations ${spiesStr}!\n\n`;
+
+    let playerRoleList = await getPlayerRolesList(game);
+
+    messageToSend += playerRoleList;
   } else if (game.hasMerlin) {
     //TODO implement merlin sniping
   } else {
@@ -755,7 +760,11 @@ const gameGameOver = (gameOutcome, channel, game) => {
       .map(id => `<@${id}>`)
       .join(', ');
 
-    messageToSend += `Congratulations ${resistanceStr}!`;
+    messageToSend += `Congratulations ${resistanceStr}!\n\n`;
+
+    let playerRoleList = await getPlayerRolesList(game);
+
+    messageToSend += playerRoleList;
   }
 
   channel.send(messageToSend);

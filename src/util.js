@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import table from './table-gen';
 import {GAME_BOARDS_TABLE} from './game-boards';
+import {ROLES_TABLE} from './roles';
 
 // Log formatting functions
 const logColors = {
@@ -102,6 +103,23 @@ const gameBoardRepresentWithData = game => {
   return table(data);
 };
 
+const getPlayerRolesList = async game => {
+  let promises = Object.keys(game.playerRoleTable).map(async id => {
+    let playerGuildMember = await getGuildMemberFromUserId(
+      game.client,
+      game.guild,
+      id
+    );
+    let playerRoleName = ROLES_TABLE[game.playerRoleTable[id]].name;
+
+    return `→ **${playerGuildMember.displayName}** had the **${playerRoleName}** role.\n`;
+  });
+
+  let lines = await Promise.all(promises);
+
+  return lines.join('');
+};
+
 // Fisher-Yates shuffling algorithm
 const fisherYatesShuffle = arr => {
   let randArr = [];
@@ -128,5 +146,6 @@ export {
   mapPlayerIdsToPlayersList,
   gameBoardRepresentNoData,
   gameBoardRepresentWithData,
+  getPlayerRolesList,
   fisherYatesShuffle,
 };
