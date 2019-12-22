@@ -582,7 +582,8 @@ const gameStop = message =>
 // Game choose team - prompt leader
 const gameMissionChoose = (channel, numOnMission, leaderId) =>
   channel.send(
-    `<@${leaderId}>, type \`!${COMMAND_GAME_TEAM}\` followed by ${numOnMission}` +
+    `<@${leaderId}>, you're now the leader!` +
+      ` Type \`!${COMMAND_GAME_TEAM}\` followed by ${numOnMission}` +
       ' players you want on the mission team.'
   );
 
