@@ -519,7 +519,7 @@ const gameStatus = async (message, game) => {
       " If you haven't yet completed the mission," +
       'direct message me either of the following:\n\n' +
       `→  \`!${COMMAND_GAME_DM_SUCCESS} ${game.id}\` to succeed the mission.\n` +
-      `→  \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.\n\n`
+      `→  \`!${COMMAND_GAME_DM_FAIL} ${game.id}\` to fail the mission.\n\n`;
   }
 
   // List the players
