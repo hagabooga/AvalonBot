@@ -2,8 +2,6 @@
 
 # AvalonBot
 
-| **Note:** this is an active **work in progress**
-
 AvalonBot is a Discord bot which moderates [The
 Resistance](https://boardgamegeek.com/boardgame/41114/resistance) and
 [The Resistance:
