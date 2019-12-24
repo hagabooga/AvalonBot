@@ -10,7 +10,7 @@ import {
   ROLE_KEY_PERCIVAL,
   ROLE_KEY_VANILLA_SPY,
 } from './roles';
-import {getUserFromId, logReprUser} from './util';
+import {getGuildMemberFromUserId, getUserFromId, logReprUser} from './util';
 
 const nightPhaseMessage = async (playerId, game) => {
   let roleKey = game.playerRoleTable[playerId];
@@ -28,7 +28,13 @@ const nightPhaseMessage = async (playerId, game) => {
   if (roleKey === ROLE_KEY_MERLIN) {
     // Merlin dialogue, which varies with Mordred being in game
     let spiesPlayerIds = game.findPlayersOnTeam(TEAM_SPIES, [ROLE_KEY_MORDRED]);
-    let spiesStr = spiesPlayerIds.map(id => `<@${id}>`).join(', ');
+    let spiesGuildMemberPromises = spiesPlayerIds.map(
+      async id => await getGuildMemberFromUserId(game.client, game.guild, id)
+    );
+    let spiesGuildMembers = await Promise.all(spiesGuildMemberPromises);
+    let spiesStr = spiesGuildMembers
+      .map(member => `**${member.displayName}**`)
+      .join(', ');
 
     if (spiesPlayerIds.length === 1) {
       msgToSend += ` ${spiesStr} is revealed to be a spy!`;
@@ -46,7 +52,13 @@ const nightPhaseMessage = async (playerId, game) => {
       ROLE_KEY_MERLIN,
       ROLE_KEY_MORGANA,
     ]);
-    let merlinsStr = merlinPlayerIds.map(id => `<@${id}>`).join(' and ');
+    let merlinGuildMemberPromises = merlinPlayerIds.map(
+      async id => await getGuildMemberFromUserId(game.client, game.guild, id)
+    );
+    let merlinGuildMembers = await Promise.all(merlinGuildMemberPromises);
+    let merlinsStr = merlinGuildMembers
+      .map(member => `**${member.displayName}**`)
+      .join(', ');
 
     if (game.isRoleInGame(ROLE_KEY_MORGANA)) {
       msgToSend +=
@@ -68,7 +80,13 @@ const nightPhaseMessage = async (playerId, game) => {
     let spiesPlayerIds = game
       .findPlayersOnTeam(TEAM_SPIES, [ROLE_KEY_OBERON])
       .filter(id => id !== playerId);
-    let spiesStr = spiesPlayerIds.map(id => `<@${id}>`).join(', ');
+    let spiesGuildMemberPromises = spiesPlayerIds.map(
+      async id => await getGuildMemberFromUserId(game.client, game.guild, id)
+    );
+    let spiesGuildMembers = await Promise.all(spiesGuildMemberPromises);
+    let spiesStr = spiesGuildMembers
+      .map(member => `**${member.displayName}**`)
+      .join(', ');
 
     if (spiesPlayerIds.length === 1) {
       msgToSend += ` ${spiesStr} is also a spy!`;
