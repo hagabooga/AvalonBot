@@ -581,8 +581,8 @@ const gameStatus = async (message, game) => {
     '**Game board**:\n' +
     '```' +
     gameBoardRepresentWithData(game) +
-    `\n\n${5 - game.numRejects} team votes left before spies win!` +
-    '```';
+    '```' +
+    `\n**${5 - game.numRejects}** team votes left before spies win!`;
 
   //Send the message
   message.channel.send(messageToSend);
