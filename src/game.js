@@ -2,6 +2,7 @@ import * as log from 'loglevel';
 import {
   COMMAND_GAME_ASSASSINATE,
   COMMAND_GAME_DM_SUCCESS,
+  COMMAND_GAME_PING,
   COMMAND_GAME_STOP,
   COMMAND_GAME_TEAM,
   COMMAND_STATUS,
@@ -312,6 +313,9 @@ class Game {
       this.setState(STATE_GAME_STOPPED);
 
       moderator.gameStop(message);
+    } else if (command[0] === COMMAND_GAME_PING) {
+      // Ping all other players
+      moderator.gamePing(message, this);
     } else if (this.playerIsLeader(message.author)) {
       // Send to method handling commands for the lobby admin
       this.handleLeaderCommand(message, command);

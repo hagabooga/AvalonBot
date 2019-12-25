@@ -17,6 +17,7 @@ import {
   COMMAND_GAME_LOBBY_START,
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
+  COMMAND_GAME_PING,
   COMMAND_GAME_SETUP_CHOOSE,
   COMMAND_GAME_SETUP_CONFIRM,
   COMMAND_GAME_SETUP_RESET,
@@ -106,6 +107,8 @@ const help = message =>
       '\n**Game commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_STOP}\`` +
       ' - stop game\n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_PING}\`` +
+      ' - have bot mention all other players \n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_TEAM} @user1 @user2 ...\`` +
       ' - choose players for mission team (if leader)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_ASSASSINATE} @user ...\`` +
@@ -596,6 +599,15 @@ const gameStop = message =>
       'to start a new game lobby.'
   );
 
+// Game ping all players
+const gamePing = (message, game) =>
+  message.channel.send(
+    game.players
+      .filter(id => id !== message.author.id)
+      .map(id => `<@${id}>`)
+      .join(' ')
+  );
+
 // Game choose team - prompt leader
 const gameMissionChoose = (channel, numOnMission, leaderId) =>
   channel.send(
@@ -655,7 +667,6 @@ const gameVoteOnTeamVotingFinished = async (
   let messageToSend = '';
 
   // List individual votes
-  // TODO: fix the possible race condition here
   messageToSend += '**Voting results**:\n\n';
 
   let promises = game.players.map(async id => {
@@ -843,6 +854,7 @@ export default {
   gameSetupStatus,
   gameStatus,
   gameStop,
+  gamePing,
   gameMissionChoose,
   gameMissionChooseIncorrectNumberOfPlayers,
   gameVoteOnTeam,
