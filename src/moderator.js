@@ -770,7 +770,9 @@ const gameAssassinationPhaseIntro = (channel, game) => {
 
   channel.send(
     'Resistance has almost won!' +
-      ` <@${assassinId}>, please select a player to assassinate.`
+      ` <@${assassinId}>, please select a player to assassinate.` +
+      ` Type ${COMMAND_PREFIX + COMMAND_GAME_ASSASSINATE}` +
+      ' followed by the player you wish to assassinate.'
   );
 };
 
