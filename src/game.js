@@ -243,7 +243,11 @@ class Game {
       if (hasSucceeded && this.numSuccesses === 2) {
         if (this.hasMerlin) {
           // Assassination phase
+          this.missionData[
+            this.selectedMission
+          ].result = MISSION_RESULT_SUCCEEDED;
           this.resetTeam();
+
           this.setState(STATE_GAME_ASSASSINATION);
 
           moderator.gameAssassinationPhaseIntro(this.channel, this);
