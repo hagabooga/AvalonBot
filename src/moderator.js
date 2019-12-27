@@ -570,7 +570,9 @@ const gameStatus = async (message, game) => {
     .join(', ')}\n`;
 
   // List the current team members
-  if (game.team.length === 0) {
+  if (game.state === STATE_GAME_ASSASSINATION) {
+    // Don't show current team if in assassination phase
+  } else if (game.team.length === 0) {
     messageToSend += '**Current team**: not yet selected\n';
   } else {
     let currentTeamListString = await mapPlayerIdsToPlayersList(
