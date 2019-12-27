@@ -511,13 +511,13 @@ const gameStatus = async (message, game) => {
   // Build up a message to send and then send it
   let messageToSend = '';
 
-  let leaderGuildMember = await getGuildMemberFromUserId(
-    game.client,
-    message.guild,
-    game.leader
-  );
-
   if (game.state === STATE_GAME_CHOOSING_TEAM) {
+    let leaderGuildMember = await getGuildMemberFromUserId(
+      game.client,
+      message.guild,
+      game.leader
+    );
+
     messageToSend +=
       `**${leaderGuildMember.displayName}** is currently` +
       ' selecting the mission team.\n\n';
