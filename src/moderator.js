@@ -17,7 +17,7 @@ import {
   COMMAND_GAME_LOBBY_START,
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
-  COMMAND_GAME_PING,
+  COMMAND_GAME_PINGALL,
   COMMAND_GAME_SETUP_CHOOSE,
   COMMAND_GAME_SETUP_CONFIRM,
   COMMAND_GAME_SETUP_RESET,
@@ -107,7 +107,7 @@ const help = message =>
       '\n**Game commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_STOP}\`` +
       ' - stop game\n' +
-      `\`${COMMAND_PREFIX + COMMAND_GAME_PING}\`` +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_PINGALL}\`` +
       ' - have bot mention all other players \n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_TEAM} @user1 @user2 ...\`` +
       ' - choose players for mission team (if leader)\n' +
@@ -600,7 +600,7 @@ const gameStop = message =>
   );
 
 // Game ping all players
-const gamePing = (message, game) =>
+const gamePingAll = (message, game) =>
   message.channel.send(
     game.players
       .filter(id => id !== message.author.id)
@@ -854,7 +854,7 @@ export default {
   gameSetupStatus,
   gameStatus,
   gameStop,
-  gamePing,
+  gamePingAll,
   gameMissionChoose,
   gameMissionChooseIncorrectNumberOfPlayers,
   gameVoteOnTeam,
