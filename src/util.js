@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import table from './table-gen';
 import {GAME_BOARDS_TABLE} from './game-boards';
 import {ROLES_TABLE} from './roles';
+import table from './table-gen';
 
 // Log formatting functions
 const logColors = {
