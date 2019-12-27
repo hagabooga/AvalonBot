@@ -98,6 +98,7 @@ export const VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS =
 export const VICTORY_RESISTANCE_ASSASSINATION_FAILED = 'assassination failed';
 export const VICTORY_SPIES_FIVE_FAILED_VOTES = 'file failed votes';
 export const VICTORY_SPIES_THREE_FAILED_MISSIONS = 'three failed missoins';
+export const VICTORY_SPIES_PROPERTY_MANAGER_NOT_FAILED = 'bad property manager';
 export const VICTORY_SPIES_ASSASSINATION_SUCCESSFUL =
   'assassination successful';
 

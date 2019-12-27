@@ -46,6 +46,7 @@ import {
   VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
   VICTORY_SPIES_ASSASSINATION_SUCCESSFUL,
   VICTORY_SPIES_FIVE_FAILED_VOTES,
+  VICTORY_SPIES_PROPERTY_MANAGER_NOT_FAILED,
   VICTORY_SPIES_THREE_FAILED_MISSIONS,
 } from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
@@ -797,14 +798,41 @@ const gameGameOver = async (gameOutcome, channel, game) => {
       VICTORY_SPIES_FIVE_FAILED_VOTES,
       VICTORY_SPIES_THREE_FAILED_MISSIONS,
       VICTORY_SPIES_ASSASSINATION_SUCCESSFUL,
+      VICTORY_SPIES_PROPERTY_MANAGER_NOT_FAILED,
     ].includes(gameOutcome)
   ) {
     if (gameOutcome === VICTORY_SPIES_FIVE_FAILED_VOTES) {
       messageToSend += 'Five consecutive team selections have failed.';
     } else if (gameOutcome === VICTORY_SPIES_THREE_FAILED_MISSIONS) {
       messageToSend += 'Three missions have failed.';
+    } else if (gameOutcome === VICTORY_SPIES_PROPERTY_MANAGER_NOT_FAILED) {
+      let propertyManagersNotFailedGuildMemberPromises = Object.keys(
+        game.propertyManagerHasFailedMap
+      )
+        .filter(id => !game.propertyManagerHasFailedMap[id])
+        .map(
+          async id =>
+            await getGuildMemberFromUserId(game.client, game.guild, id)
+        );
+      let propertyManagersNotFailedGuildMembers = await Promise.all(
+        propertyManagersNotFailedGuildMemberPromises
+      );
+
+      if (propertyManagersNotFailedGuildMembers.length === 1) {
+        messageToSend +=
+          propertyManagersNotFailedGuildMembers
+            .map(gm => `**${gm.displayName}**`)
+            .join(',') +
+          ' was a Property Manager but failed to sabotage a mission';
+      } else {
+        messageToSend +=
+          propertyManagersNotFailedGuildMembers
+            .map(gm => `**${gm.displayName}**`)
+            .join(',') +
+          ' were Property Managers but failed to sabotage a mission';
+      }
     } else {
-      messageToSend += 'Merlin was assassinated';
+      messageToSend += 'Merlin was assassinated.';
     }
 
     messageToSend += ' **Spies win**!\n\n';

@@ -12,6 +12,7 @@ const ROLE_KEY_MERLIN = 'ml';
 const ROLE_KEY_VANILLA_SPY = 'vs';
 const ROLE_KEY_ASSASSIN = 'as';
 const ROLE_KEY_PERCIVAL = 'pv';
+const ROLE_KEY_PROPERTY_MANAGER = 'pm';
 const ROLE_KEY_MORGANA = 'mg';
 const ROLE_KEY_MORDRED = 'md';
 const ROLE_KEY_OBERON = 'ob';
@@ -97,6 +98,19 @@ const PERCIVAL = {
   requires: [ROLE_KEY_ASSASSIN, ROLE_KEY_MERLIN],
 };
 
+const PROPERTY_MANAGER = {
+  name: 'Property Manager',
+  emojiName: '👮Property Manager',
+  complexity: ROLE_COMPLEXITY_ADVANCED,
+  description:
+    'The Property Manager is a Resistance role which must fail exactly ' +
+    'one mission for the Resistance team to win.',
+  strategy: null,
+  team: TEAM_RESISTANCE,
+  maxAllowed: 6,
+  requires: [],
+};
+
 const MORGANA = {
   name: 'Morgana',
   emojiName: '🕵Morgana',
@@ -143,6 +157,7 @@ const ROLES_TABLE = {
   [ROLE_KEY_VANILLA_SPY]: VANILLA_SPY,
   [ROLE_KEY_ASSASSIN]: ASSASSIN,
   [ROLE_KEY_PERCIVAL]: PERCIVAL,
+  [ROLE_KEY_PROPERTY_MANAGER]: PROPERTY_MANAGER,
   [ROLE_KEY_MORGANA]: MORGANA,
   [ROLE_KEY_MORDRED]: MORDRED,
   [ROLE_KEY_OBERON]: OBERON,
@@ -237,6 +252,7 @@ export {
   ROLE_KEY_VANILLA_SPY,
   ROLE_KEY_ASSASSIN,
   ROLE_KEY_PERCIVAL,
+  ROLE_KEY_PROPERTY_MANAGER,
   ROLE_KEY_MORGANA,
   ROLE_KEY_MORDRED,
   ROLE_KEY_OBERON,

@@ -24,6 +24,7 @@ import {
   VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
   VICTORY_SPIES_ASSASSINATION_SUCCESSFUL,
   VICTORY_SPIES_FIVE_FAILED_VOTES,
+  VICTORY_SPIES_PROPERTY_MANAGER_NOT_FAILED,
   VICTORY_SPIES_THREE_FAILED_MISSIONS,
   VOTE_APPROVED,
   VOTE_NOT_YET_VOTED,
@@ -32,7 +33,12 @@ import {
 import {GAME_BOARDS_TABLE} from './game-boards';
 import moderator from './moderator';
 import {nightPhaseMessage} from './moderator-private-messages';
-import {ROLE_KEY_ASSASSIN, ROLE_KEY_MERLIN, ROLES_TABLE} from './roles';
+import {
+  ROLE_KEY_ASSASSIN,
+  ROLE_KEY_MERLIN,
+  ROLE_KEY_PROPERTY_MANAGER,
+  ROLES_TABLE,
+} from './roles';
 import {
   fisherYatesShuffle,
   getUserFromId,
@@ -101,6 +107,13 @@ class Game {
     this.selectedMission = 1;
     this.numFails = 0;
     this.numSuccesses = 0;
+
+    // Keep track of whether players with the Property Manager role have
+    // thrown in a fail
+    this.propertyManagerHasFailedMap = {};
+    this.findPlayersWithRoles([ROLE_KEY_PROPERTY_MANAGER]).forEach(
+      id => (this.propertyManagerHasFailedMap[id] = false)
+    );
 
     // Keep track of number of rejected teams for current mission
     this.numRejects = 0;
@@ -207,11 +220,13 @@ class Game {
   }
 
   async handleDirectMessageMissionOutcome(message, command) {
-    // Only allow spies to fail
+    // Only allow spies or special roles to fail
     if (
       command[0] === MISSION_OUTCOME_FAIL &&
       ROLES_TABLE[this.playerRoleTable[message.author.id]].team ===
-        TEAM_RESISTANCE
+        TEAM_RESISTANCE &&
+      (this.playerRoleTable[message.author.id] !== ROLE_KEY_PROPERTY_MANAGER ||
+        this.propertyManagerHasFailedMap[message.author.id])
     ) {
       message.channel.send(`You must submit ${COMMAND_GAME_DM_SUCCESS}.`);
 
@@ -220,6 +235,14 @@ class Game {
 
     // Outcome is okay
     this.missionOutcomes[message.author.id] = command[0];
+
+    // Keep track of Property Manager fails
+    if (
+      command[0] === MISSION_OUTCOME_FAIL &&
+      Object.keys(this.propertyManagerHasFailedMap).includes(message.author.id)
+    ) {
+      this.propertyManagerHasFailedMap[message.author.id] = true;
+    }
 
     await moderator.gameMissionPhaseNewOutcome(
       message,
@@ -267,6 +290,20 @@ class Game {
         // End game
         await moderator.gameGameOver(
           VICTORY_SPIES_THREE_FAILED_MISSIONS,
+          this.channel,
+          this
+        );
+
+        this.setState(STATE_GAME_STOPPED);
+        this.avalonBotGameCleanup();
+      } else if (
+        !hasSucceeded &&
+        this.numFails === 0 &&
+        Object.values(this.propertyManagerHasFailedMap).some(x => !x)
+      ) {
+        // End game
+        await moderator.gameGameOver(
+          VICTORY_SPIES_PROPERTY_MANAGER_NOT_FAILED,
           this.channel,
           this
         );
