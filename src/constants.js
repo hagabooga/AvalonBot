@@ -100,3 +100,7 @@ export const VICTORY_SPIES_FIVE_FAILED_VOTES = 'file failed votes';
 export const VICTORY_SPIES_THREE_FAILED_MISSIONS = 'three failed missoins';
 export const VICTORY_SPIES_ASSASSINATION_SUCCESSFUL =
   'assassination successful';
+
+// Tenses for moderator messages
+export const TENSE_PAST = 'past';
+export const TENSE_PRESENT = 'present';

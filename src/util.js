@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import {TENSE_PAST} from './constants';
 import {GAME_BOARDS_TABLE} from './game-boards';
 import {ROLES_TABLE} from './roles';
 import table from './table-gen';
@@ -103,8 +104,16 @@ const gameBoardRepresentWithData = game => {
   return table(data);
 };
 
-const getPlayerRolesList = async game => {
-  let promises = Object.keys(game.playerRoleTable).map(async id => {
+const getPlayerRolesList = async (game, team = null, tense = TENSE_PAST) => {
+  let playersToList = game.players;
+
+  if (team !== null) {
+    playersToList = playersToList.filter(
+      id => ROLES_TABLE[game.playerRoleTable[id]].team === team
+    );
+  }
+
+  let promises = playersToList.map(async id => {
     let playerGuildMember = await getGuildMemberFromUserId(
       game.client,
       game.guild,
@@ -112,7 +121,11 @@ const getPlayerRolesList = async game => {
     );
     let playerRoleName = ROLES_TABLE[game.playerRoleTable[id]].name;
 
-    return `→ **${playerGuildMember.displayName}** had the **${playerRoleName}** role.\n`;
+    if (tense === TENSE_PAST) {
+      return `→ **${playerGuildMember.displayName}** had the **${playerRoleName}** role.\n`;
+    }
+
+    return `→ **${playerGuildMember.displayName}** has the **${playerRoleName}** role.\n`;
   });
 
   let lines = await Promise.all(promises);

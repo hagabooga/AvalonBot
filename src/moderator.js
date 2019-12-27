@@ -42,6 +42,7 @@ import {
   STATE_GAME_VOTING_ON_TEAM,
   TEAM_RESISTANCE,
   TEAM_SPIES,
+  TENSE_PRESENT,
   VICTORY_RESISTANCE_THREE_SUCCESSFUL_MISSIONS,
   VICTORY_SPIES_ASSASSINATION_SUCCESSFUL,
   VICTORY_SPIES_FIVE_FAILED_VOTES,
@@ -767,14 +768,18 @@ const gameMissionPhaseFinished = (hasSucceeded, channel, game) => {
 };
 
 // Game assassination phase introduction
-const gameAssassinationPhaseIntro = (channel, game) => {
+const gameAssassinationPhaseIntro = async (channel, game) => {
   let assassinId = game.findPlayersWithRoles([ROLE_KEY_ASSASSIN], false)[0];
+
+  let spiesRoleList = await getPlayerRolesList(game, TEAM_SPIES, TENSE_PRESENT);
 
   channel.send(
     'Resistance has almost won!' +
       ` <@${assassinId}>, please select a player to assassinate.` +
-      ` Type ${COMMAND_PREFIX + COMMAND_GAME_ASSASSINATE}` +
-      ' followed by the player you wish to assassinate.'
+      ` Type \`${COMMAND_PREFIX + COMMAND_GAME_ASSASSINATE}\`` +
+      ' followed by the player you wish to assassinate.\n\n' +
+      'The spies reveal their identities:\n\n' +
+      spiesRoleList
   );
 };
 
