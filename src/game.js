@@ -246,6 +246,7 @@ class Game {
           this.missionData[
             this.selectedMission
           ].result = MISSION_RESULT_SUCCEEDED;
+          this.leader = null;
           this.resetTeam();
 
           this.setState(STATE_GAME_ASSASSINATION);
