@@ -79,7 +79,7 @@ export const TEAM_SPIES = 'Spies';
 // Mission results
 export const MISSION_RESULT_NULL = '';
 export const MISSION_RESULT_SELECTED = 'selected';
-export const MISSION_RESULT_SUCCEEDED = 'succeeded';
+export const MISSION_RESULT_SUCCEEDED = 'succeessful';
 export const MISSION_RESULT_FAILED = 'failed';
 
 // Vote results
