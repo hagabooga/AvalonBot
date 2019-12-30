@@ -18,6 +18,7 @@ import {
   COMMAND_GAME_LOBBY_STOP,
   COMMAND_GAME_LOBBY_TRANSFER_ADMIN,
   COMMAND_GAME_PINGALL,
+  COMMAND_GAME_PINGIDLE,
   COMMAND_GAME_SETUP_CHOOSE,
   COMMAND_GAME_SETUP_CONFIRM,
   COMMAND_GAME_SETUP_RESET,
@@ -111,6 +112,8 @@ const help = message =>
       ' - stop game\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_PINGALL}\`` +
       ' - have bot mention all other players \n' +
+      `\`${COMMAND_PREFIX + COMMAND_GAME_PINGIDLE}\`` +
+      ' - have bot mention all players which need to perform an action\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_TEAM} @user1 @user2 ...\`` +
       ' - choose players for mission team (if leader)\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_ASSASSINATE} @user ...\`` +
@@ -607,14 +610,43 @@ const gameStop = message =>
       'to start a new game lobby.'
   );
 
-// Game ping all players
-const gamePingAll = (message, game) =>
+// Game ping all other players
+const gamePingAllOthers = (message, game) =>
   message.channel.send(
     game.players
       .filter(id => id !== message.author.id)
       .map(id => `<@${id}>`)
       .join(' ')
   );
+
+// Game ping leader
+const gamePingLeader = (message, game) =>
+  message.channel.send(`<@${game.leader}>`);
+
+// Game ping not voted
+const gamePingNotVoted = (message, game) =>
+  message.channel.send(
+    game
+      .findPlayersNotYetVoted()
+      .map(id => `<@${id}>`)
+      .join(' ')
+  );
+
+// Game ping not done mission
+const gamePingNotDoneMission = (message, game) =>
+  message.channel.send(
+    game
+      .findPlayersNotYetDoneMission()
+      .map(id => `<@${id}>`)
+      .join(' ')
+  );
+
+// Game ping assassin
+const gamePingAssassin = (message, game) => {
+  let assassinId = game.findPlayersWithRoles([ROLE_KEY_ASSASSIN], false)[0];
+
+  message.channel.send(`<@${assassinId}>`);
+};
 
 // Game choose team - prompt leader
 const gameMissionChoose = (channel, numOnMission, leaderId) =>
@@ -900,7 +932,11 @@ export default {
   gameSetupStatus,
   gameStatus,
   gameStop,
-  gamePingAll,
+  gamePingAllOthers,
+  gamePingLeader,
+  gamePingNotVoted,
+  gamePingNotDoneMission,
+  gamePingAssassin,
   gameMissionChoose,
   gameMissionChooseIncorrectNumberOfPlayers,
   gameVoteOnTeam,

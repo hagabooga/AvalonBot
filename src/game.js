@@ -3,6 +3,7 @@ import {
   COMMAND_GAME_ASSASSINATE,
   COMMAND_GAME_DM_SUCCESS,
   COMMAND_GAME_PINGALL,
+  COMMAND_GAME_PINGIDLE,
   COMMAND_GAME_STOP,
   COMMAND_GAME_TEAM,
   COMMAND_STATUS,
@@ -357,7 +358,18 @@ class Game {
       moderator.gameStop(message);
     } else if (command[0] === COMMAND_GAME_PINGALL) {
       // Ping all other players
-      moderator.gamePingAll(message, this);
+      moderator.gamePingAllOthers(message, this);
+    } else if (command[0] === COMMAND_GAME_PINGIDLE) {
+      // Ping idle players
+      if (this.state === STATE_GAME_CHOOSING_TEAM) {
+        moderator.gamePingLeader(message, this);
+      } else if (this.state === STATE_GAME_VOTING_ON_TEAM) {
+        moderator.gamePingNotVoted(message, this);
+      } else if (this.state === STATE_GAME_ACCEPTING_MISSION_RESULTS) {
+        moderator.gamePingNotDoneMission(message, this);
+      } else if (this.state === STATE_GAME_ASSASSINATION) {
+        moderator.gamePingAssassin(message, this);
+      }
     } else if (this.playerIsLeader(message.author)) {
       // Send to method handling commands for the lobby admin
       this.handleLeaderCommand(message, command);

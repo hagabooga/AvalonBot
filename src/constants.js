@@ -52,6 +52,7 @@ export const COMMAND_GAME_SETUP_CONFIRM = 'confirm';
 export const COMMAND_GAME_SETUP_RESET = 'reset';
 export const COMMAND_GAME_SETUP_STOP = 'stop';
 export const COMMAND_GAME_PINGALL = 'pingall';
+export const COMMAND_GAME_PINGIDLE = 'pingidle';
 export const COMMAND_GAME_STOP = 'stop';
 export const COMMAND_GAME_TEAM = 'team';
 export const COMMAND_GAME_ASSASSINATE = 'assassinate';
