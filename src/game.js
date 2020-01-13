@@ -55,6 +55,7 @@ class Game {
     playerIds,
     roleKeys,
     ruleset,
+    pingAllEnabled,
     cleanupMethod
   ) {
     // The ID of the game
@@ -66,6 +67,9 @@ class Game {
     // The Discord channel for this lobby and the guild
     this.channel = message.channel;
     this.guild = message.guild;
+
+    // Setting for whether the ping all command is enabled
+    this.pingAllEnabled = pingAllEnabled;
 
     // The AvalonBot channel cleanup method
     this.avalonBotGameCleanup = cleanupMethod;
@@ -356,7 +360,7 @@ class Game {
       this.setState(STATE_GAME_STOPPED);
 
       moderator.gameStop(message);
-    } else if (command[0] === COMMAND_GAME_PINGALL) {
+    } else if (this.pingAllEnabled && command[0] === COMMAND_GAME_PINGALL) {
       // Ping all other players
       moderator.gamePingAllOthers(message, this);
     } else if (command[0] === COMMAND_GAME_PINGIDLE) {

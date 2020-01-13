@@ -25,7 +25,7 @@ import moderator from './moderator';
 import {logReprChannel} from './util';
 
 class Channel {
-  constructor(client, forceJoinEnabled, usedGameIds) {
+  constructor(client, forceJoinEnabled, pingAllEnabled, usedGameIds) {
     // The game IDs currently in use across all channels
     this.usedGameIds = usedGameIds;
 
@@ -38,6 +38,10 @@ class Channel {
     // Setting for whether the force join command is enabled for game
     // lobbies
     this.forceJoinEnabled = forceJoinEnabled;
+
+    // Setting for whether the ping all command is enabled during the
+    // game
+    this.pingAllEnabled = pingAllEnabled;
 
     // Current game lobby, game setup, or game
     this.gameLobby = null;
@@ -78,7 +82,7 @@ class Channel {
 
   handleCommand(message, command) {
     if (command[0] === COMMAND_HELP) {
-      moderator.help(message);
+      moderator.help(message, this.pingAllEnabled);
     } else if (command[0] === COMMAND_HELP_ROLES) {
       moderator.roleHelp(message);
     } else if (command[0] === COMMAND_RULES) {
@@ -184,6 +188,7 @@ class Channel {
       playerIds,
       roleKeys,
       ruleset,
+      this.pingAllEnabled,
       () => this.removeGame(message)
     );
   }

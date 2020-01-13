@@ -62,7 +62,7 @@ import {
 } from './util';
 
 // Help
-const help = message =>
+const help = (message, pingAllEnabled) =>
   message.channel.send(
     '**Commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_HELP}\`` +
@@ -110,8 +110,10 @@ const help = message =>
       '\n**Game commands**\n\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_STOP}\`` +
       ' - stop game\n' +
-      `\`${COMMAND_PREFIX + COMMAND_GAME_PINGALL}\`` +
-      ' - have bot mention all other players \n' +
+      (pingAllEnabled
+        ? `\`${COMMAND_PREFIX + COMMAND_GAME_PINGALL}\`` +
+          ' - have bot mention all other players \n'
+        : '') +
       `\`${COMMAND_PREFIX + COMMAND_GAME_PINGIDLE}\`` +
       ' - have bot mention all players which need to perform an action\n' +
       `\`${COMMAND_PREFIX + COMMAND_GAME_TEAM} @user1 @user2 ...\`` +

@@ -17,6 +17,7 @@ const discordApiToken = process.env.DISCORD_API_TOKEN;
 const logLevel = process.env.LOGLEVEL;
 const forceJoinEnabled =
   process.env.ENABLE_FORCE_JOIN === 'TRUE' ? true : false;
+const pingAllEnabled = process.env.ENABLE_PINGALL === 'TRUE' ? true : false;
 
 // Setup logging
 prefix.reg(log);
@@ -53,6 +54,7 @@ client.on('message', message => {
     channels[message.channel.id] = new Channel(
       client,
       forceJoinEnabled,
+      pingAllEnabled,
       usedGameIds
     );
 
