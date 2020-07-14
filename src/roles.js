@@ -175,6 +175,11 @@ const validateRoles = (roleKeys, numPlayers) => {
     .filter(key => !Object.keys(ROLES_TABLE).includes(key))
     .forEach(badKey => errors.push(`${badKey} is not a valid role key`));
 
+  // Exit out if bad key
+  if (errors.length !== 0) {
+    return errors;
+  }
+
   // Check that there are sufficiently many players
   if (roleKeys.length !== numPlayers) {
     errors.push(`need exactly ${numPlayers} roles`);
