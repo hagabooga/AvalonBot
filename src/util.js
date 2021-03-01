@@ -34,9 +34,9 @@ const logReprChannel = channel =>
 const logReprUser = user => `[User id=${user.id} username='${user.username}']`;
 
 // Discord API helper functions
-const getUserFromId = async (discordClient, id) => discordClient.fetchUser(id);
+const getUserFromId = async (discordClient, id) => discordClient.users.fetch(id);
 
-const getGuildMemberFromUser = async (guild, user) => guild.fetchMember(user);
+const getGuildMemberFromUser = async (guild, user) => guild.members.fetch(user);
 
 const getGuildMemberFromUserId = async (discordClient, guild, id) =>
   getUserFromId(discordClient, id).then(user =>
