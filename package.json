@@ -18,10 +18,10 @@
   "homepage": "https://github.com/hagabooga/AvalonBot",
   "dependencies": {
     "chalk": "^4.1.0",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "loglevel": "^1.6.8",
+    "loglevel": "^1.7.1",
     "loglevel-plugin-prefix": "^0.8.4"
   }
 }
